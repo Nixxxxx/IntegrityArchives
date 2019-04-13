@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiang.kaoyan.dao.AdminDao">
+
+	<resultMap type="Admin" id="AdminResult">
+		<result property="adminId" column="admin_id"/>
+		<result property="username" column="username"/>
+		<result property="password" column="password"/>
+		<result property="level" column="level"/>
+		<result property="createTime" column="create_time"/>
+		<result property="lastEditTime" column="last_edit_time"/>
+		<result property="enableStatus" column="enable_status"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="Admin">
+		insert admin
+		<set>
+			<if test="username!=null and username!='' ">
+				username=#{username},
+			</if>
+			<if test="password!=null and password!='' ">
+				password=#{password},
+			</if>
+			<if test="level!=null and level!='' ">
+				level=#{level},
+			</if>
+			<if test="createTime!=null and createTime!='' ">
+				create_time=#{createTime},
+			</if>
+			<if test="lastEditTime!=null and lastEditTime!='' ">
+				last_edit_time=#{lastEditTime},
+			</if>
+			<if test="enableStatus!=null and enableStatus!='' ">
+				enable_status=#{enableStatus},
+			</if>
+		</set>
+	</insert>
+	
+	<delete id="delete" parameterType="Integer">
+		update admin status=-1 where admin_id=#{id}
+	</delete>
+
+	<update id="update" parameterType="Admin">
+		update admin
+		<set>
+			<if test="username!=null and username!='' ">
+				username=#{username},
+			</if>
+			<if test="password!=null and password!='' ">
+				password=#{password},
+			</if>
+			<if test="level!=null and level!='' ">
+				level=#{level},
+			</if>
+			<if test="createTime!=null and createTime!='' ">
+				create_time=#{createTime},
+			</if>
+			<if test="lastEditTime!=null and lastEditTime!='' ">
+				last_edit_time=#{lastEditTime},
+			</if>
+			<if test="enableStatus!=null and enableStatus!='' ">
+				enable_status=#{enableStatus},
+			</if>
+		</set>
+		where admin_id=#{id}
+	</update>
+
+	<select id="findOne" parameterType="Integer" resultMap="AdminResult">
+		select * from admin where admin_id=#{id}
+	</select>
+
+	<select id="findByUsername" parameterType="String" resultMap="AdminResult">
+		select * from admin where username=#{username}
+	</select>
+	
+	<select id="findAll" resultMap="AdminResult">
+		select * from admin order by admin_id desc
+	</select>
+	
+	<select id="countAll" resultType="Integer">
+		select count(*) from admin
+	</select>
+
+	<select id="findByPage" parameterType="Map" resultMap="AdminResult">
+		select * from admin order by admin_id desc
+		<if test="start!=null and quantity!=null">
+			limit #{start},#{quantity}
+		</if>
+	</select>	
+</mapper> 
