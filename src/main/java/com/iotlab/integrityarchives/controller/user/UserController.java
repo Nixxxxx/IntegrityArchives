@@ -1,7 +1,9 @@
-package com.jiang.kaoyan.controller.user;
 
-import com.jiang.kaoyan.entity.User;
-import com.jiang.kaoyan.service.UserService;
+package com.iotlab.integrityarchives.controller.user;
+
+
+import com.iotlab.integrityarchives.entity.User;
+import com.iotlab.integrityarchives.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
