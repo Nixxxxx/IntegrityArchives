@@ -5,17 +5,23 @@ import com.iotlab.integrityarchives.enums.AccountEnableStatusEnum;
 import com.iotlab.integrityarchives.service.AdminService;
 import com.iotlab.integrityarchives.util.OperationResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@Controller
 @RequestMapping("/manage/admin")
 public class AdminManageController {
 
     @Autowired
     private AdminService adminService;
+
+    @RequestMapping("/index")
+    public String index(){
+        return "/admin/index";
+    }
 
     @RequestMapping("/login")
     public Admin login(String username, String password) {

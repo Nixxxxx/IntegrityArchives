@@ -1,4 +1,4 @@
-package com.jiang.kaoyan.service.impl;
+package com.iotlab.integrityarchives.service.impl;
 
 import com.iotlab.integrityarchives.dao.UserDao;
 import com.iotlab.integrityarchives.entity.User;

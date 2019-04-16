@@ -6,10 +6,10 @@ server:
 spring:
    datasource:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/db_kaoyan?useSSL=false
+      url: jdbc:mysql://115.159.219.190:3306/db_kaoyan?useSSL=false
       username: root
       password: 123456
-      #使用druid数据库连接池
+      #浣跨敤druid鏁版嵁搴撹繛鎺ユ睜
 #      type: com.alibaba.druid.pool.DruidDataSource
 #      filters: stat
 #      maxActive: 20
