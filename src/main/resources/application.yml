@@ -6,7 +6,7 @@ server:
 spring:
    datasource:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://115.159.219.190:3306/db_kaoyan?useSSL=false
+      url: jdbc:mysql://115.159.219.190:3306/db_integrity?useSSL=false
       username: root
       password: 123456
       #使用druid数据库连接池
@@ -29,3 +29,22 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.iotlab.integrityarchives.entity
+
+#thymeleaf模板引擎
+  thymeleaf:
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+    mode: LEGACYHTML5
+    cache: false
+
+    #devtools插件
+  devtools:
+    restart:
+      enabled: true #是否支持热部署
+#mybaatis分页插件pagehelper设置
+pagehelper:
+  pagehelperDialect: mysql
+  reasonable: true
+  support-methods-arguments: true

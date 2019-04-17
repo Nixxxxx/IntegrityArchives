@@ -1,85 +1,103 @@
 package com.iotlab.integrityarchives.service.impl;
 
+
+import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.AdminDao;
 import com.iotlab.integrityarchives.entity.Admin;
 import com.iotlab.integrityarchives.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-@Service("adminService")
-public class AdminServiceImpl implements AdminService {
+@Service
+@SuppressWarnings("all")
+public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminService {
 
     @Autowired
     private AdminDao adminDao;
 
-    @RequestMapping("/index")
-    public String index(Integer page) {
-        return "/admin/index";
-    }
 
-
-    @Override
-    public boolean login(String username, String password) {
-        Admin admin = adminDao.findByUsername(username);
-        if(admin != null && admin.getPassword().equals(password))
-            return true;
-        return false;
-    }
-
-    @Override
-    public Admin findByUsername(String username) {
-        return adminDao.findByUsername(username);
-    }
-
-    @Override
-    public boolean create(Admin admin) {
-        if(adminDao.create(admin) == 1) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean delete(Integer id) {
-        if(adminDao.delete(id) == 1) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean update(Admin admin) {
-        if(adminDao.update(admin) == 1) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public Admin findOne(Integer id) {
-        return adminDao.findOne(id);
-    }
+/*    @Autowired
+    private PasswordHelper passwordHelper;*/
 
     @Override
     public List<Admin> findAll() {
-        return adminDao.findAll();
+        return adminDao.selectAll();
     }
 
     @Override
-    public List<Admin> findByPage(Integer page, int quantity) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("start", (page-1)*10);
-        map.put("quantity", quantity);
-        return adminDao.findByPage(map);
+    public Admin findById(Long id) {
+        return adminDao.selectByPrimaryKey(id);
     }
 
     @Override
-    public Integer countAll() {
-        return adminDao.countAll();
+    @Transactional
+    public void save(Admin admin) {
+        try {
+            //passwordHelper.encryptPassword(admin); //加密
+            adminDao.insert(admin);
+        } catch (Exception e) {
+            e.printStackTrace();
+           // throw new GlobalException(e.getMessage());
+        }
     }
+
+    @Override
+    @Transactional
+    public void update(Admin admin) {
+        if (admin.getId() != 0) {
+            try {
+                if (admin.getAdminPasswd() != null && !"".equals(admin.getAdminPasswd())) {
+                    //passwordHelper.encryptPassword(admin); //加密
+                }
+                this.updateNotNull(admin);
+            } catch (Exception e) {
+                e.printStackTrace();
+                //throw new GlobalException(e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    @Transactional
+    public void delete(List<Long> ids) {
+        if (!ids.isEmpty()) {
+            try {
+                this.batchDelete(ids, "id", Admin.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+               // throw new GlobalException(e.getMessage());
+            }
+        }
+    }
+
+
+
+    @Override
+    public Admin findByName(String username) {
+        if (!username.isEmpty()) {
+            Admin admin = new Admin();
+            admin.setAdminNumber(username);
+            return adminDao.select(admin).get(0);
+        } else {
+            return new Admin();
+        }
+    }
+
+    /*@Autowired
+    private SettingMapper settingMapper;
+
+    @Override
+    public Setting findSetting() {
+        return settingMapper.selectAll().get(0);
+    }
+
+    @Override
+    @Transactional
+    public void updateSetting(Setting setting) {
+        settingMapper.updateByPrimaryKeySelective(setting);
+    }*/
 }
+

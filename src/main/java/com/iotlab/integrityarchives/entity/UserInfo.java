@@ -9,28 +9,40 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+/**
+ * @author created by Zhangdazhuang
+ * @version v.0.1
+ * @Description TODO
+ * @date 2019/4/16
+ * @备注
+ **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_admin")
-public class Admin {
+@Table(name = "tb_user_info")
+public class UserInfo {
+
 
     @Id
-    private Integer id;
+    private Integer Id;
 
     @NotNull
-    private String adminNumber;
+    private String userNumber;
 
     @NotNull
-    private String adminPasswd;
+    private String userPasswd;
 
-    private String level;
+    private String userInfo;
+
+    private String salt;
 
     private Date createTime;
 
     private Date lastEdittime;
 
+
     private String enableStatus;
+
 
 
 }

@@ -1,87 +1,30 @@
 package com.iotlab.integrityarchives.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "tb_user")
 public class User {
-    private Integer userId;
-    private String username;
-    private String password;
-    private String info;
-    private Date createTime;
-    private Date lastEditTime;
-    private Integer enableStatus;
+    @Id
+    private Integer Id;
 
-    public User() {
-    }
+    @NotNull
+    private String userNumber;
 
-    public User(Integer userId, Integer enableStatus) {
-        this.userId = userId;
-        this.enableStatus = enableStatus;
-    }
+    @NotNull
+    private String userPasswd;
 
-    public User(Integer userId, String username, String password, String info, Date createTime, Date lastEditTime, Integer enableStatus) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.info = info;
-        this.createTime = createTime;
-        this.lastEditTime = lastEditTime;
-        this.enableStatus = enableStatus;
-    }
 
-    public Integer getUserId() {
-        return userId;
-    }
+    private String enableStatus;
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getLastEditTime() {
-        return lastEditTime;
-    }
-
-    public void setLastEditTime(Date lastEditTime) {
-        this.lastEditTime = lastEditTime;
-    }
-
-    public Integer getEnableStatus() {
-        return enableStatus;
-    }
-
-    public void setEnableStatus(Integer enableStatus) {
-        this.enableStatus = enableStatus;
-    }
 }

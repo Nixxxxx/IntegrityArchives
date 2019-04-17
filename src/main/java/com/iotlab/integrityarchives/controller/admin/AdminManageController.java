@@ -1,3 +1,4 @@
+/*
 package com.iotlab.integrityarchives.controller.admin;
 
 import com.iotlab.integrityarchives.entity.Admin;
@@ -50,10 +51,11 @@ public class AdminManageController {
     public Map<String, Object> update(Admin admin) {
         return OperationResult.returnOperationResult(adminService.update(admin), "更新");
     }
-
+*/
+/*
     @PostMapping("/changeStatus")
     public Map<String, Object> changeEnableStatus(Integer id, Integer status) {
-        Admin admin = new Admin(id);
+        Admin admin = new Admin();
         if(status == AccountEnableStatusEnum.PASS.getCode()){
             admin.setEnableStatus(AccountEnableStatusEnum.PASS.getCode());
             return OperationResult.returnOperationResult(adminService.update(admin), "恢复使用");
@@ -64,5 +66,7 @@ public class AdminManageController {
             admin.setEnableStatus(AccountEnableStatusEnum.FAIL.getCode());
             return OperationResult.returnOperationResult(adminService.update(admin), "禁用");
         }
-    }
+    }*//*
+
 }
+*/

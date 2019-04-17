@@ -1,3 +1,4 @@
+/*
 package com.iotlab.integrityarchives.controller.admin;
 
 import java.util.HashMap;
@@ -73,3 +74,4 @@ public class UserManageController {
 		return map;
 	}
 }
+*/

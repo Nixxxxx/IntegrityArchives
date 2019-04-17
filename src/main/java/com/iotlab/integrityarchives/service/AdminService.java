@@ -1,27 +1,49 @@
 package com.iotlab.integrityarchives.service;
 
 
+import com.iotlab.integrityarchives.common.service.BaseService;
 import com.iotlab.integrityarchives.entity.Admin;
+import com.iotlab.integrityarchives.entity.User;
+
 
 import java.util.List;
 
-public interface AdminService {
+public interface AdminService extends BaseService<Admin> {
 
-    public boolean login(String username, String password);
 
-    public boolean create(Admin admin);
+    /**
+     * 查询所有的管理员
+     * @return
+     */
+    List<Admin> findAll();
 
-    public boolean delete(Integer id);
+    /**
+     * 根据ID查询
+     *
+     * @param id
+     * @return
+     */
+    Admin findById(Long id);
 
-    public boolean update(Admin admin);
+    /**
+     * 根据Name查询用户数据
+     *
+     * @param username
+     * @return
+     */
+    Admin findByName(String username);
 
-    public Admin findOne(Integer id);
+    /**
+     * 更新
+     *
+     * @param user
+     */
+    void update(Admin user);
 
-    public List<Admin> findAll();
-
-    public Integer countAll();
-
-    public List<Admin> findByPage(Integer page, int quantity);
-
-    public Admin findByUsername(String username);
+    /**
+     * 删除
+     *
+     * @param ids
+     */
+    void delete(List<Long> ids);
 }
