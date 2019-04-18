@@ -3,6 +3,7 @@ package com.iotlab.integrityarchives.service;
 
 import com.iotlab.integrityarchives.common.service.BaseService;
 import com.iotlab.integrityarchives.entity.User;
+import com.iotlab.integrityarchives.entity.UserInfo;
 
 import java.util.List;
 
@@ -14,6 +15,13 @@ public interface UserService extends BaseService<User> {
      * @return
      */
     List<User> findAll();
+
+    /**
+     * 通过姓名和工号模糊查询用户信息
+     * @param word
+     * @return
+     */
+    List<UserInfo> findByNameOrWorld(String word);
 
 
     /**

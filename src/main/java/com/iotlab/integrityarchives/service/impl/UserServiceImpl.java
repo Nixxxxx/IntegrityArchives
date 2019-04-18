@@ -2,7 +2,9 @@ package com.iotlab.integrityarchives.service.impl;
 
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.UserDao;
+import com.iotlab.integrityarchives.dao.UserInfoDao;
 import com.iotlab.integrityarchives.entity.User;
+import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +19,20 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private UserInfoDao userinfo;
+
 /*    @Autowired
     private PasswordHelper passwordHelper;*/
 
     @Override
     public List<User> findAll() {
         return userDao.selectAll();
+    }
+
+    @Override
+    public List<UserInfo> findByNameOrWorld(String word) {
+        return userinfo.findByNameOrWorld(word);
     }
 
     @Override

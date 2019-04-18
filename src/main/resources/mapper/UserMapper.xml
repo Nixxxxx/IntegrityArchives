@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.iotlab.integrityarchives.dao.UserDao">
 
     <!-- 根据user_id查询其关联分类表中的数据 -->
     <select id="findById" parameterType="integer" resultType="com.iotlab.integrityarchives.entity.User">
-        SELECT  tui.id,tui.user_number,tui.user_passwd,tui.user_info,tui.salt,
-              tui.create_time,tui.last_edit_time,tui.enable_status
+        SELECT
+            tui.*,
+            tu.*
         FROM tb_user tu, tb_user_info tui
-        WHERE tu.id=tui.id AND tu.id = #{id}
+        WHERE tu.id = tui.id AND tu.id = #{id}
     </select>
+
 
 
 

@@ -5,4 +5,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.iotlab.integrityarchives.dao.UserInfoDao">
 
+
+    <select id="findByNameOrWorld" parameterType="string" resultType="com.iotlab.integrityarchives.entity.UserInfo">
+        SELECT *
+        from tb_user_info
+        where name LIKE CONCAT('%',#{word},'%')
+           or user_number=#{word};
+    </select>
+
+
+
+
+
 </mapper>
