@@ -20,16 +20,12 @@ public class Admin {
 
     @NotNull
     private String adminNumber;
-
     @NotNull
     private String adminPasswd;
-
     private String level;
 
     private Date createTime;
-
-    private Date lastEdittime;
-
+    private Date lastEditTime;
     private String enableStatus;
 
 

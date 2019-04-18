@@ -25,22 +25,31 @@ public class UserInfo {
 
     @Id
     private Integer Id;
-
     @NotNull
-    private String userNumber;
+    private String userNumber;                          //教工工号
 
-    @NotNull
-    private String userPasswd;
-
-    private String userInfo;
-
-    private String salt;
+    private String name;                                //姓名
+    private String gender;                              //性别
+    private String dateOfBirth;                         //出生年月
+    private String nation;                              //民族
+    private String nativePlace;                         //籍贯
+    private String placeOfBirth;                        //出生地
+    private String dateOfJoinParty;                     //入党时间
+    private String dateOfJoinWork;                      //参加工作时间
+    private String physicalCondition;                   //健康情况
+    private String technicalPosition;                   //专业技术职务
+    private String familiarMajorAndSpecialty;           //熟悉专业有何专长
+    private String fullTimeDegree;                      //全日制学历学位
+    private String fullTimeGraduatedUniversityAndMajor; //全日制毕业院校系及专业
+    private String partTimeDegree;                      //在职学历学位
+    private String partTimeGraduatedUniversityAndMajor; //在职毕业院校系及专业
+    private String currentPosition;                     //现任职务
+    private String resume;                              //简历
+    private String rewardsAndPunishment;                //奖惩情况
+    private String annualAssessmentResults;             //年度考核结果
 
     private Date createTime;
-
-    private Date lastEdittime;
-
-
+    private Date lastEditTime;
     private String enableStatus;
 
 

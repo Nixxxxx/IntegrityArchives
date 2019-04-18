@@ -1,77 +1,56 @@
-/*
 package com.iotlab.integrityarchives.controller.admin;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.iotlab.integrityarchives.dto.ResponseCode;
+import com.iotlab.integrityarchives.entity.Admin;
 import com.iotlab.integrityarchives.entity.User;
+import com.iotlab.integrityarchives.service.AdminService;
 import com.iotlab.integrityarchives.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.util.List;
+
+/**
+ * @author created by Zhangdazhuang
+ * @version v.0.1
+ * @Description TODO
+ * @date 2019/4/17
+ * @备注
+ **/
+@RestController
+@SuppressWarnings("all")
 @RequestMapping("/manage/user")
 public class UserManageController {
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@RequestMapping("/list")
-	public ModelAndView list(Integer page) {
-		//page = VariateUtil.solveNullPage(page);
-		List<User> userList = userService.findByPage(page, 10);
-		ModelAndView mav = new ModelAndView("manage/index");
-		if(!userList.isEmpty())
-			mav.addObject("userList", userList);
-		mav.addObject("pagePath", "manage/admin/list");
-		return mav;
-	}
-	
-	@ResponseBody
-	@PostMapping("/add")
-	public Map<String, Object> add(User user) {
-		Map<String, Object> map = new HashMap<>();
-		if(userService.create(user)) {
-			map.put("success", true);
-			map.put("msg", "添加成功");
-		}else {
-			map.put("success", false);
-			map.put("msg", "添加失败");
-		}
-		return map;
-	}
-	
-	@ResponseBody
-	@PostMapping("/del")
-	public Map<String, Object> delete(Integer id){
-		Map<String, Object> map = new HashMap<>();
-		if(userService.delete(id)) {
-			map.put("success", true);
-			map.put("msg", "删除成功");
-		}else {
-			map.put("success", false);
-			map.put("msg", "删除失败");
-		}
-		return map;
-	}
-	
-	@ResponseBody
-	@PostMapping("/update")
-	public Map<String, Object> update(User user) {
-		Map<String, Object> map = new HashMap<>();
-		if(userService.update(user)) {
-			map.put("success", true);
-			map.put("msg", "更新成功");
-		}else {
-			map.put("success", false);
-			map.put("msg", "更新失败");
-		}
-		return map;
-	}
+    /**
+     * 测试成功 URL:http://127.0.0.1:8080/manage/user/findById?id=1
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/findById")
+    public ResponseCode findById(@RequestParam("id") Integer id) {
+        return ResponseCode.success(userService.findById(id));
+    }
+
+    /**
+     * 测试成功 url:http://127.0.0.1:8080/manage/user/findAll
+     * @return
+     */
+    @GetMapping(value="/findAll")
+    public List<User> findAll(){
+        System.out.println("进入访问用户列表路径");
+        return userService.findAll();
+    }
+
+
+
+
+
+
 }
-*/

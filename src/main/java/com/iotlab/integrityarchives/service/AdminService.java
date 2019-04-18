@@ -23,7 +23,7 @@ public interface AdminService extends BaseService<Admin> {
      * @param id
      * @return
      */
-    Admin findById(Long id);
+    Admin findById(Integer id);
 
     /**
      * 根据Name查询用户数据

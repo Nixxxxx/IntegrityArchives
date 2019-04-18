@@ -1,72 +1,40 @@
-/*
 package com.iotlab.integrityarchives.controller.admin;
 
+import com.iotlab.integrityarchives.dto.ResponseCode;
 import com.iotlab.integrityarchives.entity.Admin;
-import com.iotlab.integrityarchives.enums.AccountEnableStatusEnum;
 import com.iotlab.integrityarchives.service.AdminService;
-import com.iotlab.integrityarchives.util.OperationResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
-@Controller
+/**
+ * @author created by Zhangdazhuang
+ * @version v.0.1
+ * @Description TODO
+ * @date 2019/4/17
+ * @备注
+ **/
+@RestController
+@SuppressWarnings("all")
 @RequestMapping("/manage/admin")
 public class AdminManageController {
 
     @Autowired
     private AdminService adminService;
 
-    @RequestMapping("/index")
-    public String index(){
-        return "/admin/index";
+    @GetMapping(value = "/findById")
+    public ResponseCode findById(@RequestParam("id") Integer id) {
+        return ResponseCode.success(adminService.findById(id));
     }
 
-    @RequestMapping("/login")
-    public Admin login(String username, String password) {
-        if(adminService.login(username, password))
-            return adminService.findByUsername(username);
-        return null;
+    @GetMapping(value="/findAll")
+    public List<Admin> findAll(){
+        System.out.println("进入访问管理员列表路径");
+        return adminService.findAll();
     }
-
-    @PostMapping("/list")
-    public List<Admin> list(Integer page) {
-        List<Admin> adminList = adminService.findByPage(page, 10);
-        return adminList;
-    }
-
-    @PostMapping("/create")
-    public Map<String, Object> create(Admin admin) {
-        return OperationResult.returnOperationResult(adminService.create(admin), "创建");
-    }
-
-    @PostMapping("/del")
-    public Map<String, Object> delete(Integer id){
-        return OperationResult.returnOperationResult(adminService.delete(id), "删除");
-    }
-
-    @PostMapping("/update")
-    public Map<String, Object> update(Admin admin) {
-        return OperationResult.returnOperationResult(adminService.update(admin), "更新");
-    }
-*/
-/*
-    @PostMapping("/changeStatus")
-    public Map<String, Object> changeEnableStatus(Integer id, Integer status) {
-        Admin admin = new Admin();
-        if(status == AccountEnableStatusEnum.PASS.getCode()){
-            admin.setEnableStatus(AccountEnableStatusEnum.PASS.getCode());
-            return OperationResult.returnOperationResult(adminService.update(admin), "恢复使用");
-        }else if(status == AccountEnableStatusEnum.FAIL.getCode()){
-            admin.setEnableStatus(AccountEnableStatusEnum.FAIL.getCode());
-            return OperationResult.returnOperationResult(adminService.update(admin), "禁用");
-        }else {
-            admin.setEnableStatus(AccountEnableStatusEnum.FAIL.getCode());
-            return OperationResult.returnOperationResult(adminService.update(admin), "禁用");
-        }
-    }*//*
 
 }
-*/

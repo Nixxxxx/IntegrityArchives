@@ -1,28 +1,37 @@
 var app = new Vue({
     el: '#app',
     data: {
-        user: {},
-        pass: {
+        links: [{
             id: '',
-            password: '',
-            repassword: '',
+            name: '',
+            url: ''
+        }],
+        editor: {
+            id: '',
+            name: '',
+            url: ''
         },
-        localUpload: api.user.localUpload,
-        avatarDialog: false,
-        avatarList: [],
-        defaultActive: '9',
+        pageConf: {
+            //设置一些初始值(会被覆盖)
+            pageCode: 1, //当前页
+            pageSize: 6, //每页显示的记录数
+            totalPage: 12, //总记录数
+            pageOption: [6, 10, 20], //分页选项
+        },
+        defaultActive: '8',
+        editDialog: false,
         mobileStatus: false, //是否是移动端
         sidebarStatus: true, //侧边栏状态，true：打开，false：关闭
         sidebarFlag: ' openSidebar ', //侧边栏标志
     },
     created() {
-        window.onload = function () {
+        window.onload = function() {
             app.changeDiv();
         }
-        window.onresize = function () {
+        window.onresize = function() {
             app.changeDiv();
         }
-        this.getUserInfo();
+        this.search(this.pageConf.pageCode, this.pageConf.pageSize);
     },
     mounted() {
         this.$refs.loader.style.display = 'none';
@@ -34,106 +43,107 @@ var app = new Vue({
                 type: type
             })
         },
-        //获取当前用户信息
-        getUserInfo() {
-            this.$http.get(api.user.info).then(result => {
-                this.user = result.body.data;
-                this.pass.id = result.body.data.id;
+        //关闭侧边栏
+        handleClose(key, keyPath) {
+            this.editDialog = false;
+        },
+
+        //刷新列表
+        reloadList() {
+            this.search(this.pageConf.pageCode, this.pageConf.pageSize);
+        },
+        //条件查询
+        search(pageCode, pageSize) {
+            this.$http.post(api.links.findByPage(pageSize, pageCode)).then(result => {
+                this.links = result.body.data.rows;
+                this.pageConf.totalPage = result.body.data.total;
+            });
+
+        },
+        //pageSize改变时触发的函数
+        handleSizeChange(val) {
+            this.search(this.pageConf.pageCode, val);
+        },
+        //当前页改变时触发的函数
+        handleCurrentChange(val) {
+            this.pageConf.pageCode = val; //为了保证刷新列表后页面还是在当前页，而不是跳转到第一页
+            this.search(val, this.pageConf.pageSize);
+        },
+
+        //删除
+        sureDelete(ids) {
+            this.$confirm('你确定永久删除此用户信息？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(() => {
+                this.$http.post(api.links.delete, JSON.stringify(ids)).then(result => {
+                    if (result.body.code == 200) {
+                        this._notify(result.body.msg, 'success')
+                        if ((this.pageConf.totalPage - 1) / this.pageConf.pageSize === (this.pageConf.pageCode - 1)) {
+                            this.pageConf.pageCode = this.pageConf.pageCode - 1;
+                        }
+                        this.reloadList();
+                    } else {
+                        this._notify(result.body.msg, 'error')
+                        this.reloadList();
+                    }
+                });
+            }).catch(() => {
+                this._notify('已取消删除', 'info')
             });
         },
 
+        //删除按钮
+        handleDelete(id) {
+            var ids = new Array();
+            ids.push(id);
+            this.sureDelete(ids);
+        },
+
+        //保存
         save() {
-            this.$http.post(api.user.update, JSON.stringify(this.user)).then(result => {
+            if (this.editor.name == null || this.editor.name == '' || this.editor.url == null || this.editor.url == '') {
+                this.reloadList();
+                this._notify('输入的信息不能为空', 'warning')
+                return;
+            } else {
+                this.$http.post(api.links.save, JSON.stringify(this.editor)).then(result => {
+                    this.reloadList();
+                    if (result.body.code == 200) {
+                        this.editor.links = {};
+                        this._notify(result.body.msg, 'success')
+                    } else {
+                        this._notify(result.body.msg, 'error')
+                    }
+                });
+            }
+            this.editor = {};
+        },
+
+        //触发编辑按钮
+        handleEdit(id) {
+            this.editDialog = true;
+            this.editor = {}; //清空表单
+            //查询当前id对应的数据
+            this.$http.get(api.links.findById(id)).then(result => {
+                this.editor = result.body.data;
+            });
+        },
+        edit() {
+            this.editDialog = false;
+            //查询当前id对应的数据
+            this.$http.put(api.links.update, JSON.stringify(this.editor)).then(result => {
+                this.reloadList();
                 if (result.body.code == 200) {
                     this._notify(result.body.msg, 'success')
-                    window.location.href = api.common.logout
                 } else {
                     this._notify(result.body.msg, 'error')
                 }
             });
+            this.editor = {}
         },
-        //触发关闭按钮
-        handleClose() {
-            this.avatarDialog = false;
-        },
-        handleEditAvatar() {
-            this.$http.get(api.user.avatar).then(response => {
-                this.avatarList = response.body;
-            });
-            this.avatarDialog = true;
-        },
-        //修改头像
-        changeAvatar(url) {
-            this.user.avatar = url;
-            var data = {
-                id: this.user.id,
-                avatar: this.user.avatar
-            };
-            this.$http.post(api.user.update, JSON.stringify(data)).then(response => {
-                this.avatarDialog = false;
-                if (response.body.code == 200) {
-                    this._notify('更换头像成功', 'success')
-                    window.location.href = api.common.logout
-                } else {
-                    this._notify(response.body.msg, 'error')
-                }
-            })
-        },
-
-        changePassword() {
-            if (this.pass.password.length < 6) {
-                this._notify('请重新输入密码，密码长度在6位及以上', 'warning');
-            } else if (this.pass.password != this.pass.repassword) {
-                this._notify('两次输入的密码不一致', 'warning');
-            } else {
-                this.$http.post(api.user.update, JSON.stringify(this.pass)).then(result => {
-                    if (result.body.code == 200) {
-                        this._notify(result.body.msg, 'success');
-                        //执行/logout请求
-                        window.location.href = '/admin/logout'; //更改了密码，注销当前登录状态，重新登录
-                    } else {
-                        this._notify(result.body.msg, 'error');
-                    }
-                    this.clearPass();
-                });
-            }
-        },
-        clearPass() {
-            this.pass.repassword = '';
-            this.pass.password = '';
-        },
-        /**
-         * 图片上传
-         * @param res
-         * @param file
-         * @param fileList
-         */
-        //文件上传成功的钩子函数
-        handleAvatarSuccess(res, file, fileList) {
-            this._notify('图片上传成功', 'success');
-            if (res.code == 200) {
-                this.user.avatar = res.data.url;
-                this.avatarDialog = false;
-            }
-        },
-        //文件上传前的前的钩子函数
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isGIF = file.type === 'image/gif';
-            const isPNG = file.type === 'image/png';
-            const isBMP = file.type === 'image/bmp';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG && !isGIF && !isPNG && !isBMP) {
-                this.$message.error('上传图片必须是JPG/GIF/PNG/BMP 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传图片大小不能超过 2MB!');
-            }
-            return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
-        },
-
-
         /**
          * 监听窗口改变UI样式（区别PC和Phone）
          */

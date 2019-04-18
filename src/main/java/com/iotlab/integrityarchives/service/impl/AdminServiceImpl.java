@@ -28,7 +28,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
     }
 
     @Override
-    public Admin findById(Long id) {
+    public Admin findById(Integer id) {
         return adminDao.selectByPrimaryKey(id);
     }
 

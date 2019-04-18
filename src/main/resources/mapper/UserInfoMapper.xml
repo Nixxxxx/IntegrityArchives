@@ -6,8 +6,3 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.iotlab.integrityarchives.dao.UserInfoDao">
 
 </mapper>
-
-
-
-
-
