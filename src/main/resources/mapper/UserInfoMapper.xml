@@ -1,20 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.iotlab.integrityarchives.dao.UserInfoDao">
+    <resultMap id="UserInfoResult" type="com.iotlab.integrityarchives.entity.UserInfo">
+        <id column="id" property="id"/>
+        <result column="user_number" property="userNumber" />
+        <result column="name" property="name" />
+        <result column="gender" property="gender" />
+        <result column="date_of_birth" property="dateOfBirth" />
+        <result column="nation" property="nation" />
+        <result column="native_place" property="nativePlace" />
+        <result column="place_of_birth" property="placeOfBirth" />
+        <result column="date_of_join_party" property="dateOfJoinParty" />
+        <result column="date_of_join_work" property="dateOfJoinWork" />
+        <result column="physical_condition" property="physicalCondition" />
+        <result column="technical_position" property="technicalPosition" />
+        <result column="familiar_major_and_specialty" property="familiarMajorAndSpecialty" />
+        <result column="full_time_degree" property="fullTimeDegree" />
+        <result column="full_time_graduated_university_and_major" property="fullTimeGraduatedUniversityAndMajor" />
+        <result column="part_time_degree" property="partTimeDegree" />
+        <result column="part-time_graduated_university_and_major" property="partTimeGraduatedUniversityAndMajor" />
+        <result column="current_position" property="currentPosition"/>
+        <result column="resume" property="resume" />
+        <result column="rewards_and_punishment" property="rewardsAndPunishment" />
+        <result column="annual_assessment_results" property="annualAssessmentResults" />
+        <result column="create_time" property="createTime" />
+        <result column="last_edit_time" property="lastEditTime" />
+        <result column="enable_status" property="enableStatus" />
+    </resultMap>
 
-
-    <select id="findByNameOrWorld" parameterType="string" resultType="com.iotlab.integrityarchives.entity.UserInfo">
+    <select id="findByNameOrWorld" parameterType="string" resultMap="UserInfoResult">
         SELECT *
         from tb_user_info
-        where name LIKE CONCAT('%',#{word},'%')
-           or user_number=#{word};
+        where name LIKE CONCAT('%', #{word}, '%')
+              or user_number = #{word};
     </select>
-
-
-
 
 
 </mapper>

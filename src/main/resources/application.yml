@@ -48,3 +48,8 @@ pagehelper:
   pagehelperDialect: mysql
   reasonable: true
   support-methods-arguments: true
+
+  # 打印sql
+logging:
+    level:
+       com.iotlab.integrityarchives.dao;: DEBUG

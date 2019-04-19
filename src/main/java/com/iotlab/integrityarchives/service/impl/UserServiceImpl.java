@@ -27,6 +27,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
     @Override
     public List<User> findAll() {
+
         return userDao.selectAll();
     }
 
