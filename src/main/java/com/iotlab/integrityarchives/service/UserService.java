@@ -2,6 +2,7 @@
 package com.iotlab.integrityarchives.service;
 
 import com.iotlab.integrityarchives.common.service.BaseService;
+import com.iotlab.integrityarchives.entity.Admin;
 import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.entity.UserInfo;
 
@@ -17,12 +18,12 @@ public interface UserService extends BaseService<User> {
     List<User> findAll();
 
     /**
-     * 通过姓名和工号模糊查询用户信息
-     * @param word
+     * 根据Name查询用户数据
+     *
+     * @param username
      * @return
      */
-    List<UserInfo> findByNameOrWorld(String word);
-
+    User findByName(String username);
 
     /**
      * 根据ID查询
@@ -32,13 +33,18 @@ public interface UserService extends BaseService<User> {
      */
     User findById(Integer id);
 
+
+    void save(User user);
+
     /**
-     * 根据Name查询用户数据
+     * 分页查询
      *
-     * @param username
+     * @param user 查询条件
      * @return
      */
-    User findByName(String username);
+    List<User> findByPage(User user);
+
+
 
     /**
      * 更新

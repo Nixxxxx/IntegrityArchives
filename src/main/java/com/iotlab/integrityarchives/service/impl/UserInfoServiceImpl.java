@@ -1,10 +1,10 @@
 package com.iotlab.integrityarchives.service.impl;
 
+
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
-import com.iotlab.integrityarchives.dao.UserDao;
 import com.iotlab.integrityarchives.dao.UserInfoDao;
-import com.iotlab.integrityarchives.entity.User;
-import com.iotlab.integrityarchives.service.UserService;
+import com.iotlab.integrityarchives.entity.UserInfo;
+import com.iotlab.integrityarchives.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,34 +13,18 @@ import java.util.List;
 
 @Service
 @SuppressWarnings("all")
-public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
+public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements UserInfoService {
 
     @Autowired
-    private UserDao userDao;
+    private UserInfoDao userInfoDao;
 
-
-
-/*    @Autowired
-    private PasswordHelper passwordHelper;*/
-
-    @Override
-    public List<User> findAll() {
-
-        return userDao.selectAll();
-    }
-
-
-    @Override
-    public User findById(Integer id) {
-        return userDao.selectByPrimaryKey(id);
-    }
 
     @Override
     @Transactional
-    public void save(User user) {
+    public void save(UserInfo userInfo) {
         try {
             //passwordHelper.encryptPassword(user); //加密
-            userDao.insert(user);
+            userInfoDao.insert(userInfo);
         } catch (Exception e) {
             e.printStackTrace();
             // throw new GlobalException(e.getMessage());
@@ -49,12 +33,9 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
     @Override
     @Transactional
-    public void update(User user) {
+    public void update(UserInfo user) {
         if (user.getId() != 0) {
             try {
-                if (user.getUserPasswd() != null && !"".equals(user.getUserPasswd())) {
-                    //passwordHelper.encryptPassword(user); //加密
-                }
                 this.updateNotNull(user);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -69,7 +50,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         if (!ids.isEmpty()) {
             try {
                 //通用mapper自带的批量删除
-                this.batchDelete(ids, "id", User.class);
+                this.batchDelete(ids, "id", UserInfo.class);
             } catch (Exception e) {
                 e.printStackTrace();
                 // throw new GlobalException(e.getMessage());
@@ -77,19 +58,22 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         }
     }
 
+
     @Override
-    public User findByName(String username) {
-        if (!username.isEmpty()) {
-            User user = new User();
-            user.setUserNumber(username);
-            return userDao.select(user).get(0);
-        } else {
-            return new User();
-        }
+    public UserInfo findByUserId(Integer id) {
+        return userInfoDao.findByUserId(id);
+    }
+
+
+    @Override
+    public List<UserInfo> findListByWord(String word) {
+        return userInfoDao.findListByWord(word);
     }
 
     @Override
-    public List<User> findByPage(User user) {
-        return userDao.select(user);
+    public List<UserInfo> findByPage(UserInfo userInfo) {
+        return userInfoDao.select(userInfo);
     }
+
+
 }

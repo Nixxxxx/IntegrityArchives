@@ -3,9 +3,8 @@ package com.iotlab.integrityarchives.controller.admin;
 import com.iotlab.integrityarchives.common.controller.BaseController;
 import com.iotlab.integrityarchives.dto.QueryPage;
 import com.iotlab.integrityarchives.dto.ResponseCode;
-import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.entity.UserInfo;
-import com.iotlab.integrityarchives.service.UserService;
+import com.iotlab.integrityarchives.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,51 +19,48 @@ import java.util.List;
  **/
 @RestController
 @SuppressWarnings("all")
-@RequestMapping("/manage/user")
-public class UserManageController extends BaseController {
-
+@RequestMapping("/manage/userinfo")
+public class UserInfoManageController extends BaseController {
     @Autowired
-    private UserService userService;
+    private UserInfoService userInfoService;
 
     /**
-     * 根据id查询指定的用户
-     * 测试成功 URL:http://127.0.0.1:8080/manage/user/findById?id=1
+     * 根据姓名模糊查询用户详细信息
+     * 得到List列表，list每个元素代表某个用户的个人用户信息
+     * 测试Url:
      *
-     * @param id
+     * @param word
      * @return
      */
-    @GetMapping(value = "/findById")
-    public ResponseCode findById(@RequestParam("id") Integer id) {
-        return ResponseCode.success(userService.findById(id));
+    @GetMapping(value = "/findUserInfoByWord")
+    public ResponseCode findUserInfoByNameOrNumber(@RequestParam("word") String word) {
+        List<UserInfo> list = userInfoService.findListByWord(word);
+        for (UserInfo userinfo : list) {
+            System.out.println(userinfo);  //TODO 测试数据
+        }
+        return ResponseCode.success(userInfoService.findListByWord(word));
     }
 
-    /**
-     * 查询所有
-     * 测试成功 url:http://127.0.0.1:8080/manage/user/findAll
-     *
-     * @return
-     */
-    @GetMapping(value = "/findAll")
-    public List<User> findAll() {
-        System.out.println("进入访问用户列表路径");
-        return userService.findAll();
-    }
 
+    @GetMapping(value = "/findUserInfoById")
+    public ResponseCode findUserInfoById(@RequestParam("id") Integer id) {
+        return ResponseCode.success(userInfoService.findByUserId(id));
+    }
 
 
     /**
      * 分页查询
+     *
      * @param queryPage
-     * @param user
+     * @param userInfo
      * @return
      */
     @PostMapping(value = "/findByPage")
-    public ResponseCode findByPage(QueryPage queryPage, User user) {
-        return ResponseCode.success(super.selectByPageNumSize(queryPage, () -> userService.findByPage(user)));
+    public ResponseCode findByPage(QueryPage queryPage, UserInfo userInfo) {
+        return ResponseCode.success(super.selectByPageNumSize(queryPage, () -> userInfoService.findByPage(userInfo)));
     }
-    
-    
-    
+
+
     /**
      * 保存用户
      *
@@ -72,9 +68,9 @@ public class UserManageController extends BaseController {
      * @return
      */
     @PostMapping(value = "/save")
-    public ResponseCode save(@RequestBody User user) {
+    public ResponseCode save(@RequestBody UserInfo userinfo) {
         try {
-            userService.save(user);
+            userInfoService.save(userinfo);
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,9 +79,9 @@ public class UserManageController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ResponseCode update(@RequestBody User user) {
+    public ResponseCode update(@RequestBody UserInfo userinfo) {
         try {
-            userService.update(user);
+            userInfoService.update(userinfo);
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,7 +92,7 @@ public class UserManageController extends BaseController {
     @PostMapping(value = "/delete")
     public ResponseCode delete(@RequestBody List<Long> ids) {
         try {
-            userService.delete(ids);
+            userInfoService.delete(ids);
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();

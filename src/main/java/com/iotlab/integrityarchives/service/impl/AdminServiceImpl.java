@@ -4,6 +4,7 @@ package com.iotlab.integrityarchives.service.impl;
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.AdminDao;
 import com.iotlab.integrityarchives.entity.Admin;
+import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,6 +86,15 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
             return new Admin();
         }
     }
+
+    @Override
+    public List<Admin> findByPage(Admin admin) {
+        return   adminDao.select(admin);
+    }
+
+
+
+
 
     /*@Autowired
     private SettingMapper settingMapper;

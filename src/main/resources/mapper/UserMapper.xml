@@ -5,14 +5,8 @@
 
 <mapper namespace="com.iotlab.integrityarchives.dao.UserDao">
 
-    <!-- 根据user_id查询其关联分类表中的数据 -->
-    <select id="findById" parameterType="integer" resultType="com.iotlab.integrityarchives.entity.User">
-        SELECT
-            tui.*,
-            tu.*
-        FROM tb_user tu, tb_user_info tui
-        WHERE tu.id = tui.id AND tu.id = #{id}
-    </select>
+
+
 
 
 

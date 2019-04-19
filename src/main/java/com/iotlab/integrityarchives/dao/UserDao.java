@@ -10,8 +10,5 @@ import java.util.List;
 
 public interface UserDao extends MyMapper<User> {
 
-    List<User> findById(Integer id);
-
-
 
 }

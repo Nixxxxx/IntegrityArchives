@@ -3,8 +3,6 @@ package com.iotlab.integrityarchives.service;
 
 import com.iotlab.integrityarchives.common.service.BaseService;
 import com.iotlab.integrityarchives.entity.Admin;
-import com.iotlab.integrityarchives.entity.User;
-
 
 import java.util.List;
 
@@ -13,6 +11,7 @@ public interface AdminService extends BaseService<Admin> {
 
     /**
      * 查询所有的管理员
+     *
      * @return
      */
     List<Admin> findAll();
@@ -32,6 +31,17 @@ public interface AdminService extends BaseService<Admin> {
      * @return
      */
     Admin findByName(String username);
+
+
+    /**
+     * 分页查询
+     *
+     * @param admin 查询条件
+     * @return
+     */
+    List<Admin> findByPage(Admin admin);
+
+    void save(Admin admin);
 
     /**
      * 更新
