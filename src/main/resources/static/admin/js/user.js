@@ -1,15 +1,28 @@
 var app = new Vue({
     el: '#app',
     data: {
-        links: [{
+        users: [{
             id: '',
             name: '',
-            url: ''
+            number: '',
+            createTime: '',
+            lstEditTime: '',
+            enableStatus: ''
         }],
+        userPasswd: {
+            id: '',
+            name: '',
+            number: '',
+            passwd: '',
+            enableStatus: ''
+        },
         editor: {
             id: '',
             name: '',
-            url: ''
+            number: '',
+            createTime: '',
+            lstEditTime: '',
+            enableStatus: ''
         },
         pageConf: {
             //设置一些初始值(会被覆盖)
@@ -18,8 +31,13 @@ var app = new Vue({
             totalPage: 12, //总记录数
             pageOption: [6, 10, 20], //分页选项
         },
-        defaultActive: '8',
+        defaultActive: '3',
+
+        //条件查询单独封装的对象
+        searchEntity: {},
+
         editDialog: false,
+        changePasswdDialog: false,
         mobileStatus: false, //是否是移动端
         sidebarStatus: true, //侧边栏状态，true：打开，false：关闭
         sidebarFlag: ' openSidebar ', //侧边栏标志
@@ -54,8 +72,8 @@ var app = new Vue({
         },
         //条件查询
         search(pageCode, pageSize) {
-            this.$http.post(api.links.findByPage(pageSize, pageCode)).then(result => {
-                this.links = result.body.data.rows;
+            this.$http.post(api.users.findByPage(pageSize, pageCode)).then(result => {
+                this.users = result.body.data.rows;
                 this.pageConf.totalPage = result.body.data.total;
             });
 
@@ -78,7 +96,7 @@ var app = new Vue({
                 type: 'warning',
                 center: true
             }).then(() => {
-                this.$http.post(api.links.delete, JSON.stringify(ids)).then(result => {
+                this.$http.post(api.users.delete, JSON.stringify(ids)).then(result => {
                     if (result.body.code == 200) {
                         this._notify(result.body.msg, 'success')
                         if ((this.pageConf.totalPage - 1) / this.pageConf.pageSize === (this.pageConf.pageCode - 1)) {
@@ -109,10 +127,10 @@ var app = new Vue({
                 this._notify('输入的信息不能为空', 'warning')
                 return;
             } else {
-                this.$http.post(api.links.save, JSON.stringify(this.editor)).then(result => {
+                this.$http.post(api.users.save, JSON.stringify(this.editor)).then(result => {
                     this.reloadList();
                     if (result.body.code == 200) {
-                        this.editor.links = {};
+                        this.editor.users = {};
                         this._notify(result.body.msg, 'success')
                     } else {
                         this._notify(result.body.msg, 'error')
@@ -127,14 +145,14 @@ var app = new Vue({
             this.editDialog = true;
             this.editor = {}; //清空表单
             //查询当前id对应的数据
-            this.$http.get(api.links.findById(id)).then(result => {
+            this.$http.get(api.uers.findById(id)).then(result => {
                 this.editor = result.body.data;
             });
         },
         edit() {
             this.editDialog = false;
             //查询当前id对应的数据
-            this.$http.put(api.links.update, JSON.stringify(this.editor)).then(result => {
+            this.$http.put(api.users.update, JSON.stringify(this.editor)).then(result => {
                 this.reloadList();
                 if (result.body.code == 200) {
                     this._notify(result.body.msg, 'success')
@@ -143,6 +161,29 @@ var app = new Vue({
                 }
             });
             this.editor = {}
+        },
+
+        //触发修改密码按钮
+        handleChangePasswd(id) {
+            this.changePasswdDialog = true;
+            this.userPasswd = {}; //清空表单
+            //查询当前id对应的数据
+            this.$http.get(api.users.findById(id)).then(result => {
+                this.userPasswd = result.body.data;
+            });
+        },
+        changePasswd() {
+            this.changePasswdDialog = false;
+            //查询当前id对应的数据
+            this.$http.put(api.users.update, JSON.stringify(this.userPasswd)).then(result => {
+                this.reloadList();
+                if (result.body.code == 200) {
+                    this._notify(result.body.msg, 'success')
+                } else {
+                    this._notify(result.body.msg, 'error')
+                }
+            });
+            this.userPasswd = {}
         },
         /**
          * 监听窗口改变UI样式（区别PC和Phone）
