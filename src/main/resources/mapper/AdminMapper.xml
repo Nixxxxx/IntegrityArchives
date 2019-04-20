@@ -5,13 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.iotlab.integrityarchives.dao.AdminDao">
 
-    <!-- 根据user_id查询其关联分类表中的数据 -->
-    <select id="findUserInfoByUserId" parameterType="integer" resultType="com.iotlab.integrityarchives.entity.UserInfo">
-        SELECT  tui.id,tui.user_number,tui.user_passwd,tui.user_info,tui.salt,
-        tui.create_time,tui.last_edit_time,tui.enable_status
-        FROM tb_user tu, tb_user_info tui
-        WHERE tu.id=tui.id AND tu.id = #{id}
-    </select>
 
 
     <select id="findById" parameterType="Integer" resultType="com.iotlab.integrityarchives.entity.Admin">
