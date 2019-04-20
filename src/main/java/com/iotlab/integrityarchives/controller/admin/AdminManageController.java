@@ -6,6 +6,8 @@ import com.iotlab.integrityarchives.dto.ResponseCode;
 import com.iotlab.integrityarchives.entity.Admin;
 import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.service.AdminService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,7 @@ import java.util.List;
 @RestController
 @SuppressWarnings("all")
 @RequestMapping("/manage/admin")
+@Api(tags="管理员控制API",value="测试")
 public class AdminManageController extends BaseController {
 
     @Autowired
@@ -33,6 +36,7 @@ public class AdminManageController extends BaseController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "通过id查询到指定管理员", notes = "返回Admin实体类")
     @GetMapping(value = "/findById")
     public ResponseCode findById(@RequestParam("id") Integer id) {
         return ResponseCode.success(adminService.findById(id));

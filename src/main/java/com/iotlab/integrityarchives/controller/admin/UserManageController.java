@@ -6,6 +6,7 @@ import com.iotlab.integrityarchives.dto.ResponseCode;
 import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.service.UserService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import java.util.List;
 @RestController
 @SuppressWarnings("all")
 @RequestMapping("/manage/user")
+@Api(tags="用户信息控制API",value="测试")
 public class UserManageController extends BaseController {
 
     @Autowired

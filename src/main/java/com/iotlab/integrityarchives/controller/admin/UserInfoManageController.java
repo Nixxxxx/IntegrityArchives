@@ -5,6 +5,7 @@ import com.iotlab.integrityarchives.dto.QueryPage;
 import com.iotlab.integrityarchives.dto.ResponseCode;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.service.UserInfoService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +21,13 @@ import java.util.List;
 @RestController
 @SuppressWarnings("all")
 @RequestMapping("/manage/userinfo")
+@Api(tags="干部信息控制API",value="测试")
 public class UserInfoManageController extends BaseController {
     @Autowired
     private UserInfoService userInfoService;
 
     /**
-     * 根据姓名模糊查询用户详细信息
+     * 根据姓名模糊查询或者工号精确查询用户详细信息
      * 得到List列表，list每个元素代表某个用户的个人用户信息
      * 测试Url:
      *
@@ -34,10 +36,6 @@ public class UserInfoManageController extends BaseController {
      */
     @GetMapping(value = "/findUserInfoByWord")
     public ResponseCode findUserInfoByNameOrNumber(@RequestParam("word") String word) {
-        List<UserInfo> list = userInfoService.findListByWord(word);
-        for (UserInfo userinfo : list) {
-            System.out.println(userinfo);  //TODO 测试数据
-        }
         return ResponseCode.success(userInfoService.findListByWord(word));
     }
 
