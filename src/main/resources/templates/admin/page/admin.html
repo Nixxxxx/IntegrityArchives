@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="admin/common/head"></head>
-<title>教工管理</title>
+<title>管理员管理</title>
 <link rel="stylesheet" th:href="@{/admin/css/links.css}">
 
 <body>
@@ -20,7 +20,7 @@
                 <!-- main -->
                 <el-main class="app-main">
                     <el-card>
-                        <h2>教工管理</h2>
+                        <h2>管理员管理</h2>
                         <!-- 功能按钮 -->
                         <el-row :gutter="20">
                             <el-col :xs="12" :sm="12" :lg="6" :span="6" style="display: flex">
@@ -41,12 +41,12 @@
                         </el-row>
                         <br />
                         <!-- 列表 -->
-                        <el-table ref="link" :data="users" border tooltip-effect="dark" style="width: 100%">
+                        <el-table ref="link" :data="admins" border tooltip-effect="dark" style="width: 100%">
                             <el-table-column prop="id" align="center" sortable label="编号" show-overflow-tooltip
                                 width="80"></el-table-column>
-                            <el-table-column align="center" prop="userNumber" label="教工工号" width="170" show-overflow-tooltip>
+                            <el-table-column align="center" prop="adminNumber" label="管理员账号" width="300" show-overflow-tooltip>
                             </el-table-column>
-                            <el-table-column align="center" prop="name" label="姓名" width="170" show-overflow-tooltip>
+                            <el-table-column align="center" prop="adminPasswd" label="密码" width="300" show-overflow-tooltip>
                             </el-table-column>
                             <el-table-column align="center" prop="createTime" label="创建时间" width="170"></el-table-column>
                             <el-table-column align="center" prop="lastEditTime" label="最后编辑时间" width="170"></el-table-column>
@@ -56,8 +56,6 @@
                                         @click="handleDelete(scope.row.id)">删除</el-button>
                                     <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning"
                                         @click="handleEdit(scope.row.id)">编辑</el-button>
-                                    <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning"
-                                               @click="handleChangePasswd(scope.row.id)">修改密码</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -75,38 +73,16 @@
             </el-container>
         </div>
 
-
-
-
-        <!-- 修改密码 -->
-        <el-dialog title="修改教工密码" :visible.sync="changePasswdDialog" width="30%" :append-to-body='true'
-            :before-close="handleClose">
-            <span>
-                <el-form :inline="true" :model="passwdEditor">
-                    <el-form-item required prop="name" :rules="[{ required: true, message: '请输入教工工号'}]" label="教工工号">
-                        <el-input style="width: 300px" v-model="editor.name" placeholder="请输入教工工号"></el-input>
-                    </el-form-item>
-                    <el-form-item required prop="url" :rules="[{ required: true, message: '请输入教工密码'}]" label="教工密码">
-                        <el-input style="width: 300px" v-model="editor.number" placeholder="请输入教工密码"></el-input>
-                    </el-form-item>
-                </el-form>
-            </span>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="changePasswdDialog = false">取 消</el-button>
-                <el-button type="primary" @click="changePasswd">修 改</el-button>
-            </span>
-        </el-dialog>
-
         <!-- 编辑 -->
         <el-dialog title="编辑信息" :visible.sync="editDialog" width="30%" :append-to-body='true'
             :before-close="handleClose">
             <span>
                 <el-form :inline="true" :model="editor">
-                    <el-form-item required prop="userNumber" :rules="[{ required: true, message: '请输入友链名称'}]" label="友链名称">
-                        <el-input style="width: 300px" v-model="editor.userNumber" placeholder="请输入友链名称"></el-input>
+                    <el-form-item required prop="adminNumber" :rules="[{ required: true, message: '请输入管理员账号'}]" label="管理员账号">
+                        <el-input style="width: 300px" v-model="editor.adminNumber" placeholder="请输入管理员账号"></el-input>
                     </el-form-item>
-                    <el-form-item required prop="name" :rules="[{ required: true, message: '请输入链接地址'}]" label="链接地址">
-                        <el-input style="width: 300px" v-model="editor.name" placeholder="请输入链接地址"></el-input>
+                    <el-form-item required prop="adminPasswd" :rules="[{ required: true, message: '请输入管理员账号'}]" label="管理员密码">
+                        <el-input style="width: 300px" v-model="editor.adminPasswd" placeholder="请输入管理员账号"></el-input>
                     </el-form-item>
                 </el-form>
             </span>
@@ -118,6 +94,6 @@
     </div>
 </body>
 <div th:replace="admin/common/js"></div>
-<script type="text/javascript" th:src="@{/admin/js/user.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/admin.js}"></script>
 
 </html>

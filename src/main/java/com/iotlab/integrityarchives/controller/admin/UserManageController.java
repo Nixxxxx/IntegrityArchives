@@ -4,12 +4,13 @@ import com.iotlab.integrityarchives.common.controller.BaseController;
 import com.iotlab.integrityarchives.dto.QueryPage;
 import com.iotlab.integrityarchives.dto.ResponseCode;
 import com.iotlab.integrityarchives.entity.User;
-import com.iotlab.integrityarchives.entity.UserInfo;
+import com.iotlab.integrityarchives.service.UserInfoService;
 import com.iotlab.integrityarchives.service.UserService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +28,8 @@ public class UserManageController extends BaseController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserInfoService userInfoService;
 
     /**
      * 根据id查询指定的用户
@@ -52,8 +55,6 @@ public class UserManageController extends BaseController {
         return userService.findAll();
     }
 
-
-
     /**
      * 分页查询
      * @param queryPage
@@ -64,8 +65,6 @@ public class UserManageController extends BaseController {
     public ResponseCode findByPage(QueryPage queryPage, User user) {
         return ResponseCode.success(super.selectByPageNumSize(queryPage, () -> userService.findByPage(user)));
     }
-    
-    
     
     /**
      * 保存用户
@@ -99,6 +98,7 @@ public class UserManageController extends BaseController {
     public ResponseCode delete(@RequestBody List<Long> ids) {
         try {
             userService.delete(ids);
+            userInfoService.delete(ids);
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();

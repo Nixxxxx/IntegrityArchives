@@ -87,8 +87,6 @@
             <scope>runtime</scope>
         </dependency>
 
-
-
         <!-- 7.API测试工具 -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -106,13 +104,6 @@
             <artifactId>swagger-bootstrap-ui</artifactId>
             <version>1.6</version>
         </dependency>
-
-
-
-
-
-
-
     </dependencies>
 
     <build>
@@ -120,6 +111,13 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
             </plugin>
         </plugins>
     </build>

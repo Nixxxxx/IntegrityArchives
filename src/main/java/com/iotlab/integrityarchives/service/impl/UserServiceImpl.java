@@ -2,7 +2,6 @@ package com.iotlab.integrityarchives.service.impl;
 
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.UserDao;
-import com.iotlab.integrityarchives.dao.UserInfoDao;
 import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

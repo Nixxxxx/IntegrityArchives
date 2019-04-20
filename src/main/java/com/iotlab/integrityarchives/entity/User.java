@@ -23,10 +23,10 @@ public class User {
     @NotNull
     private String userPasswd;
 
+    @NotNull
+    private String name;
     private Date createTime;
     private Date lastEditTime;
     private String enableStatus;
-
-
 
 }

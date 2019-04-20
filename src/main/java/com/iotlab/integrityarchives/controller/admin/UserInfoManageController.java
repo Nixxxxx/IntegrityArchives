@@ -9,8 +9,6 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * @author created by Zhangdazhuang
  * @version v.0.1
@@ -26,38 +24,10 @@ public class UserInfoManageController extends BaseController {
     @Autowired
     private UserInfoService userInfoService;
 
-    /**
-     * 根据姓名模糊查询或者工号精确查询用户详细信息
-     * 得到List列表，list每个元素代表某个用户的个人用户信息
-     * 测试Url:
-     *
-     * @param word
-     * @return
-     */
-    @GetMapping(value = "/findUserInfoByWord")
-    public ResponseCode findUserInfoByNameOrNumber(@RequestParam("word") String word) {
-        return ResponseCode.success(userInfoService.findListByWord(word));
-    }
-
-
-    @GetMapping(value = "/findUserInfoById")
+    @GetMapping(value = "/findById")
     public ResponseCode findUserInfoById(@RequestParam("id") Integer id) {
         return ResponseCode.success(userInfoService.findByUserId(id));
     }
-
-
-    /**
-     * 分页查询
-     *
-     * @param queryPage
-     * @param userInfo
-     * @return
-     */
-    @PostMapping(value = "/findByPage")
-    public ResponseCode findByPage(QueryPage queryPage, UserInfo userInfo) {
-        return ResponseCode.success(super.selectByPageNumSize(queryPage, () -> userInfoService.findByPage(userInfo)));
-    }
-
 
     /**
      * 保存用户
@@ -86,17 +56,5 @@ public class UserInfoManageController extends BaseController {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-    @PostMapping(value = "/delete")
-    public ResponseCode delete(@RequestBody List<Long> ids) {
-        try {
-            userInfoService.delete(ids);
-            return ResponseCode.success();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
 
 }

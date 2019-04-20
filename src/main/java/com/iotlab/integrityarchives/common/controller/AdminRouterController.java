@@ -12,12 +12,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminRouterController {
 
     /**
-     * 发布文章页
+     * 管理员管理页
+     *
+     * @return
+     */
+    @GetMapping(value = {"/admin"})
+    public String admin() {
+        return "admin/page/admin";
+    }
+
+    /**
+     *  用户管理页
      *
      * @return
      */
     @GetMapping(value = {"/user"})
-    public String publish(Model model) {
+    public String user() {
         return "admin/page/user";
     }
+
+
 }

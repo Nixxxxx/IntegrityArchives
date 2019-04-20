@@ -36,4 +36,11 @@ const api = {
         delete: '/manage/user/delete',
         update: '/manage/user/update',
     },
+    userInfo: {
+        findById(id) {
+            return '/manage/userInfo/findById?id=' + id
+        },
+        save: '/manage/userInfo/save',
+        update: '/manage/userInfo/update',
+    },
 };

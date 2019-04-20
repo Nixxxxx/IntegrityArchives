@@ -1,24 +1,18 @@
 var app = new Vue({
     el: '#app',
     data: {
-        users: [{
+        admins: [{
             id: '',
-            userNumber: '',
-            name: '',
+            adminNumber: '',
+            adminPasswd: '',
             createTime: '',
             lstEditTime: '',
             enableStatus: ''
         }],
-        passwdEditor: {
-            id: '',
-            userNumber: '',
-            name: '',
-            enableStatus: ''
-        },
         editor: {
             id: '',
-            userNumber: '',
-            name: '',
+            adminNumber: '',
+            adminPasswd: '',
             enableStatus: ''
         },
         pageConf: {
@@ -28,7 +22,7 @@ var app = new Vue({
             totalPage: 12, //总记录数
             pageOption: [6, 10, 20], //分页选项
         },
-        defaultActive: '3',
+        defaultActive: '2',
 
         //条件查询单独封装的对象
         searchEntity: {},
@@ -69,8 +63,8 @@ var app = new Vue({
         },
         //条件查询
         search(pageCode, pageSize) {
-            this.$http.post(api.users.findByPage(pageSize, pageCode), this.searchEntity).then(result => {
-                this.users = result.body.data.rows;
+            this.$http.post(api.admins.findByPage(pageSize, pageCode), this.searchEntity).then(result => {
+                this.admins = result.body.data.rows;
                 this.pageConf.totalPage = result.body.data.total;
             });
 
@@ -85,23 +79,15 @@ var app = new Vue({
             this.search(val, this.pageConf.pageSize);
         },
 
-
-        //删除按钮
-        handleDelete(id) {
-            var ids = new Array();
-            ids.push(id);
-            this.sureDelete(ids);
-        },
-
         //删除
-        userDelete(ids) {
+        sureDelete(ids) {
             this.$confirm('你确定永久删除此用户信息？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning',
                 center: true
             }).then(() => {
-                this.$http.post(api.users.delete, JSON.stringify(ids)).then(result => {
+                this.$http.post(api.admins.delete, JSON.stringify(ids)).then(result => {
                     if (result.body.code == 200) {
                         this._notify(result.body.msg, 'success')
                         if ((this.pageConf.totalPage - 1) / this.pageConf.pageSize === (this.pageConf.pageCode - 1)) {
@@ -122,17 +108,24 @@ var app = new Vue({
             window.location.href = "/admin/admin/user"
         },
 
+        //删除按钮
+        handleDelete(id) {
+            var ids = new Array();
+            ids.push(id);
+            this.sureDelete(ids);
+        },
+
         //保存
-        userSave() {
-            if (this.editor.userNumber == null || this.editor.userNumber == '' || this.editor.userPasswd == null || this.editor.userPasswd == '') {
+        save() {
+            if (this.editor.adminNumber == null || this.editor.adminNumber == '' || this.editor.adminPasswd == null || this.editor.adminPasswd == '') {
                 this.reloadList();
                 this._notify('输入的信息不能为空', 'warning')
                 return;
             } else {
-                this.$http.post(api.users.save, JSON.stringify(this.editor)).then(result => {
+                this.$http.post(api.admins.save, JSON.stringify(this.editor)).then(result => {
                     this.reloadList();
                     if (result.body.code == 200) {
-                        this.editor.users = {};
+                        this.editor.admins = {};
                         this._notify(result.body.msg, 'success')
                     } else {
                         this._notify(result.body.msg, 'error')
@@ -147,14 +140,14 @@ var app = new Vue({
             this.editDialog = true;
             this.editor = {}; //清空表单
             //查询当前id对应的数据
-            this.$http.get(api.users.findById(id)).then(result => {
+            this.$http.get(api.admins.findById(id)).then(result => {
                 this.editor = result.body.data;
             });
         },
         edit() {
             this.editDialog = false;
             //查询当前id对应的数据
-            this.$http.put(api.users.update, JSON.stringify(this.editor)).then(result => {
+            this.$http.put(api.admins.update, JSON.stringify(this.editor)).then(result => {
                 this.reloadList();
                 if (result.body.code == 200) {
                     this._notify(result.body.msg, 'success')
@@ -165,28 +158,6 @@ var app = new Vue({
             this.editor = {}
         },
 
-        //触发修改密码按钮
-        handleChangePasswd(id) {
-            this.changePasswdDialog = true;
-            this.userPasswd = {}; //清空表单
-            //查询当前id对应的数据
-            this.$http.get(api.users.findById(id)).then(result => {
-                this.userPasswd = result.body.data;
-            });
-        },
-        changePasswd() {
-            this.changePasswdDialog = false;
-            //查询当前id对应的数据
-            this.$http.put(api.users.update, JSON.stringify(this.userPasswd)).then(result => {
-                this.reloadList();
-                if (result.body.code == 200) {
-                    this._notify(result.body.msg, 'success')
-                } else {
-                    this._notify(result.body.msg, 'error')
-                }
-            });
-            this.userPasswd = {}
-        },
         /**
          * 监听窗口改变UI样式（区别PC和Phone）
          */
