@@ -1,89 +1,119 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="admin/common/head"></head>
-<title>友链管理</title>
+<title>教工管理</title>
 <link rel="stylesheet" th:href="@{/admin/css/links.css}">
+
 <body>
-<!-- vue入口 -->
-<div id="app">
-    <div :class="'app-wrapper' + sidebarFlag">
-        <!-- aside -->
-        <div th:replace="admin/common/side"></div>
+    <!-- vue入口 -->
+    <div id="app">
+        <div :class="'app-wrapper' + sidebarFlag">
+            <!-- aside -->
+            <div th:replace="admin/common/side"></div>
 
-        <!-- container -->
-        <el-container class="main-container">
-            <!-- header -->
-            <div style="background-color: rgb(84, 92, 100);" th:replace="admin/common/header"></div>
+            <!-- container -->
+            <el-container class="main-container">
+                <!-- header -->
+                <div style="background-color: rgb(84, 92, 100);" th:replace="admin/common/header"></div>
 
-            <!-- main -->
-            <el-main class="app-main">
-                <el-card>
-                    <h2>教工管理</h2>
-                    <!-- 功能按钮 -->
-                    <el-row :gutter="20">
-                        <el-col :xs="12" :sm="12" :lg="6" :span="6" style="display: flex">
-                            <el-input placeholder="请输入文章标题查询" size="small" v-model="searchEntity.title" @keyup.native="search(pageConf.pageCode, pageConf.pageSize)">
-                                <i slot="prefix" class="el-input__icon el-icon-search"></i>
-                            </el-input>
-                            <el-button @click="search(pageConf.pageCode, pageConf.pageSize)" plain size="small" style="margin-left:12px;" icon="el-icon-search"></el-button>
-                        </el-col>
-                        <el-col :xs="12" :sm="12" :lg="6" :span="6" style="float: right;text-align: right">
-                            <el-button size="small" plain type="primary" @click="handleAdd" icon="el-icon-plus"></el-button>
-                            <el-button type="primary" plain size="small" @click="search(pageConf.pageCode, pageConf.pageSize)" icon="el-icon-refresh"></el-button>
-                        </el-col>
-                    </el-row>
-                    <br/>
-                    <!-- 列表 -->
-                    <el-table ref="link" :data="links" border tooltip-effect="dark" style="width: 100%">
-                        <el-table-column prop="id" align="center" sortable label="编号" show-overflow-tooltip width="80"></el-table-column>
-                        <el-table-column align="center" prop="name" label="友链名称" width="300" show-overflow-tooltip></el-table-column>
-                        <el-table-column align="center" prop="url" label="链接地址" width="300" show-overflow-tooltip></el-table-column>
-                        <el-table-column label="操作" align="center">
-                            <template slot-scope="scope">
-                                <el-button icon="el-icon-delete" size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
-                                <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleEdit(scope.row.id)">编辑</el-button>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                    <br/>
-                    <!-- 分页 -->
-                    <div class="pagination">
-                        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageConf.pageCode"
-                                :page-sizes="pageConf.pageOption"
-                                :page-size="pageConf.pageSize"
-                                layout="total, sizes, prev, pager, next, jumper"
-                                :total="pageConf.totalPage">
-                        </el-pagination>
-                    </div>
-                </el-card>
-            </el-main>
-        </el-container>
-    </div>
+                <!-- main -->
+                <el-main class="app-main">
+                    <el-card>
+                        <h2>教工管理</h2>
+                        <!-- 功能按钮 -->
+                        <el-row :gutter="20">
+                            <el-col :xs="12" :sm="12" :lg="6" :span="6" style="display: flex">
+                                <el-input placeholder="请输入文章标题查询" size="small" v-model="searchEntity.title"
+                                    @keyup.native="search(pageConf.pageCode, pageConf.pageSize)">
+                                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                                </el-input>
+                                <el-button @click="search(pageConf.pageCode, pageConf.pageSize)" plain size="small"
+                                    style="margin-left:12px;" icon="el-icon-search"></el-button>
+                            </el-col>
+                            <el-col :xs="12" :sm="12" :lg="6" :span="6" style="float: right;text-align: right">
+                                <el-button size="small" plain type="primary" @click="handleAdd" icon="el-icon-plus">
+                                </el-button>
+                                <el-button type="primary" plain size="small"
+                                    @click="search(pageConf.pageCode, pageConf.pageSize)" icon="el-icon-refresh">
+                                </el-button>
+                            </el-col>
+                        </el-row>
+                        <br />
+                        <!-- 列表 -->
+                        <el-table ref="link" :data="users" border tooltip-effect="dark" style="width: 100%">
+                            <el-table-column prop="id" align="center" sortable label="编号" show-overflow-tooltip
+                                width="80"></el-table-column>
+                            <el-table-column align="center" prop="name" label="友链名称" width="300" show-overflow-tooltip>
+                            </el-table-column>
+                            <el-table-column align="center" prop="url" label="链接地址" width="300" show-overflow-tooltip>
+                            </el-table-column>
+                            <el-table-column label="操作" align="center">
+                                <template slot-scope="scope">
+                                    <el-button icon="el-icon-delete" size="mini" type="danger"
+                                        @click="handleDelete(scope.row.id)">删除</el-button>
+                                    <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning"
+                                        @click="handleEdit(scope.row.id)">编辑</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <br />
+                        <!-- 分页 -->
+                        <div class="pagination">
+                            <el-pagination background @size-change="handleSizeChange"
+                                @current-change="handleCurrentChange" :current-page="pageConf.pageCode"
+                                :page-sizes="pageConf.pageOption" :page-size="pageConf.pageSize"
+                                layout="total, sizes, prev, pager, next, jumper" :total="pageConf.totalPage">
+                            </el-pagination>
+                        </div>
+                    </el-card>
+                </el-main>
+            </el-container>
+        </div>
 
-    <!-- 编辑 -->
-    <el-dialog
-            title="编辑友链信息"
-            :visible.sync="editDialog"
-            width="30%"
-            :append-to-body='true'
+
+
+
+        <!-- 修改密码 -->
+        <el-dialog title="编辑友链信息" :visible.sync="editDialog" width="30%" :append-to-body='true'
             :before-close="handleClose">
-        <span>
-            <el-form :inline="true" :model="editor">
-                <el-form-item required prop="name" :rules="[{ required: true, message: '请输入友链名称'}]" label="友链名称">
-                    <el-input style="width: 300px" v-model="editor.name" placeholder="请输入友链名称"></el-input>
-                </el-form-item>
-                <el-form-item required prop="url" :rules="[{ required: true, message: '请输入链接地址'}]" label="链接地址">
-                    <el-input style="width: 300px" v-model="editor.url" placeholder="请输入链接地址"></el-input>
-                </el-form-item>
-            </el-form>
-        </span>
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="editDialog = false">取 消</el-button>
-            <el-button type="primary" @click="edit">确 定</el-button>
-        </span>
-    </el-dialog>
-</div>
+            <span>
+                <el-form :inline="true" :model="userPasswd">
+                    <el-form-item required prop="number" :rules="[{ required: true, message: '请输入教工工号'}]" label="教工工号">
+                        <el-input style="width: 300px" v-model="userPasswd.name" placeholder="请输入教工工号"></el-input>
+                    </el-form-item>
+                    <el-form-item required prop="url" :rules="[{ required: true, message: '请输入教工密码'}]" label="教工密码">
+                        <el-input style="width: 300px" v-model="userPasswd.number" placeholder="请输入教工密码"></el-input>
+                    </el-form-item>
+                </el-form>
+            </span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="changePasswdDialog = false">取 消</el-button>
+                <el-button type="primary" @click="changePasswd">确 定</el-button>
+            </span>
+        </el-dialog>
+
+        <!-- 编辑 -->
+        <el-dialog title="编辑友链信息" :visible.sync="editDialog" width="30%" :append-to-body='true'
+            :before-close="handleClose">
+            <span>
+                <el-form :inline="true" :model="editor">
+                    <el-form-item required prop="name" :rules="[{ required: true, message: '请输入友链名称'}]" label="友链名称">
+                        <el-input style="width: 300px" v-model="editor.name" placeholder="请输入友链名称"></el-input>
+                    </el-form-item>
+                    <el-form-item required prop="url" :rules="[{ required: true, message: '请输入链接地址'}]" label="链接地址">
+                        <el-input style="width: 300px" v-model="editor.url" placeholder="请输入链接地址"></el-input>
+                    </el-form-item>
+                </el-form>
+            </span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="editDialog = false">取 消</el-button>
+                <el-button type="primary" @click="edit">确 定</el-button>
+            </span>
+        </el-dialog>
+    </div>
 </body>
 <div th:replace="admin/common/js"></div>
 <script type="text/javascript" th:src="@{/admin/js/user.js}"></script>
+
 </html>
