@@ -4,13 +4,14 @@ import com.iotlab.integrityarchives.common.controller.BaseController;
 import com.iotlab.integrityarchives.dto.QueryPage;
 import com.iotlab.integrityarchives.dto.ResponseCode;
 import com.iotlab.integrityarchives.entity.Admin;
-import com.iotlab.integrityarchives.entity.User;
+import com.iotlab.integrityarchives.enums.EnableStatusEnum;
 import com.iotlab.integrityarchives.service.AdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,6 +74,9 @@ public class AdminManageController extends BaseController {
     @PostMapping(value = "/save")
     public ResponseCode save(@RequestBody Admin admin) {
         try {
+            admin.setEnableStatus(EnableStatusEnum.PASS.getCode());
+            admin.setCreateTime(new Date());
+            admin.setLastEditTime(admin.getCreateTime());
             adminService.save(admin);
             return ResponseCode.success();
         } catch (Exception e) {
@@ -84,6 +88,7 @@ public class AdminManageController extends BaseController {
     @PostMapping("/update")
     public ResponseCode update(@RequestBody Admin admin) {
         try {
+            admin.setLastEditTime(new Date());
             adminService.update(admin);
             return ResponseCode.success();
         } catch (Exception e) {

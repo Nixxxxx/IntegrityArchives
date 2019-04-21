@@ -26,7 +26,6 @@ public class Admin {
 
     private Date createTime;
     private Date lastEditTime;
-    private String enableStatus;
-
+    private Integer enableStatus;
 
 }

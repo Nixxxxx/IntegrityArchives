@@ -89,7 +89,12 @@ public class UserInfo {
 
     private Date createTime;
     private Date lastEditTime;
-    private String enableStatus;
+    private Integer enableStatus;
 
-
+    public UserInfo(Integer id, @NotNull String userNumber, String name, Integer enableStatus) {
+        Id = id;
+        this.userNumber = userNumber;
+        this.name = name;
+        this.enableStatus = enableStatus;
+    }
 }

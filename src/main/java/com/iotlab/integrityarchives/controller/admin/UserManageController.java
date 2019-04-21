@@ -4,6 +4,8 @@ import com.iotlab.integrityarchives.common.controller.BaseController;
 import com.iotlab.integrityarchives.dto.QueryPage;
 import com.iotlab.integrityarchives.dto.ResponseCode;
 import com.iotlab.integrityarchives.entity.User;
+import com.iotlab.integrityarchives.entity.UserInfo;
+import com.iotlab.integrityarchives.enums.EnableStatusEnum;
 import com.iotlab.integrityarchives.service.UserInfoService;
 import com.iotlab.integrityarchives.service.UserService;
 import io.swagger.annotations.Api;
@@ -75,7 +77,14 @@ public class UserManageController extends BaseController {
     @PostMapping(value = "/save")
     public ResponseCode save(@RequestBody User user) {
         try {
+            user.setEnableStatus(EnableStatusEnum.PASS.getCode());
+            user.setCreateTime(new Date());
+            user.setLastEditTime(user.getCreateTime());
             userService.save(user);
+            UserInfo userInfo = new UserInfo(user.getId(), user.getUserNumber(), user.getName(), EnableStatusEnum.PASS.getCode());
+            userInfo.setCreateTime(user.getCreateTime());
+            userInfo.setLastEditTime(user.getCreateTime());
+            userInfoService.save(userInfo);
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,6 +95,7 @@ public class UserManageController extends BaseController {
     @PostMapping("/update")
     public ResponseCode update(@RequestBody User user) {
         try {
+            user.setLastEditTime(new Date());
             userService.update(user);
             return ResponseCode.success();
         } catch (Exception e) {

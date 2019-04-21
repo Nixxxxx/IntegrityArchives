@@ -24,7 +24,7 @@
                         <!-- 功能按钮 -->
                         <el-row :gutter="20">
                             <el-col :xs="12" :sm="12" :lg="6" :span="6" style="display: flex">
-                                <el-input placeholder="请输入文章标题查询" size="small" v-model="searchEntity.title"
+                                <el-input placeholder="请输入管理员账号查询" size="small" v-model="searchEntity.title"
                                     @keyup.native="search(pageConf.pageCode, pageConf.pageSize)">
                                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
                                 </el-input>
@@ -48,8 +48,8 @@
                             </el-table-column>
                             <el-table-column align="center" prop="adminPasswd" label="密码" width="300" show-overflow-tooltip>
                             </el-table-column>
-                            <el-table-column align="center" prop="createTime" label="创建时间" width="170"></el-table-column>
-                            <el-table-column align="center" prop="lastEditTime" label="最后编辑时间" width="170"></el-table-column>
+                            <el-table-column align="center" prop="createTime" :formatter="dateFormat" label="创建时间" width="170"></el-table-column>
+                            <el-table-column align="center" prop="lastEditTime" :formatter="dateFormat" label="最后编辑时间" width="170"></el-table-column>
                             <el-table-column label="操作" align="center">
                                 <template slot-scope="scope">
                                     <el-button icon="el-icon-delete" size="mini" type="danger"
@@ -73,16 +73,35 @@
             </el-container>
         </div>
 
+        <!-- 添加管理员 -->
+        <el-dialog title="添加管理员账号" :visible.sync="addDialog" width="30%" :append-to-body='true'
+                   :before-close="handleAddClose">
+            <span>
+                <el-form :inline="true" :model="addEditor">
+                    <el-form-item required prop="adminNumber" :rules="[{ required: true, message: '请输入管理员账号'}]" label="管理员账号">
+                        <el-input style="width: 300px" v-model="addEditor.adminNumber" placeholder="请输入管理员账号"></el-input>
+                    </el-form-item>
+                    <el-form-item required prop="adminPasswd" :rules="[{ required: true, message: '请输入管理员密码'}]" label="管理员密码">
+                        <el-input style="width: 300px" v-model="addEditor.adminPasswd" placeholder="请输入管理员密码"></el-input>
+                    </el-form-item>
+                </el-form>
+            </span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="addDialog = false">取 消</el-button>
+                <el-button type="primary" @click="add">确 定</el-button>
+            </span>
+        </el-dialog>
+
         <!-- 编辑 -->
         <el-dialog title="编辑信息" :visible.sync="editDialog" width="30%" :append-to-body='true'
-            :before-close="handleClose">
+            :before-close="handleEditClose">
             <span>
                 <el-form :inline="true" :model="editor">
                     <el-form-item required prop="adminNumber" :rules="[{ required: true, message: '请输入管理员账号'}]" label="管理员账号">
                         <el-input style="width: 300px" v-model="editor.adminNumber" placeholder="请输入管理员账号"></el-input>
                     </el-form-item>
-                    <el-form-item required prop="adminPasswd" :rules="[{ required: true, message: '请输入管理员账号'}]" label="管理员密码">
-                        <el-input style="width: 300px" v-model="editor.adminPasswd" placeholder="请输入管理员账号"></el-input>
+                    <el-form-item required prop="adminPasswd" :rules="[{ required: true, message: '请输入管理员密码'}]" label="管理员密码">
+                        <el-input style="width: 300px" v-model="editor.adminPasswd" placeholder="请输入管理员密码"></el-input>
                     </el-form-item>
                 </el-form>
             </span>

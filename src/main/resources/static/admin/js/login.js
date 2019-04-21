@@ -10,8 +10,8 @@ new Vue({
         return {
             checked: false,
             login: {
-                username: '',
-                password: '',
+                adminNumber: '',
+                adminpPasswd: '',
                 remember: ''
             },
             flag: true,
@@ -42,12 +42,12 @@ new Vue({
                     this.loadings(); //加载动画
                     //提交表单
                     this.$http.post(api.login, {
-                        username: this.login.username,
-                        password: this.login.password,
+                        adminNumber: this.login.adminNumber,
+                        adminPasswd: this.login.adminPasswd,
                         remember: this.login.remember
                     }).then(result => {
                         if (result.body.code == 200) {
-                            window.location.href = "/admin";
+                            window.location.href = "/admin/admin";
                             this.loading.close(); //关闭动画加载
                         } else {
                             // 弹出错误信息框

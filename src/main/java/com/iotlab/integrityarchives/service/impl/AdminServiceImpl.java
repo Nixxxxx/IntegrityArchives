@@ -91,22 +91,5 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
         return   adminDao.select(admin);
     }
 
-
-
-
-
-    /*@Autowired
-    private SettingMapper settingMapper;
-
-    @Override
-    public Setting findSetting() {
-        return settingMapper.selectAll().get(0);
-    }
-
-    @Override
-    @Transactional
-    public void updateSetting(Setting setting) {
-        settingMapper.updateByPrimaryKeySelective(setting);
-    }*/
 }
 

@@ -27,6 +27,6 @@ public class User {
     private String name;
     private Date createTime;
     private Date lastEditTime;
-    private String enableStatus;
+    private Integer enableStatus;
 
 }

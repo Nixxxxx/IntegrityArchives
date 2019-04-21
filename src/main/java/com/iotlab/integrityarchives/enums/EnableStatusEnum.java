@@ -1,9 +1,12 @@
 package com.iotlab.integrityarchives.enums;
 
+/**
+ * enableStatus状态 1：审核通过  2：待审核  3：未通过审核
+ */
 public enum EnableStatusEnum {
-    DELETED(-1, "已删除"),
-    VERIFY(0, "审核中"),
-    PUBLISHED(1, "已发布");
+    PASS(1, "审核通过"),
+    VERIFYING(2, "审核中"),
+    REJECTED(3, "未通过审核");
 
     private Integer code;
     private String message;
