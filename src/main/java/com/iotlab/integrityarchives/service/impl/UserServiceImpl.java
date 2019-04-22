@@ -3,10 +3,13 @@ package com.iotlab.integrityarchives.service.impl;
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.UserDao;
 import com.iotlab.integrityarchives.entity.User;
+import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -89,6 +92,13 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
     @Override
     public List<User> findByPage(User user) {
-        return userDao.select(user);
+        System.out.println("从前台传入的User信息为:"+user);
+        Example example = new Example(User.class);
+        if (!StringUtils.isEmpty(user.getUserNumber())) {
+            //adminNumber是实体类中属性 userNumber 驼峰命名转化为 user_number
+            example.createCriteria().andLike("userNumber", "%" + user.getUserNumber()+ "%").orLike("name","%"+user.getUserNumber()+"%");
+        }
+        List<User> list = userDao.selectByExample(example);
+        return list;
     }
 }

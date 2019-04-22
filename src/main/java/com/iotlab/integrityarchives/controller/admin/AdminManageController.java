@@ -61,6 +61,8 @@ public class AdminManageController extends BaseController {
      */
     @PostMapping(value = "/findByPage")
     public ResponseCode findByPage(QueryPage queryPage, Admin admin) {
+        //System.out.println("进入到后台方法");
+        //System.out.println(admin);
         return ResponseCode.success(super.selectByPageNumSize(queryPage, () -> adminService.findByPage(admin)));
     }
 

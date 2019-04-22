@@ -5,9 +5,11 @@ import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.AdminDao;
 import com.iotlab.integrityarchives.entity.Admin;
 import com.iotlab.integrityarchives.service.AdminService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -88,7 +90,12 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
 
     @Override
     public List<Admin> findByPage(Admin admin) {
-        return   adminDao.select(admin);
+        Example example = new Example(Admin.class);
+        if (!StringUtils.isEmpty(admin.getAdminNumber())) {
+            example.createCriteria().andLike("adminNumber", "%" + admin.getAdminNumber()+ "%");
+        }
+        List<Admin> list = adminDao.selectByExample(example);
+        return list;
     }
 
 }

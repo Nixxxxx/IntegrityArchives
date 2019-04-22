@@ -24,7 +24,7 @@
                         <!-- 功能按钮 -->
                         <el-row :gutter="20">
                             <el-col :xs="12" :sm="12" :lg="6" :span="6" style="display: flex">
-                                <el-input placeholder="请输入管理员账号查询" size="small" v-model="searchEntity.title"
+                                <el-input placeholder="请输入管理员账号查询" size="small" v-model="searchEntity.adminNumber"
                                     @keyup.native="search(pageConf.pageCode, pageConf.pageSize)">
                                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
                                 </el-input>
