@@ -51,7 +51,7 @@ public class UserInfo {
     @Column(name = "date_of_join_party")
     private String dateOfJoinParty;                     //入党时间
 
-    @Column(name = "date_of_join_word")
+    @Column(name = "date_of_join_work")
     private String dateOfJoinWork;                      //参加工作时间
 
     @Column(name = "physical_condition")
