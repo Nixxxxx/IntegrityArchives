@@ -3,6 +3,7 @@ package com.iotlab.integrityarchives.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.thymeleaf.standard.expression.Each;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -24,11 +25,10 @@ import java.util.Date;
 public class UserInfo {
 
     @Id
-    private Integer Id;
+    private Integer id;
 
     @NotNull
-    @Column(name = "user_number")
-    private String userNumber; //教工工号
+    private Integer userId; //教工工号
 
     @Column(name = "name")
     private String name;      //教工姓名
@@ -91,10 +91,12 @@ public class UserInfo {
     private Date lastEditTime;
     private Integer enableStatus;
 
-    public UserInfo(Integer id, @NotNull String userNumber, String name, Integer enableStatus) {
-        Id = id;
-        this.userNumber = userNumber;
-        this.name = name;
-        this.enableStatus = enableStatus;
+    public UserInfo(@NotNull  Integer userId,String name,Integer enableStatus ) {
+       this.userId=userId;
+       this.name=name;
+       this.enableStatus=enableStatus;
     }
+
+
+
 }

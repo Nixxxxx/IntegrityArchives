@@ -15,7 +15,7 @@ import java.util.Date;
 @Table(name = "tb_user")
 public class User {
     @Id
-    private Integer Id;
+    private Integer id;
 
     @NotNull
     private String userNumber;

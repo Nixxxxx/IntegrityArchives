@@ -40,11 +40,13 @@ public class UserController extends BaseController {
     @PostMapping(value = "/save")
     public ResponseCode save(@RequestBody User user) {
         try {
+            //先保存用户
             user.setEnableStatus(EnableStatusEnum.PASS.getCode());
             user.setCreateTime(new Date());
             user.setLastEditTime(user.getCreateTime());
             userService.save(user);
-            UserInfo userInfo = new UserInfo(user.getId(), user.getUserNumber(), user.getName(), EnableStatusEnum.PASS.getCode());
+            //在保存用户信息
+            UserInfo userInfo = new UserInfo(user.getId(), user.getName(), EnableStatusEnum.PASS.getCode());
             userInfo.setCreateTime(user.getCreateTime());
             userInfo.setLastEditTime(user.getCreateTime());
             userInfoService.save(userInfo);

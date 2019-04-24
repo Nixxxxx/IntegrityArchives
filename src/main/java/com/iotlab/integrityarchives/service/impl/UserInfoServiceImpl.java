@@ -3,11 +3,14 @@ package com.iotlab.integrityarchives.service.impl;
 
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.UserInfoDao;
+import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.service.UserInfoService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -33,10 +36,10 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
 
     @Override
     @Transactional
-    public void update(UserInfo user) {
-        if (user.getId() != 0) {
+    public void update(UserInfo userInfo) {
+        if (userInfo.getId() != 0) {
             try {
-                this.updateNotNull(user);
+                this.updateNotNull(userInfo);
             } catch (Exception e) {
                 e.printStackTrace();
                 //throw new GlobalException(e.getMessage());
@@ -70,10 +73,6 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
         return userInfoDao.findListByWord(word);
     }
 
-    @Override
-    public List<UserInfo> findByPage(UserInfo userInfo) {
-        return userInfoDao.select(userInfo);
-    }
 
 
 }
