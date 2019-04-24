@@ -44,12 +44,19 @@
                         <el-table ref="link" :data="admins" border tooltip-effect="dark" style="width: 100%">
                             <el-table-column prop="id" align="center" sortable label="编号" show-overflow-tooltip
                                 width="80"></el-table-column>
-                            <el-table-column align="center" prop="adminNumber" label="管理员账号" width="300" show-overflow-tooltip>
+                            <el-table-column align="center" prop="adminNumber" label="管理员账号" width="170" show-overflow-tooltip>
                             </el-table-column>
-                            <el-table-column align="center" prop="adminPasswd" label="密码" width="300" show-overflow-tooltip>
+                            <el-table-column align="center" prop="adminPasswd" label="密码" width="170" show-overflow-tooltip>
                             </el-table-column>
-                            <el-table-column align="center" prop="createTime" :formatter="dateFormat" label="创建时间" width="170"></el-table-column>
-                            <el-table-column align="center" prop="lastEditTime" :formatter="dateFormat" label="最后编辑时间" width="170"></el-table-column>
+                            <el-table-column align="center" prop="createTime" sortable :formatter="dateFormat" label="创建时间" width="170"></el-table-column>
+                            <el-table-column align="center" prop="lastEditTime" sortable :formatter="dateFormat" label="最后编辑时间" width="170"></el-table-column>
+                            <el-table-column align="center" prop="enableStatus" sortable label="状态" width="120">
+                                <template slot-scope="scope">
+                                    <el-tag v-if="scope.row.enableStatus == 1">审核通过</el-tag>
+                                    <el-tag type="success" v-if="scope.row.enableStatus == 2">待审核</el-tag>
+                                    <el-tag type="danger" v-if="scope.row.enableStatus == 3">未通过审核</el-tag>
+                                </template>
+                            </el-table-column>
                             <el-table-column label="操作" align="center">
                                 <template slot-scope="scope">
                                     <el-button icon="el-icon-delete" size="mini" type="danger"
@@ -79,10 +86,10 @@
             <span>
                 <el-form :inline="true" :model="addEditor">
                     <el-form-item required prop="adminNumber" :rules="[{ required: true, message: '请输入管理员账号'}]" label="管理员账号">
-                        <el-input style="width: 300px" v-model="addEditor.adminNumber" placeholder="请输入管理员账号"></el-input>
+                        <el-input style="width: 200px" v-model="addEditor.adminNumber" placeholder="请输入管理员账号"></el-input>
                     </el-form-item>
                     <el-form-item required prop="adminPasswd" :rules="[{ required: true, message: '请输入管理员密码'}]" label="管理员密码">
-                        <el-input style="width: 300px" v-model="addEditor.adminPasswd" placeholder="请输入管理员密码"></el-input>
+                        <el-input style="width: 200px" v-model="addEditor.adminPasswd" placeholder="请输入管理员密码"></el-input>
                     </el-form-item>
                 </el-form>
             </span>
@@ -98,10 +105,17 @@
             <span>
                 <el-form :inline="true" :model="editor">
                     <el-form-item required prop="adminNumber" :rules="[{ required: true, message: '请输入管理员账号'}]" label="管理员账号">
-                        <el-input style="width: 300px" v-model="editor.adminNumber" placeholder="请输入管理员账号"></el-input>
+                        <el-input style="width: 200px" v-model="editor.adminNumber" placeholder="请输入管理员账号"></el-input>
                     </el-form-item>
                     <el-form-item required prop="adminPasswd" :rules="[{ required: true, message: '请输入管理员密码'}]" label="管理员密码">
-                        <el-input style="width: 300px" v-model="editor.adminPasswd" placeholder="请输入管理员密码"></el-input>
+                        <el-input style="width: 200px" v-model="editor.adminPasswd" placeholder="请输入管理员密码"></el-input>
+                    </el-form-item>
+                    <el-form-item label="状态">
+                        <el-select v-model="editor.enableStatus" style="width: 120px">
+                            <el-option label="审核通过" value="1"></el-option>
+                            <el-option label="待审核" value="2"></el-option>
+                            <el-option label="未通过审核" value="3"></el-option>
+                        </el-select>
                     </el-form-item>
                 </el-form>
             </span>

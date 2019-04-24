@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="admin/common/head"></head>
+<head th:replace="user/common/head"></head>
 <title>个人信息</title>
 <link rel="stylesheet" th:href="@{/admin/css/user.css}">
 <body>
@@ -8,12 +8,12 @@
 <div id="app">
     <div :class="'app-wrapper' + sidebarFlag">
         <!-- aside -->
-        <div th:replace="admin/common/side"></div>
+        <div th:replace="user/common/side"></div>
 
         <!-- container -->
         <el-container class="main-container">
             <!-- header -->
-            <div style="background-color: rgb(84, 92, 100);" th:replace="admin/common/header"></div>
+            <div style="background-color: rgb(84, 92, 100);" th:replace="user/common/header"></div>
 
             <!-- main -->
             <el-main class="app-main">
@@ -50,7 +50,7 @@
                             </el-card>
                         </el-col>
                         <el-col :xs="24" :sm="12" :lg="12" :span="12">
-                            <el-card class="card-tags">
+                            <el-card class="card-category">
                                 <div slot="header">
                                     <span>修改密码</span>
                                 </div>
@@ -96,6 +96,6 @@
     </el-dialog>
 </div>
 </body>
-<div th:replace="admin/common/js"></div>
-<script type="text/javascript" th:src="@{/admin/js/user.js}"></script>
+<div th:replace="user/common/js"></div>
+<script type="text/javascript" th:src="@{/user/js/info.js}"></script>
 </html>

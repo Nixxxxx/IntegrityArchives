@@ -24,7 +24,7 @@
                         <!-- 功能按钮 -->
                         <el-row :gutter="20">
                             <el-col :xs="12" :sm="12" :lg="6" :span="6" style="display: flex">
-                                <el-input placeholder="请输入教工姓名或者工号查询" size="small" v-model="searchEntity.userNumber"
+                                <el-input placeholder="请输入姓名或工号查询" size="small" v-model="searchEntity.userNumber"
                                     @keyup.native="search(pageConf.pageCode, pageConf.pageSize)">
                                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
                                 </el-input>
@@ -44,12 +44,19 @@
                         <el-table ref="link" :data="users" border tooltip-effect="dark" style="width: 100%">
                             <el-table-column prop="id" align="center" sortable label="编号" show-overflow-tooltip
                                 width="80"></el-table-column>
-                            <el-table-column align="center" prop="userNumber" label="教工工号" width="170" show-overflow-tooltip>
+                            <el-table-column align="center" prop="userNumber" sortable label="教工工号" width="170" show-overflow-tooltip>
                             </el-table-column>
-                            <el-table-column align="center" prop="name" label="姓名" width="170" show-overflow-tooltip>
+                            <el-table-column align="center" prop="name" sortable label="姓名" width="170" show-overflow-tooltip>
                             </el-table-column>
-                            <el-table-column align="center" prop="createTime" :formatter="dateFormat"label="创建时间" width="170"></el-table-column>
-                            <el-table-column align="center" prop="lastEditTime" :formatter="dateFormat" label="最后编辑时间" width="170"></el-table-column>
+                            <el-table-column align="center" prop="createTime" sortable :formatter="dateFormat"label="创建时间" width="170"></el-table-column>
+                            <el-table-column align="center" prop="lastEditTime" sortable :formatter="dateFormat" label="最后编辑时间" width="170"></el-table-column>
+                            <el-table-column align="center" prop="enableStatus" sortable label="状态" width="120">
+                                <template slot-scope="scope">
+                                    <el-tag v-if="scope.row.enableStatus == 1">审核通过</el-tag>
+                                    <el-tag type="success" v-if="scope.row.enableStatus == 2">待审核</el-tag>
+                                    <el-tag type="danger" v-if="scope.row.enableStatus == 3">未通过审核</el-tag>
+                                </template>
+                            </el-table-column>
                             <el-table-column label="操作" align="center">
                                 <template slot-scope="scope">
                                     <el-button icon="el-icon-delete" size="mini" type="danger"
@@ -76,18 +83,18 @@
         </div>
 
         <!-- 添加用户 -->
-        <el-dialog title="添加管理员账号" :visible.sync="addDialog" width="30%" :append-to-body='true'
+        <el-dialog title="添加用户" :visible.sync="addDialog" width="30%" :append-to-body='true'
                    :before-close="handleAddClose">
             <span>
                 <el-form :inline="true" :model="addEditor">
-                    <el-form-item required prop="userNumber" :rules="[{ required: true, message: '请输入教工工号'}]" label="教工工号">
-                        <el-input style="width: 300px" v-model="addEditor.userNumber" placeholder="请输入教工工号"></el-input>
+                    <el-form-item prop="userNumber" :rules="[{ required: true, message: '请输入教工工号'}]" label="教工工号">
+                        <el-input style="width: 200px" v-model="addEditor.userNumber" placeholder="请输入教工工号"></el-input>
                     </el-form-item>
-                    <el-form-item required prop="userPasswd" :rules="[{ required: true, message: '请输入教工密码'}]" label="教工密码">
-                        <el-input style="width: 300px" v-model="addEditor.userPasswd" placeholder="请输入教工密码"></el-input>
+                    <el-form-item prop="userPasswd" :rules="[{ required: true, message: '请输入教工密码'}]" label="教工密码">
+                        <el-input style="width: 200px" v-model="addEditor.userPasswd" placeholder="请输入教工密码"></el-input>
                     </el-form-item>
-                    <el-form-item required prop="name" :rules="[{ required: true, message: '请输入教工姓名'}]" label="教工姓名">
-                        <el-input style="width: 300px" v-model="addEditor.name" placeholder="请输入教工姓名"></el-input>
+                    <el-form-item prop="name" :rules="[{ required: true, message: '请输入教工姓名'}]" label="教工姓名">
+                        <el-input style="width: 200px" v-model="addEditor.name" placeholder="请输入教工姓名"></el-input>
                     </el-form-item>
                 </el-form>
             </span>
@@ -102,11 +109,18 @@
                    :before-close="handleChangePasswdClose">
             <span>
                 <el-form :inline="true" :model="passwdEditor">
-                    <el-form-item required prop="userNumber" :rules="[{ required: true, message: '请输入教工工号'}]" label="教工工号">
-                        <el-input style="width: 300px" v-model="passwdEditor.userNumber" placeholder="请输入教工工号"></el-input>
+                    <el-form-item prop="userNumber" :rules="[{ required: true, message: '请输入教工工号'}]" label="教工工号">
+                        <el-input style="width: 200px" v-model="passwdEditor.userNumber" placeholder="请输入教工工号"></el-input>
                     </el-form-item>
-                    <el-form-item required prop="userPasswd" :rules="[{ required: true, message: '请输入教工密码'}]" label="教工密码">
-                        <el-input style="width: 300px" v-model="passwdEditor.userPasswd" placeholder="请输入教工密码"></el-input>
+                    <el-form-item prop="userPasswd" :rules="[{ required: true, message: '请输入教工密码'}]" label="教工密码">
+                        <el-input style="width: 200px" v-model="passwdEditor.userPasswd" placeholder="请输入教工密码"></el-input>
+                    </el-form-item>
+                    <el-form-item label="状态">
+                        <el-select v-model="passwdEditor.enableStatus" style="width: 120px">
+                            <el-option label="审核通过" value="1"></el-option>
+                            <el-option label="待审核" value="2"></el-option>
+                            <el-option label="未通过审核" value="3"></el-option>
+                        </el-select>
                     </el-form-item>
                 </el-form>
             </span>
@@ -117,25 +131,69 @@
         </el-dialog>
 
         <!-- 编辑个人信息 -->
-        <el-dialog title="编辑个人信息" :visible.sync="editDialog" width="30%" :append-to-body='true'
+        <el-dialog title="编辑个人信息" :visible.sync="editDialog" width="65%" :append-to-body='true'
                    :before-close="handleEditClose">
             <span>
                 <el-form :inline="true" :model="editor">
-                    <el-form-item required prop="userNumber" :rules="[{ required: true, message: '请输入教工工号'}]" label="教工工号">
-                        <el-input style="width: 300px" v-model="editor.userNumber" placeholder="请输入教工工号"></el-input>
-                    </el-form-item>
-                    <el-form-item required prop="name" :rules="[{ required: true, message: '请输入姓名'}]" label="姓名">
-                        <el-input style="width: 300px" v-model="editor.name" placeholder="请输入姓名"></el-input>
+                    <el-form-item prop="name" label="姓名">
+                        <el-input style="width: 100px" :disabled="true" v-model="editor.name"></el-input>
                     </el-form-item>
                     <el-form-item label="性别">
-                        <el-select v-model="editor.gender" placeholder="请选择性别">
+                        <el-select v-model="editor.gender" style="width: 120px" placeholder="请选择性别">
                             <el-option label="男" value="male"></el-option>
                             <el-option label="女" value="female"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item required prop="nation" :rules="[{ required: false, message: '请输入民族'}]" label="教工民族">
-                        <el-input style="width: 300px" v-model="editor.nation" placeholder="请输入民族"></el-input>
+                    <el-form-item prop="dateOfBirth" label="出生年月">
+                        <el-input style="width: 150px" v-model="editor.dateOfBirth" placeholder="请输入出生年月"></el-input>
+                    </el-form-item><br/>
+                    <el-form-item prop="nation" label="民族">
+                        <el-input style="width: 100px" v-model="editor.nation"></el-input>
                     </el-form-item>
+                    <el-form-item prop="nativePlace" label="籍贯">
+                        <el-input style="width: 120px" v-model="editor.nativePlace"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="placeOfBirth" label="出生地&emsp;">
+                        <el-input style="width: 150px" v-model="editor.placeOfBirth"></el-input>
+                    </el-form-item><br/>
+                    <el-form-item prop="dateOfJoinParty" label="入党时间">
+                        <el-input style="width: 100px" v-model="editor.dateOfJoinParty"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="dateOfJoinWork" label="参加工作时间">
+                        <el-input style="width: 90px" v-model="editor.dateOfJoinWork"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="physicalCondition" label="健康状况">
+                        <el-input style="width: 100px" v-model="editor.physicalCondition"></el-input>
+                    </el-form-item><br/>
+                    <el-form-item prop="technicalPosition" label="专业技术职务&emsp;">
+                        <el-input style="width: 200px" v-model="editor.technicalPosition"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="familiarMajorAndSpecialty" label="熟悉专业有何专长&emsp;&emsp;&ensp;">
+                        <el-input style="width: 300px" v-model="editor.familiarMajorAndSpecialty"></el-input>
+                    </el-form-item><br/>
+                    <el-form-item prop="fullTimeDegree" label="全日制学历学位">
+                        <el-input style="width: 200px" v-model="editor.fullTimeDegree"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="fullTimeGraduatedUniversityAndMajor" label="全日制毕业院校系及专业">
+                        <el-input style="width: 300px" v-model="editor.fullTimeGraduatedUniversityAndMajor"></el-input>
+                    </el-form-item><br/>
+                    <el-form-item prop="partTimeDegree" label="在职学历学位&emsp;">
+                        <el-input style="width: 200px" v-model="editor.partTimeDegree"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="partTimeGraduatedUniversityAndMajor" label="在职毕业院校系及专业&emsp;">
+                        <el-input style="width: 300px" v-model="editor.partTimeGraduatedUniversityAndMajor"></el-input>
+                    </el-form-item><br/>
+                    <el-form-item prop="currentPosition" label="现任职务&emsp;&emsp;">
+                        <el-input style="width: 500px" v-model="editor.currentPosition"></el-input>
+                    </el-form-item><br/>
+                    <el-form-item prop="rewardsAndPunishment" label="奖惩情况&emsp;&emsp;">
+                        <el-input type="textarea" style="width: 500px" autosize placeholder="请输入内容" v-model="editor.rewardsAndPunishment">
+                    </el-form-item>
+                    <el-form-item prop="annualAssessmentResults" label="年度考核结果">
+                        <el-input type="textarea" style="width: 500px" autosize placeholder="请输入内容" v-model="editor.annualAssessmentResults">
+                    </el-form-item>
+                    <el-form-item prop="resume" label="简历">
+                        <el-input type="textarea" style="width: 550px" autosize placeholder="请输入内容" v-model="editor.resume">
                 </el-form>
             </span>
             <span slot="footer" class="dialog-footer">

@@ -17,8 +17,7 @@ var app = new Vue({
         },
         editor: {
             id: '',
-            userNumber: '', //教工工号
-            name: '',      //教工姓名
+            name: '',                                //教工姓名
             gender: '',                              //性别
             dateOfBirth: '',                         //出生年月
             nation: '',                              //民族
@@ -40,7 +39,7 @@ var app = new Vue({
             createTime: '',
             lastEditTime: '',
             enableStatus: '',
-},
+        },
         passwdEditor: {
             id: '',
             userNumber: '',
@@ -108,7 +107,6 @@ var app = new Vue({
             this.pageConf.pageCode = val; //为了保证刷新列表后页面还是在当前页，而不是跳转到第一页
             this.search(val, this.pageConf.pageSize);
         },
-
 
         //删除按钮
         handleDelete(id) {

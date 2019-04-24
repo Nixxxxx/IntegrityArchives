@@ -1,24 +1,23 @@
 var app = new Vue({
     el: '#app',
     data: {
-        admins: [{
+        family: [{
             id: '',
-            adminNumber: '',
-            adminPasswd: '',
+            appellation: '',
+            name: '',
+            age: '',
+            politicsStatus: '',
+            workUnitAndPosition: '',
             createTime: '',
-            lstEditTime: '',
-            enableStatus: ''
+            lastEditTime: ''
         }],
-        addEditor: {
-            adminNumber: '',
-            adminPasswd: '',
-            enableStatus: ''
-        },
         editor: {
             id: '',
-            adminNumber: '',
-            adminPasswd: '',
-            enableStatus: ''
+            appellation: '',
+            name: '',
+            age: '',
+            politicsStatus: '',
+            workUnitAndPosition: ''
         },
         pageConf: {
             //设置一些初始值(会被覆盖)
@@ -28,15 +27,10 @@ var app = new Vue({
             pageOption: [6, 10, 20], //分页选项
         },
         defaultActive: '2',
-
-        //条件查询单独封装的对象
-        searchEntity: {},
-
         editDialog: false,
-        addDialog: false,
         mobileStatus: false, //是否是移动端
         sidebarStatus: true, //侧边栏状态，true：打开，false：关闭
-        sidebarFlag: ' openSidebar ', //侧边栏标
+        sidebarFlag: ' openSidebar ', //侧边栏标志
     },
     created() {
         window.onload = function() {
@@ -64,8 +58,8 @@ var app = new Vue({
         },
         //条件查询
         search(pageCode, pageSize) {
-            this.$http.post(api.admins.findByPage(pageSize, pageCode), this.searchEntity).then(result => {
-                this.admins = result.body.data.rows;
+            this.$http.post(api.links.findByPage(pageSize, pageCode)).then(result => {
+                this.links = result.body.data.rows;
                 this.pageConf.totalPage = result.body.data.total;
             });
 
@@ -79,7 +73,6 @@ var app = new Vue({
             this.pageConf.pageCode = val; //为了保证刷新列表后页面还是在当前页，而不是跳转到第一页
             this.search(val, this.pageConf.pageSize);
         },
-
 
         //删除按钮
         handleDelete(id) {
@@ -95,7 +88,7 @@ var app = new Vue({
                 type: 'warning',
                 center: true
             }).then(() => {
-                this.$http.post(api.admins.delete, JSON.stringify(ids)).then(result => {
+                this.$http.post(api.links.delete, JSON.stringify(ids)).then(result => {
                     if (result.body.code == 200) {
                         this._notify(result.body.msg, 'success')
                         if ((this.pageConf.totalPage - 1) / this.pageConf.pageSize === (this.pageConf.pageCode - 1)) {
@@ -112,32 +105,24 @@ var app = new Vue({
             });
         },
 
-        //触发添加管理员按钮
-        handleAdd(id) {
-            this.addDialog = true;
-        },
-        //关闭编辑窗口
-        handleAddClose(key, keyPath) {
-            this.addDialog = false;
-        },
-        add() {
-            if (this.addEditor.adminNumber == null || this.addEditor.adminNumber == '' || this.addEditor.adminPasswd == null || this.addEditor.adminPasswd == '') {
+        //保存
+        save() {
+            if (this.editor.name == null || this.editor.name == '' || this.editor.url == null || this.editor.url == '') {
                 this.reloadList();
                 this._notify('输入的信息不能为空', 'warning')
                 return;
             } else {
-                this.$http.post(api.admins.save, JSON.stringify(this.addEditor)).then(result => {
+                this.$http.post(api.links.save, JSON.stringify(this.editor)).then(result => {
                     this.reloadList();
-                if (result.body.code == 200) {
-                    this.addEditor = {};
-                    this._notify(result.body.msg, 'success')
-                } else {
-                    this._notify(result.body.msg, 'error')
-                }
-            });
+                    if (result.body.code == 200) {
+                        this.editor.links = {};
+                        this._notify(result.body.msg, 'success')
+                    } else {
+                        this._notify(result.body.msg, 'error')
+                    }
+                });
             }
             this.editor = {};
-            this.addDialog = false;
         },
 
         //触发编辑按钮
@@ -145,18 +130,18 @@ var app = new Vue({
             this.editDialog = true;
             this.editor = {}; //清空表单
             //查询当前id对应的数据
-            this.$http.get(api.admins.findById(id)).then(result => {
+            this.$http.get(api.links.findById(id)).then(result => {
                 this.editor = result.body.data;
             });
         },
         //关闭编辑窗口
-        handleEditClose(key, keyPath) {
+        handleClose(key, keyPath) {
             this.editDialog = false;
         },
         edit() {
             this.editDialog = false;
             //查询当前id对应的数据
-            this.$http.post(api.admins.update, JSON.stringify(this.editor)).then(result => {
+            this.$http.put(api.links.update, JSON.stringify(this.editor)).then(result => {
                 this.reloadList();
                 if (result.body.code == 200) {
                     this._notify(result.body.msg, 'success')
@@ -174,7 +159,6 @@ var app = new Vue({
             }
             return moment(date).format("YYYY-MM-DD HH:mm:ss");
         },
-
         /**
          * 监听窗口改变UI样式（区别PC和Phone）
          */

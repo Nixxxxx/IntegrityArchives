@@ -14,17 +14,24 @@ const api = {
         linksCount: '/users/findAllCount',
         allArticle: '/article/findAll'
     },
-    users: {
+    user: {
         findById(id) {
-            return '/manage/user/findById?id=' + id
+            return '/user/user/findById?id=' + id
         },
-        save: '/manage/user/save',
-        update: '/manage/user/update',
+        save: '/user/user/save',
+        update: '/user/user/update',
+        localUpload: '/user/user/localUpload',
     },
     userInfo: {
         findById(id) {
-            return '/manage/userInfo/findById?id=' + id
+            return '/user/userInfo/findById?id=' + id
         },
-        update: '/manage/userInfo/update',
+        update: '/user/userInfo/update',
+    },
+    userFamily: {
+        findById(id) {
+            return '/user/userFamily/findById?id=' + id
+        },
+        update: '/user/userFamily/update',
     },
 };

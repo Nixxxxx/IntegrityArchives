@@ -24,6 +24,7 @@ public class UserController extends BaseController {
     @Autowired
     private UserInfoService userInfoService;
 
+    //TODO 加上用户登录方法（enableStatus==1的用户才可以登录）
 
     @GetMapping(value = "/findById")
     public ResponseCode findById(@RequestParam("id") Integer id) {

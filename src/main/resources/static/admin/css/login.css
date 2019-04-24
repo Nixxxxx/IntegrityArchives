@@ -78,7 +78,7 @@ body {
 }
 
 #login {
-    background: url("../img/bg.png");
+    background: #FFFFFF;
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -101,7 +101,7 @@ body {
     padding: 24px 20px;
 }
 .login-card > .el-card__header {
-    background: url("../img/header.png");
+    background: #346DFF;
     font-size: 15px;
     margin-bottom: 25px;
 }

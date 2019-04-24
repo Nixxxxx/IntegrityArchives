@@ -8,7 +8,7 @@ spring:
       driver-class-name: com.mysql.jdbc.Driver
       url: jdbc:mysql://115.159.219.190:3306/db_integrity?useSSL=false
       username: root
-      password: dwsdskx
+      password: iiotfantas
       #使用druid数据库连接池
 #      type: com.alibaba.druid.pool.DruidDataSource
 #      filters: stat
