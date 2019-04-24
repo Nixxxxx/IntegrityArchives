@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iotlab.integrityarchives.dao.PersonDeclaDao">
+    <resultMap id="PersonDeclaResult" type="com.iotlab.integrityarchives.entity.PersonDecla">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="name" property="userName"/>
+        <result column="renmian" property="renmian"/>
+        <result column="renshi" property="renshi"/>
+        <result column="yinbu" property="yinbu"/>
+        <result column="xunshi" property="xunshi"/>
+        <result column="kaizhan" property="kaizhan"/>
+        <result column="dangfeng" property="dangfeng"/>
+        <result column="qita" property="qita"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+        <result column="enable_status" property="enableStatus"/>
+    </resultMap>
+
+
+    <select id="findPersonDecalByUserId" parameterType="Integer" resultMap="PersonDeclaResult">
+        SELECT
+            tpd.*,
+            tu.name
+        from tb_person_decla tpd, tb_user tu
+        where tpd.user_id = #{id} and tpd.user_id = tu.id
+    </select>
+
+    <select id="findListByWord" parameterType="string" resultMap="PersonDeclaResult">
+        select tpd.*,tu.name
+        from tb_person_decla  tpd,tb_user tu
+        where tpd.user_id=tu.id and tu.name LIKE CONCAT('%', #{word}, '%')
+    </select>
+
+
+
+
+
+</mapper>

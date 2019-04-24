@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @author created by Zhangdazhuang
@@ -19,16 +17,16 @@ import javax.persistence.Table;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_cleanarchives")
+@Table(name = "tb_clean_arichives")
 public class CleanArchives {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO,generator="")
     private Integer id;    //id 唯一标识，自增长策略
 
-    private Integer user_id;   //外键关联，TODO 需要加上事务
+    private Integer userId;   //外键关联，TODO 需要加上事务
 
-    private String  user_name; //用户姓名
+    @Transient
+    private String userName; //用户姓名
 
     private String shoushou;  //收受红包、礼金、有价证券及其他受馈赠的情况。
 
@@ -44,5 +42,7 @@ public class CleanArchives {
 
     private String yinsi;  //个人因私出入国（境）情况
 
-
+    private Date createTime;
+    private Date lastEditTime;
+    private Integer enableStatus;
 }

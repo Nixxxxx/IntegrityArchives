@@ -6,7 +6,7 @@
 <mapper namespace="com.iotlab.integrityarchives.dao.UserInfoDao">
     <resultMap id="UserInfoResult" type="com.iotlab.integrityarchives.entity.UserInfo">
         <id column="id" property="id"/>
-        <result column="user_number" property="userNumber"/>
+        <result column="user_id" property="userId"/>
         <result column="name" property="name"/>
         <result column="gender" property="gender"/>
         <result column="date_of_birth" property="dateOfBirth"/>

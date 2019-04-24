@@ -37,13 +37,7 @@ public interface UserInfoService extends BaseService<UserInfo> {
 
 
 
-    /**
-     * 分页查询
-     *
-     * @param userInfo 查询条件
-     * @return
-     */
-    List<UserInfo> findByPage(UserInfo userInfo);
+
 
 
 

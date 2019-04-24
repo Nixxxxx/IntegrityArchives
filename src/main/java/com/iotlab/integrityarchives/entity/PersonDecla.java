@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @author created by Zhangdazhuang
@@ -19,15 +17,15 @@ import javax.persistence.Table;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_persondecla")
+@Table(name = "tb_person_decla")
 public class PersonDecla {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "")
     private Integer id;
 
-    private Integer user_id;
+    private Integer userId;
 
-    private String user_name;
+    @Transient
+    private String userName;
 
     private String renmian;         //任免情况
 
@@ -42,6 +40,8 @@ public class PersonDecla {
     private String dangfeng;  //党风廉政意见回复材料
 
     private String qita;  //其他反映廉政情况的材料
-
+    private Date createTime;
+    private Date lastEditTime;
+    private Integer enableStatus;
 
 }

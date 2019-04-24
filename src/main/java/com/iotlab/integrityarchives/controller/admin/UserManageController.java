@@ -81,7 +81,7 @@ public class UserManageController extends BaseController {
             user.setCreateTime(new Date());
             user.setLastEditTime(user.getCreateTime());
             userService.save(user);
-            UserInfo userInfo = new UserInfo(user.getId(), user.getUserNumber(), user.getName(), EnableStatusEnum.PASS.getCode());
+            UserInfo userInfo = new UserInfo(user.getId(), user.getUserNumber(),  EnableStatusEnum.PASS.getCode());
             userInfo.setCreateTime(user.getCreateTime());
             userInfo.setLastEditTime(user.getCreateTime());
             userInfoService.save(userInfo);
