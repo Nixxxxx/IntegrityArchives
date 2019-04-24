@@ -1,6 +1,5 @@
 package com.iotlab.integrityarchives.service.impl;
 
-
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.AdminDao;
 import com.iotlab.integrityarchives.entity.Admin;

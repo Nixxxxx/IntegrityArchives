@@ -1,29 +1,69 @@
-
 package com.iotlab.integrityarchives.controller.user;
 
+import com.iotlab.integrityarchives.common.controller.BaseController;
+import com.iotlab.integrityarchives.dto.ResponseCode;
+import com.iotlab.integrityarchives.entity.User;
+import com.iotlab.integrityarchives.entity.UserInfo;
+import com.iotlab.integrityarchives.enums.EnableStatusEnum;
+import com.iotlab.integrityarchives.service.UserInfoService;
+import com.iotlab.integrityarchives.service.UserService;
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-/*
-import org.springframework.web.bind.annotation.RestController;
+import java.util.Date;
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@SuppressWarnings("all")
+@RequestMapping("/user/user")
+@Api(tags="用户信息控制API",value="测试")
+public class UserController extends BaseController {
+
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserInfoService userInfoService;
 
-    @PostMapping("/login")
-    public User login(String username, String password) {
-        System.out.println(username);
-        if(userService.login(username, password))
-            return userService.findByUsername(username);
-        return null;
+
+    @GetMapping(value = "/findById")
+    public ResponseCode findById(@RequestParam("id") Integer id) {
+        return ResponseCode.success(userService.findById(id));
     }
 
-    @GetMapping("/logout")
-    public boolean logout(){
-        return true;
+    /**
+     * 保存用户
+     *
+     * @param user
+     * @return
+     */
+    @PostMapping(value = "/save")
+    public ResponseCode save(@RequestBody User user) {
+        try {
+            user.setEnableStatus(EnableStatusEnum.PASS.getCode());
+            user.setCreateTime(new Date());
+            user.setLastEditTime(user.getCreateTime());
+            userService.save(user);
+            UserInfo userInfo = new UserInfo(user.getId(), user.getUserNumber(), user.getName(), EnableStatusEnum.PASS.getCode());
+            userInfo.setCreateTime(user.getCreateTime());
+            userInfo.setLastEditTime(user.getCreateTime());
+            userInfoService.save(userInfo);
+            return ResponseCode.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
+
+    @PostMapping("/update")
+    public ResponseCode update(@RequestBody User user) {
+        try {
+            user.setLastEditTime(new Date());
+            userService.update(user);
+            return ResponseCode.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
 }
-*/
