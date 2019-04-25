@@ -13,7 +13,7 @@ import java.util.List;
  * @date 2019/4/24
  * @备注
  **/
-public interface PersonDeclaDao extends MyMapper<CleanArchives> {
+public interface PersonDeclaDao extends MyMapper<PersonDecla> {
 
     PersonDecla findPersonDecalByUserId(Integer id);
     /**

@@ -23,10 +23,11 @@ import java.util.Date;
 @RequestMapping("/manage/userInfo")
 @Api(tags="干部信息控制API",value="测试")
 public class UserInfoManageController extends BaseController {
+
     @Autowired
     private UserInfoService userInfoService;
 
-    @GetMapping(value = "/findById")  //TODO 根据UserId查询的时候查不到数据的时候返回ResponseCode.error()
+    @GetMapping(value = "/findById")  //TODO   根据UserId查询的时候查不到数据的时候返回ResponseCode.error()
     public ResponseCode findById(@RequestParam("id") Integer id) {
         return ResponseCode.success(userInfoService.findByUserId(id));
     }

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @SuppressWarnings("all")
-@RequestMapping("/manage/admin/manageperson")
+@RequestMapping("/manage/admin/manageclean")
 @Api(tags = "个人申报记录实体控制", value = "测试")
 public class PersonDeclaController extends BaseController {
 

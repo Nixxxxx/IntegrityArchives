@@ -7,6 +7,7 @@ import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.service.PersonDeclaService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -18,7 +19,10 @@ import java.util.List;
  * @date 2019/4/24
  * @备注
  **/
+@Service
+@SuppressWarnings("all")
 public class PersonDeclaServiceImpl extends BaseServiceImpl<PersonDecla> implements PersonDeclaService {
+
     @Autowired
     private PersonDeclaDao personDeclaDao;
 

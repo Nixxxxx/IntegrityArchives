@@ -7,6 +7,7 @@ import com.iotlab.integrityarchives.entity.PersonDecla;
 import com.iotlab.integrityarchives.service.CleanArchivesService;
 import com.iotlab.integrityarchives.service.PersonDeclaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ import java.util.List;
  * @date 2019/4/24
  * @备注
  **/
+@Service
+@SuppressWarnings("all")
 public class CleanArchivesServiceImpl extends BaseServiceImpl<CleanArchives> implements CleanArchivesService {
 
     @Autowired
@@ -25,7 +28,7 @@ public class CleanArchivesServiceImpl extends BaseServiceImpl<CleanArchives> imp
 
     @Override
     public CleanArchives findByUserId(Integer id) {
-        return null;
+        return cleanArchivesDao.findCleanArchivesResultByUserId(id);
     }
 
 
