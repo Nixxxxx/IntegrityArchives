@@ -994,7 +994,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @ignore
      * @argument {Array} arr
      * @argument keyToFind
-     * @returns index or null
+     * @returns static.common.js.admin.index or null
      */
     function getArrayKeyIndex(arr, keyToFind) {
         var i = 0,

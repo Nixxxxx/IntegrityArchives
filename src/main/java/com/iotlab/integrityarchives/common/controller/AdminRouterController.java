@@ -31,4 +31,13 @@ public class AdminRouterController {
         return "admin/page/user";
     }
 
+    @GetMapping(value = {"/cleanArchives"})
+    public String cleanArchives() {
+        return "admin/page/cleanArchives";
+    }
+
+    @GetMapping(value = {"/personDecla"})
+    public String personDecla() {
+        return "admin/page/personDecla";
+    }
 }

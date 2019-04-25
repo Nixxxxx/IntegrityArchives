@@ -27647,7 +27647,7 @@ exports.default = {
   mounted: function mounted() {
     var _this = this;
 
-    var unwatch = this.$watch('index', function (val) {
+    var unwatch = this.$watch('static.common.js.admin.index', function (val) {
       _this.$watch('$parent.active', _this.updateStatus, { immediate: true });
       unwatch();
     });

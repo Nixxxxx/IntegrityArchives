@@ -9,8 +9,7 @@ var app = new Vue({
         },
         localUpload: api.user.localUpload,
         avatarDialog: false,
-        avatarList: [],
-        defaultActive: '9',
+        defaultActive: '2',
         mobileStatus: false, //是否是移动端
         sidebarStatus: true, //侧边栏状态，true：打开，false：关闭
         sidebarFlag: ' openSidebar ', //侧边栏标志

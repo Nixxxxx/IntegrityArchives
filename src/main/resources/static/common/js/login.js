@@ -1,7 +1,8 @@
 //设置全局表单提交格式
 Vue.http.options.emulateJSON = true;
 const api = {
-    login: '/admin/login'
+    adminLogin: '/admin/login',
+    userLogin: 'user/login'
 }
 // Vue实例
 new Vue({
@@ -14,6 +15,7 @@ new Vue({
                 adminpPasswd: '',
                 remember: ''
             },
+            type: '',
             flag: true,
             loading: {}, //loading动画
         };

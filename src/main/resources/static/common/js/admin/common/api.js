@@ -43,4 +43,15 @@ const api = {
         save: '/manage/userInfo/save',
         update: '/manage/userInfo/update',
     },
+    personDecla: {
+        findByPage(pageSize, pageCode) {
+            return '/manage/personDecla/findByPage?pageSize=' + pageSize + '&pageCode=' + pageCode
+        },
+        findById(id) {
+            return '/manage/personDecla/findById?id=' + id
+        },
+        save: '/manage/personDecla/save',
+        delete: '/manage/personDecla/delete',
+        update: '/manage/personDecla/update',
+    },
 };
