@@ -36,8 +36,6 @@ var app = new Vue({
             resume: '',                              //简历
             rewardsAndPunishment: '',                //奖惩情况
             annualAssessmentResults: '',             //年度考核结果
-            createTime: '',
-            lastEditTime: '',
             enableStatus: '',
         },
         passwdEditor: {

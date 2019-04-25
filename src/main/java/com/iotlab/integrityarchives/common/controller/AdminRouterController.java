@@ -1,11 +1,8 @@
 package com.iotlab.integrityarchives.common.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 
 @Controller
 @RequestMapping("/admin")
@@ -31,13 +28,13 @@ public class AdminRouterController {
         return "admin/page/user";
     }
 
-    @GetMapping(value = {"/cleanArchives"})
-    public String cleanArchives() {
-        return "admin/page/cleanArchives";
-    }
-
     @GetMapping(value = {"/personDecla"})
     public String personDecla() {
         return "admin/page/personDecla";
+    }
+
+    @GetMapping(value = {"/cleanArchive"})
+    public String cleanArchive() {
+        return "admin/page/cleanArchive";
     }
 }

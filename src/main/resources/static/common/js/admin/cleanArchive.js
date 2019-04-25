@@ -1,17 +1,17 @@
 var app = new Vue({
     el: '#app',
     data: {
-        personDecla: [{
+        cleanArchives: [{
             id: '',
             userId: '',
             userName: '',
-            renmian: '',    //任免情况
-            renshi: '',     //人事档案情况
-            yinbu: '',      //因不如实报告个人有关事项受到处理的情况
-            xunshi: '',     //巡视视察、信访、案件监督管理以及其他方面移交的问题线索和处理情况
-            kaizhan: '',    //开展谈话函询、初步核实、审查调查、以及其他工作形成的材料
-            dangfeng: '',   //党风廉政意见回复材料
-            qita: '',       //其他反映廉政情况的材料
+            shoushou: '',       //收受红包、礼金、有价证券及其他受馈赠的情况
+            geren: '',          //个人操办婚丧嫁娶报备及执行情况
+            peiou: '',          //配偶及成年子女就业及所在国籍情况
+            zaiqi: '',          //个人在企业、社会及其酬取情况
+            shifou: '',         //个人是否参与涉矿、涉矿企业经营活动或参与分红情况
+            niandu: '',         //个人年度科研经费入账使用及财务个人借款情况
+            yinsi: '',          //个人因私出入国（境）情况
             createTime: '',
             lstEditTime: '',
             enableStatus: ''
@@ -20,13 +20,13 @@ var app = new Vue({
             id: '',
             userId: '',
             userName: '',
-            renmian: '',
-            renshi: '',
-            yinbu: '',
-            xunshi: '',
-            kaizhan: '',
-            dangfeng: '',
-            qita: '',
+            shoushou: '',       //收受红包、礼金、有价证券及其他受馈赠的情况
+            geren: '',          //个人操办婚丧嫁娶报备及执行情况
+            peiou: '',          //配偶及成年子女就业及所在国籍情况
+            zaiqi: '',          //个人在企业、社会及其酬取情况
+            shifou: '',         //个人是否参与涉矿、涉矿企业经营活动或参与分红情况
+            niandu: '',         //个人年度科研经费入账使用及财务个人借款情况
+            yinsi: '',          //个人因私出入国（境）情况
             enableStatus: ''
         },
         pageConf: {
@@ -36,7 +36,7 @@ var app = new Vue({
             totalPage: 12, //总记录数
             pageOption: [6, 10, 20], //分页选项
         },
-        defaultActive: '4',
+        defaultActive: '5',
 
         //条件查询单独封装的对象
         searchEntity: {},
@@ -72,8 +72,8 @@ var app = new Vue({
         },
         //条件查询
         search(pageCode, pageSize) {
-            this.$http.post(api.personDecla.findByPage(pageSize, pageCode), this.searchEntity).then(result => {
-                this.personDecla = result.body.data.rows;
+            this.$http.post(api.cleanArchive.findByPage(pageSize, pageCode), this.searchEntity).then(result => {
+                this.cleanArchive = result.body.data.rows;
             this.pageConf.totalPage = result.body.data.total;
         });
 
@@ -93,7 +93,7 @@ var app = new Vue({
             this.editDialog = true;
             this.editor = {}; //清空表单
             //查询当前id对应的数据
-            this.$http.get(api.personDecla.findById(id)).then(result => {
+            this.$http.get(api.cleanArchive.findById(id)).then(result => {
                 this.editor = result.body.data;
         });
         },
@@ -104,7 +104,7 @@ var app = new Vue({
         edit() {
             this.editDialog = false;
             //查询当前id对应的数据
-            this.$http.post(api.personDecla.update, JSON.stringify(this.editor)).then(result => {
+            this.$http.post(api.cleanArchive.update, JSON.stringify(this.editor)).then(result => {
                 this.reloadList();
             if (result.body.code == 200) {
                 this._notify(result.body.msg, 'success')

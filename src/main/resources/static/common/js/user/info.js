@@ -1,7 +1,28 @@
 var app = new Vue({
     el: '#app',
     data: {
-        user: {},
+        user: {
+            id: '',
+            name: '',                                //教工姓名
+            gender: '',                              //性别
+            dateOfBirth: '',                         //出生年月
+            nation: '',                              //民族
+            nativePlace: '',                         //籍贯
+            placeOfBirth: '',                        //出生地
+            dateOfJoinParty: '',                     //入党时间
+            dateOfJoinWork: '',                      //参加工作时间
+            physicalCondition: '',                   //健康情况
+            technicalPosition: '',                   //专业技术职务
+            familiarMajorAndSpecialty: '',           //熟悉专业有何专长
+            fullTimeDegree: '',                      //全日制学历学位
+            fullTimeGraduatedUniversityAndMajor: '', //全日制毕业院校系及专业
+            partTimeDegree: '',                      //在职学历学位
+            partTimeGraduatedUniversityAndMajor: '', //在职毕业院校系及专业
+            currentPosition: '',                     //现任职务
+            resume: '',                              //简历
+            rewardsAndPunishment: '',                //奖惩情况
+            annualAssessmentResults: '',             //年度考核结果
+        },
         pass: {
             id: '',
             password: '',

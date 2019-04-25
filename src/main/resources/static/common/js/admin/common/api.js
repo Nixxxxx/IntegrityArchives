@@ -50,8 +50,15 @@ const api = {
         findById(id) {
             return '/manage/personDecla/findById?id=' + id
         },
-        save: '/manage/personDecla/save',
-        delete: '/manage/personDecla/delete',
         update: '/manage/personDecla/update',
+    },
+    cleanArchive: {
+        findByPage(pageSize, pageCode) {
+            return '/manage/cleanArchive/findByPage?pageSize=' + pageSize + '&pageCode=' + pageCode
+        },
+        findById(id) {
+            return '/manage/cleanArchive/findById?id=' + id
+        },
+        update: '/manage/cleanArchive/update',
     },
 };

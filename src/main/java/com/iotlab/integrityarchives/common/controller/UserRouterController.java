@@ -28,4 +28,14 @@ public class UserRouterController {
         return "user/page/family";
     }
 
+    @GetMapping(value = {"/personDecla"})
+    public String personDecla() {
+        return "user/page/personDecla";
+    }
+
+    @GetMapping(value = {"/cleanArchive"})
+    public String cleanArchive() {
+        return "user/page/cleanArchive";
+    }
+
 }
