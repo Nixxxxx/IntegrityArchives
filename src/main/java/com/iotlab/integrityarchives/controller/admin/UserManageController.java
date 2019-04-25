@@ -3,9 +3,13 @@ package com.iotlab.integrityarchives.controller.admin;
 import com.iotlab.integrityarchives.common.controller.BaseController;
 import com.iotlab.integrityarchives.dto.QueryPage;
 import com.iotlab.integrityarchives.dto.ResponseCode;
+import com.iotlab.integrityarchives.entity.CleanArchives;
+import com.iotlab.integrityarchives.entity.PersonDecla;
 import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.enums.EnableStatusEnum;
+import com.iotlab.integrityarchives.service.CleanArchivesService;
+import com.iotlab.integrityarchives.service.PersonDeclaService;
 import com.iotlab.integrityarchives.service.UserInfoService;
 import com.iotlab.integrityarchives.service.UserService;
 import io.swagger.annotations.Api;
@@ -25,13 +29,18 @@ import java.util.List;
 @RestController
 @SuppressWarnings("all")
 @RequestMapping("/manage/user")
-@Api(tags="用户信息控制API",value="测试")
+@Api(tags = "用户信息控制API", value = "测试")
 public class UserManageController extends BaseController {
 
     @Autowired
     private UserService userService;
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private PersonDeclaService personDeclaService;
+    @Autowired
+    private CleanArchivesService cleanArchivesService;
+
 
     /**
      * 根据id查询指定的用户
@@ -59,6 +68,7 @@ public class UserManageController extends BaseController {
 
     /**
      * 分页查询
+     *
      * @param queryPage
      * @param user
      * @return
@@ -67,7 +77,7 @@ public class UserManageController extends BaseController {
     public ResponseCode findByPage(QueryPage queryPage, User user) {
         return ResponseCode.success(super.selectByPageNumSize(queryPage, () -> userService.findByPage(user)));
     }
-    
+
     /**
      * 保存用户
      *
@@ -80,11 +90,33 @@ public class UserManageController extends BaseController {
             user.setEnableStatus(EnableStatusEnum.PASS.getCode());
             user.setCreateTime(new Date());
             user.setLastEditTime(user.getCreateTime());
-            userService.save(user);
-            UserInfo userInfo = new UserInfo(user.getId(), user.getUserNumber(),  EnableStatusEnum.PASS.getCode());
+            //插入后，直接把id返回给主键
+            userService.insertUserReturnId(user);
+            System.out.println("用户id为" + user.getId());
+
+
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserId(user.getId());
+            userInfo.setName(user.getName());
             userInfo.setCreateTime(user.getCreateTime());
-            userInfo.setLastEditTime(user.getCreateTime());
+            userInfo.setLastEditTime(user.getLastEditTime());
+            userInfo.setEnableStatus(1);
             userInfoService.save(userInfo);
+
+            PersonDecla personDecla = new PersonDecla();
+            personDecla.setUserId(user.getId());
+            personDecla.setCreateTime(user.getCreateTime());
+            personDecla.setLastEditTime(user.getLastEditTime());
+            personDecla.setEnableStatus(1);
+            personDeclaService.save(personDecla);
+
+            CleanArchives cleanArchives=new CleanArchives();
+            cleanArchives.setUserId(user.getId());
+            cleanArchives.setCreateTime(user.getCreateTime());
+            cleanArchives.setLastEditTime(user.getLastEditTime());
+            cleanArchives.setEnableStatus(1);
+            cleanArchivesService.save(cleanArchives);
+
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,6 +141,8 @@ public class UserManageController extends BaseController {
         try {
             userService.delete(ids);
             userInfoService.delete(ids);
+            personDeclaService.delete(ids);
+            cleanArchivesService.delete(ids);
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();

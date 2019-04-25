@@ -28,7 +28,7 @@ public class UserInfo {
     private Integer id;
 
     @NotNull
-    private Integer userId; //教工工号
+    private Integer userId; //教工Id
 
     @Column(name = "name")
     private String name;      //教工姓名
@@ -72,7 +72,7 @@ public class UserInfo {
     @Column(name = "part_time_degree")
     private String partTimeDegree;                      //在职学历学位
 
-    @Column(name = "part-time_graduated_university_and_major")
+    @Column(name = "part_time_graduated_university_and_major")
     private String partTimeGraduatedUniversityAndMajor; //在职毕业院校系及专业
 
     @Column(name = "current_position")

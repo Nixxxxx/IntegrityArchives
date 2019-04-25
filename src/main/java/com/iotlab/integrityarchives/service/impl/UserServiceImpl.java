@@ -39,15 +39,17 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
     @Override
     @Transactional
-    public void save(User user) {
+    public int  insertUserReturnId(User user) {
         try {
             //passwordHelper.encryptPassword(user); //加密
-            userDao.insert(user);
+
+            return userDao.insertUserReturnId(user);
         } catch (Exception e) {
             e.printStackTrace();
-            // throw new GlobalException(e.getMessage());
+             throw new RuntimeException(e.getMessage());
         }
     }
+
 
     @Override
     @Transactional

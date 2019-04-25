@@ -34,7 +34,7 @@ public interface UserService extends BaseService<User> {
     User findById(Integer id);
 
 
-    void save(User user);
+    int insertUserReturnId(User user);
 
     /**
      * 分页查询
