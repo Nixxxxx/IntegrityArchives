@@ -4,10 +4,12 @@ import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.PersonDeclaDao;
 import com.iotlab.integrityarchives.entity.PersonDecla;
 import com.iotlab.integrityarchives.entity.User;
+import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.service.PersonDeclaService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -63,4 +65,18 @@ public class PersonDeclaServiceImpl extends BaseServiceImpl<PersonDecla> impleme
             }
         }
     }
+
+    @Override
+    @Transactional
+    public void save(PersonDecla personDecla) {
+        try {
+            //passwordHelper.encryptPassword(user); //加密
+           personDeclaDao.insert(personDecla);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // throw new GlobalException(e.getMessage());
+        }
+    }
+
+
 }

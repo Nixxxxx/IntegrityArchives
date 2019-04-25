@@ -81,7 +81,7 @@ public class AdminManageController extends BaseController {
             admin.setLastEditTime(admin.getCreateTime());
             adminService.save(admin);
             return ResponseCode.success();
-        } catch (Exception e) {
+        } catch  (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }

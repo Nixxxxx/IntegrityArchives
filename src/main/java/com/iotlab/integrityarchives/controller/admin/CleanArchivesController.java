@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author created by Zhangdazhuang
@@ -23,8 +24,8 @@ import java.util.Date;
  **/
 @RestController
 @SuppressWarnings("all")
-@RequestMapping("/manage/admin/manageperson")
-@Api(tags = "廉政档案实体", value = "测试")
+@RequestMapping("/manage/cleanArchives")
+@Api(tags = "廉政档案控制逻辑", value = "测试")
 public class CleanArchivesController extends BaseController {
 
     @Autowired
@@ -67,7 +68,7 @@ public class CleanArchivesController extends BaseController {
             cleanArchives.setEnableStatus(EnableStatusEnum.PASS.getCode());
             cleanArchives.setCreateTime(new Date());
             cleanArchives.setLastEditTime(cleanArchives.getCreateTime());
-            //cleanArchives.save(cleanArchives);
+            cleanArchivesService.save(cleanArchives);
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,7 +76,16 @@ public class CleanArchivesController extends BaseController {
         }
     }
 
-
+    @PostMapping(value = "/delete")
+    public ResponseCode delete(@RequestBody List<Long> ids) {
+        try {
+            cleanArchivesService.delete(ids);
+            return ResponseCode.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
 
 

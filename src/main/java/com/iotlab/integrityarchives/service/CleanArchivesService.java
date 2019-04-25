@@ -22,15 +22,6 @@ public interface CleanArchivesService extends BaseService<CleanArchives> {
 
 
 
-
-
-
-
-
-
-
-
-
     /**
      * 分页查询
      *
