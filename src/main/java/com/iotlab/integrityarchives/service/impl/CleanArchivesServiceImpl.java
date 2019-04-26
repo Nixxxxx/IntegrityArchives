@@ -55,7 +55,7 @@ public class CleanArchivesServiceImpl extends BaseServiceImpl<CleanArchives> imp
         if (!ids.isEmpty()) {
             try {
                 //通用mapper自带的批量删除
-                this.batchDelete(ids, "id", CleanArchives.class);
+                this.batchDelete(ids, "userId", CleanArchives.class);
             } catch (Exception e) {
                 e.printStackTrace();
                 // throw new GlobalException(e.getMessage());

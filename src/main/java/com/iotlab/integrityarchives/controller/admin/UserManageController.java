@@ -12,6 +12,7 @@ import com.iotlab.integrityarchives.service.CleanArchivesService;
 import com.iotlab.integrityarchives.service.PersonDeclaService;
 import com.iotlab.integrityarchives.service.UserInfoService;
 import com.iotlab.integrityarchives.service.UserService;
+import com.iotlab.integrityarchives.util.Md5Util;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -90,6 +91,7 @@ public class UserManageController extends BaseController {
             user.setEnableStatus(EnableStatusEnum.PASS.getCode());
             user.setCreateTime(new Date());
             user.setLastEditTime(user.getCreateTime());
+            user.setUserPasswd(Md5Util.MD5Encode(user.getUserPasswd(),"utf8"));
             //插入后，直接把id返回给主键
             userService.insertUserReturnId(user);
             System.out.println("用户id为" + user.getId());

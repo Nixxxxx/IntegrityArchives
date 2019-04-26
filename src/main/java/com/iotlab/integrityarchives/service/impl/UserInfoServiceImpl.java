@@ -52,8 +52,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
     public void delete(List<Long> ids) {
         if (!ids.isEmpty()) {
             try {
-                //通用mapper自带的批量删除
-                this.batchDelete(ids, "id", UserInfo.class);
+                //通用mapper自带的批量删除,通过主键来删除  userId对应实体中的属性
+                this.batchDelete(ids, "userId", UserInfo.class);
             } catch (Exception e) {
                 e.printStackTrace();
                 // throw new GlobalException(e.getMessage());

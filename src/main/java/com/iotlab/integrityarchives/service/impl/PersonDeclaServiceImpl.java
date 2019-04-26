@@ -58,7 +58,7 @@ public class PersonDeclaServiceImpl extends BaseServiceImpl<PersonDecla> impleme
         if (!ids.isEmpty()) {
             try {
                 //通用mapper自带的批量删除
-                this.batchDelete(ids, "id", PersonDecla.class);
+                this.batchDelete(ids, "userId", PersonDecla.class);
             } catch (Exception e) {
                 e.printStackTrace();
                 // throw new GlobalException(e.getMessage());

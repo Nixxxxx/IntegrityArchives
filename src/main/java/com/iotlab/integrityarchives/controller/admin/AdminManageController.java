@@ -6,6 +6,7 @@ import com.iotlab.integrityarchives.dto.ResponseCode;
 import com.iotlab.integrityarchives.entity.Admin;
 import com.iotlab.integrityarchives.enums.EnableStatusEnum;
 import com.iotlab.integrityarchives.service.AdminService;
+import com.iotlab.integrityarchives.util.Md5Util;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,7 @@ public class AdminManageController extends BaseController {
             admin.setEnableStatus(EnableStatusEnum.PASS.getCode());
             admin.setCreateTime(new Date());
             admin.setLastEditTime(admin.getCreateTime());
+            admin.setAdminPasswd(Md5Util.MD5Encode(admin.getAdminPasswd(),"utf8"));
             adminService.save(admin);
             return ResponseCode.success();
         } catch  (Exception e) {
