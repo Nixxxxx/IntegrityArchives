@@ -1,7 +1,7 @@
 package com.iotlab.integrityarchives.dao;
 
 import com.iotlab.integrityarchives.config.MyMapper;
-import com.iotlab.integrityarchives.entity.CleanArchives;
+import com.iotlab.integrityarchives.entity.CleanArchive;
 
 import java.util.List;
 
@@ -12,26 +12,20 @@ import java.util.List;
  * @date 2019/4/24
  * @备注
  **/
-public interface CleanArchivesDao extends MyMapper<CleanArchives> {
-
+public interface CleanArchiveDao extends MyMapper<CleanArchive> {
 
     /**
      * 通过姓名或者工号模糊查询列表
      * @param word
      * @return
      */
-    List<CleanArchives> findListByWord(String word);
+    List<CleanArchive> findListByWord(String word);
 
+    List<CleanArchive> findAllList();
 
-    List<CleanArchives> findAllList();
+    CleanArchive findById(Integer id);
 
-
-    CleanArchives findById(Integer id);
-
-    CleanArchives findByUserId(Integer userId);
-
-
-
+    CleanArchive findByUserId(Integer userId);
 
 }
 

@@ -64,7 +64,7 @@ var app = new Vue({
         },
         //条件查询
         search(pageCode, pageSize) {
-            this.$http.post(api.admins.findByPage(pageSize, pageCode), this.searchEntity).then(result => {
+            this.$http.post(api.admin.findByPage(pageSize, pageCode), this.searchEntity).then(result => {
                 this.admins = result.body.data.rows;
                 this.pageConf.totalPage = result.body.data.total;
             });
@@ -95,7 +95,7 @@ var app = new Vue({
                 type: 'warning',
                 center: true
             }).then(() => {
-                this.$http.post(api.admins.delete, JSON.stringify(ids)).then(result => {
+                this.$http.post(api.admin.delete, JSON.stringify(ids)).then(result => {
                     if (result.body.code == 200) {
                         this._notify(result.body.msg, 'success')
                         if ((this.pageConf.totalPage - 1) / this.pageConf.pageSize === (this.pageConf.pageCode - 1)) {
@@ -126,7 +126,7 @@ var app = new Vue({
                 this._notify('输入的信息不能为空', 'warning')
                 return;
             } else {
-                this.$http.post(api.admins.save, JSON.stringify(this.addEditor)).then(result => {
+                this.$http.post(api.admin.save, JSON.stringify(this.addEditor)).then(result => {
                     this.reloadList();
                 if (result.body.code == 200) {
                     this.addEditor = {};
@@ -145,7 +145,7 @@ var app = new Vue({
             this.editDialog = true;
             this.editor = {}; //清空表单
             //查询当前id对应的数据
-            this.$http.get(api.admins.findById(id)).then(result => {
+            this.$http.get(api.admin.findById(id)).then(result => {
                 this.editor = result.body.data;
             });
         },
@@ -156,7 +156,7 @@ var app = new Vue({
         edit() {
             this.editDialog = false;
             //查询当前id对应的数据
-            this.$http.post(api.admins.update, JSON.stringify(this.editor)).then(result => {
+            this.$http.post(api.admin.update, JSON.stringify(this.editor)).then(result => {
                 this.reloadList();
                 if (result.body.code == 200) {
                     this._notify(result.body.msg, 'success')

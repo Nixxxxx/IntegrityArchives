@@ -3,12 +3,12 @@ package com.iotlab.integrityarchives.controller.admin;
 import com.iotlab.integrityarchives.common.controller.BaseController;
 import com.iotlab.integrityarchives.dto.QueryPage;
 import com.iotlab.integrityarchives.dto.ResponseCode;
-import com.iotlab.integrityarchives.entity.CleanArchives;
+import com.iotlab.integrityarchives.entity.CleanArchive;
 import com.iotlab.integrityarchives.entity.PersonDecla;
 import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.enums.EnableStatusEnum;
-import com.iotlab.integrityarchives.service.CleanArchivesService;
+import com.iotlab.integrityarchives.service.CleanArchiveService;
 import com.iotlab.integrityarchives.service.PersonDeclaService;
 import com.iotlab.integrityarchives.service.UserInfoService;
 import com.iotlab.integrityarchives.service.UserService;
@@ -40,7 +40,7 @@ public class UserManageController extends BaseController {
     @Autowired
     private PersonDeclaService personDeclaService;
     @Autowired
-    private CleanArchivesService cleanArchivesService;
+    private CleanArchiveService cleanArchiveService;
 
 
     /**
@@ -116,12 +116,12 @@ public class UserManageController extends BaseController {
                 personDecla.setEnableStatus(1);
                 personDeclaService.save(personDecla);
 
-                CleanArchives cleanArchives = new CleanArchives();
-                cleanArchives.setUserId(user.getId());
-                cleanArchives.setCreateTime(user.getCreateTime());
-                cleanArchives.setLastEditTime(user.getLastEditTime());
-                cleanArchives.setEnableStatus(1);
-                cleanArchivesService.save(cleanArchives);
+                CleanArchive cleanArchive = new CleanArchive();
+                cleanArchive.setUserId(user.getId());
+                cleanArchive.setCreateTime(user.getCreateTime());
+                cleanArchive.setLastEditTime(user.getLastEditTime());
+                cleanArchive.setEnableStatus(1);
+                cleanArchiveService.save(cleanArchive);
 
                 return ResponseCode.success();
             }
@@ -155,7 +155,7 @@ public class UserManageController extends BaseController {
             userService.delete(ids);
             userInfoService.delete(ids);
             personDeclaService.delete(ids);
-            cleanArchivesService.delete(ids);
+            cleanArchiveService.delete(ids);
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();

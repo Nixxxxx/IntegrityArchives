@@ -27,9 +27,9 @@ public class UserInfoManageController extends BaseController {
     @Autowired
     private UserInfoService userInfoService;
 
-    @GetMapping(value = "/findById")  //TODO   根据UserId查询的时候查不到数据的时候返回ResponseCode.error()
-    public ResponseCode findById(@RequestParam("id") Integer id) {
-        return ResponseCode.success(userInfoService.findByUserId(id));
+    @GetMapping(value = "/findByUserId")  //TODO   根据UserId查询的时候查不到数据的时候返回ResponseCode.error()
+    public ResponseCode findByUserId(@RequestParam("id") Integer userId) {
+        return ResponseCode.success(userInfoService.findByUserId(userId));
     }
 
     @PostMapping("/update")

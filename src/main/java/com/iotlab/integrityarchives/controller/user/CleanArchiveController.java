@@ -1,11 +1,9 @@
 package com.iotlab.integrityarchives.controller.user;
 
 import com.iotlab.integrityarchives.common.controller.BaseController;
-import com.iotlab.integrityarchives.dto.QueryPage;
 import com.iotlab.integrityarchives.dto.ResponseCode;
-import com.iotlab.integrityarchives.entity.CleanArchives;
-import com.iotlab.integrityarchives.enums.EnableStatusEnum;
-import com.iotlab.integrityarchives.service.CleanArchivesService;
+import com.iotlab.integrityarchives.entity.CleanArchive;
+import com.iotlab.integrityarchives.service.CleanArchiveService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,21 +15,21 @@ import java.util.List;
 @SuppressWarnings("all")
 @RequestMapping("/user/cleanArchive")
 @Api(tags = "廉政档案控制逻辑", value = "测试")
-public class CleanArchivesController extends BaseController {
+public class CleanArchiveController extends BaseController {
 
     @Autowired
-    private CleanArchivesService cleanArchivesService;
+    private CleanArchiveService cleanArchiveService;
 
     @GetMapping(value = "/findByUserId")
     public ResponseCode findByUserId(@RequestParam("id") Integer userId) {
-        return ResponseCode.success(cleanArchivesService.findByUserId(userId));
+        return ResponseCode.success(cleanArchiveService.findByUserId(userId));
     }
 
     @PostMapping("/update")
-    public ResponseCode update(@RequestBody CleanArchives cleanArchives) {
+    public ResponseCode update(@RequestBody CleanArchive cleanArchive) {
         try {
-            cleanArchives.setLastEditTime(new Date());
-            cleanArchivesService.update(cleanArchives);
+            cleanArchive.setLastEditTime(new Date());
+            cleanArchiveService.update(cleanArchive);
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();

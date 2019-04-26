@@ -1,7 +1,7 @@
 package com.iotlab.integrityarchives.dao;
 
 import com.iotlab.integrityarchives.config.MyMapper;
-import com.iotlab.integrityarchives.entity.CleanArchives;
+import com.iotlab.integrityarchives.entity.CleanArchive;
 import com.iotlab.integrityarchives.entity.PersonDecla;
 
 import java.util.List;

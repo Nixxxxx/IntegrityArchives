@@ -1,9 +1,7 @@
 package com.iotlab.integrityarchives.TestDao;
 
-import com.iotlab.integrityarchives.dao.CleanArchivesDao;
 import com.iotlab.integrityarchives.dao.UserDao;
 import com.iotlab.integrityarchives.dao.UserFamilyDao;
-import com.iotlab.integrityarchives.entity.Userfamily;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

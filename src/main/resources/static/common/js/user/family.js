@@ -26,7 +26,7 @@ var app = new Vue({
             totalPage: 12, //总记录数
             pageOption: [6, 10, 20], //分页选项
         },
-        defaultActive: '2',
+        defaultActive: '3',
         editDialog: false,
         mobileStatus: false, //是否是移动端
         sidebarStatus: true, //侧边栏状态，true：打开，false：关闭
@@ -58,7 +58,7 @@ var app = new Vue({
         },
         //条件查询
         search(pageCode, pageSize) {
-            this.$http.post(api.links.findByPage(pageSize, pageCode)).then(result => {
+            this.$http.post(api.links.findByUserId(pageSize, pageCode)).then(result => {
                 this.links = result.body.data.rows;
                 this.pageConf.totalPage = result.body.data.total;
             });

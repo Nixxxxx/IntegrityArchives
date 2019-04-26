@@ -1,9 +1,9 @@
 package com.iotlab.integrityarchives.service.impl;
 
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
-import com.iotlab.integrityarchives.dao.CleanArchivesDao;
-import com.iotlab.integrityarchives.entity.CleanArchives;
-import com.iotlab.integrityarchives.service.CleanArchivesService;
+import com.iotlab.integrityarchives.dao.CleanArchiveDao;
+import com.iotlab.integrityarchives.entity.CleanArchive;
+import com.iotlab.integrityarchives.service.CleanArchiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,37 +18,37 @@ import java.util.List;
  **/
 @Service
 @SuppressWarnings("all")
-public class CleanArchivesServiceImpl extends BaseServiceImpl<CleanArchives> implements CleanArchivesService {
+public class CleanArchiveServiceImpl extends BaseServiceImpl<CleanArchive> implements CleanArchiveService {
 
     @Autowired
-    private CleanArchivesDao cleanArchivesDao;
+    private CleanArchiveDao cleanArchiveDao;
 
 
     @Override
-    public CleanArchives findByUserId(Integer userId) {
-        return cleanArchivesDao.findByUserId(userId);
+    public CleanArchive findByUserId(Integer userId) {
+        return cleanArchiveDao.findByUserId(userId);
     }
 
     @Override
-    public CleanArchives findById(Integer id) {
-        return cleanArchivesDao.findById(id);
+    public CleanArchive findById(Integer id) {
+        return cleanArchiveDao.findById(id);
     }
 
 
     @Override
-    public List<CleanArchives> findByPage(CleanArchives cleanArchives) {
-        if (cleanArchives.getUserName() != null) {
-            return cleanArchivesDao.findListByWord(cleanArchives.getUserName());
+    public List<CleanArchive> findByPage(CleanArchive cleanArchive) {
+        if (cleanArchive.getUserName() != null) {
+            return cleanArchiveDao.findListByWord(cleanArchive.getUserName());
         } else
-            return cleanArchivesDao.findAllList();
+            return cleanArchiveDao.findAllList();
     }
 
 
     @Override
-    public void update(CleanArchives cleanArchives) {
-        if (cleanArchives.getId() != 0) {
+    public void update(CleanArchive cleanArchive) {
+        if (cleanArchive.getId() != 0) {
             try {
-                this.updateNotNull(cleanArchives);
+                this.updateNotNull(cleanArchive);
             } catch (Exception e) {
                 e.printStackTrace();
                 //throw new GlobalException(e.getMessage());
@@ -61,7 +61,7 @@ public class CleanArchivesServiceImpl extends BaseServiceImpl<CleanArchives> imp
         if (!ids.isEmpty()) {
             try {
                 //通用mapper自带的批量删除
-                this.batchDelete(ids, "userId", CleanArchives.class);
+                this.batchDelete(ids, "userId", CleanArchive.class);
             } catch (Exception e) {
                 e.printStackTrace();
                 // throw new GlobalException(e.getMessage());

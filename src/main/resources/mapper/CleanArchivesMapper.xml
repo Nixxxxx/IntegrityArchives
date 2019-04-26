@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.iotlab.integrityarchives.dao.CleanArchivesDao">
-    <resultMap id="CleanArchivesResult" type="com.iotlab.integrityarchives.entity.CleanArchives">
+<mapper namespace="com.iotlab.integrityarchives.dao.CleanArchiveDao">
+    <resultMap id="CleanArchiveResult" type="com.iotlab.integrityarchives.entity.CleanArchive">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="name" property="userName"/>
@@ -20,30 +20,27 @@
         <result column="enable_status" property="enableStatus"/>
     </resultMap>
 
-
-
-
-    <select id="findListByWord" parameterType="string" resultMap="CleanArchivesResult">
+    <select id="findListByWord" parameterType="string" resultMap="CleanArchiveResult">
        select tca.*,tu.name
-        from tb_clean_arichives  tca,tb_user tu
+        from tb_clean_arichive  tca,tb_user tu
         where tca.user_id=tu.id and tu.name LIKE CONCAT('%', #{word}, '%')
     </select>
 
-    <select id="findAllList" parameterType="string" resultMap="CleanArchivesResult">
+    <select id="findAllList" parameterType="string" resultMap="CleanArchiveResult">
         select tca.*,tu.name
-        from tb_clean_arichives  tca,tb_user tu
+        from tb_clean_arichive  tca,tb_user tu
         where tca.user_id=tu.id
     </select>
 
-    <select id="findByUserId" parameterType="Integer" resultMap="CleanArchivesResult">
+    <select id="findByUserId" parameterType="Integer" resultMap="CleanArchiveResult">
         select tca.*,tu.name
-        from tb_clean_arichives  tca,tb_user tu
+        from tb_clean_arichive  tca,tb_user tu
         where tca.user_id=tu.id and tca.user_id=#{userId}
     </select>
 
-    <select id="findById" parameterType="Integer" resultMap="CleanArchivesResult">
+    <select id="findById" parameterType="Integer" resultMap="CleanArchiveResult">
         select tca.*,tu.name
-        from tb_clean_arichives  tca,tb_user tu
+        from tb_clean_arichive  tca,tb_user tu
         where tca.user_id=tu.id and tca.id=#{id}
     </select>
 

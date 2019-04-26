@@ -1,7 +1,7 @@
 package com.iotlab.integrityarchives.TestDao;
 
-import com.iotlab.integrityarchives.dao.CleanArchivesDao;
-import com.iotlab.integrityarchives.entity.CleanArchives;
+import com.iotlab.integrityarchives.dao.CleanArchiveDao;
+import com.iotlab.integrityarchives.entity.CleanArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +17,14 @@ import org.springframework.test.context.junit4.SpringRunner;
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestCleanArchivesDao {
+public class TestCleanArchiveDao {
 
     @Autowired
-    private CleanArchivesDao cleanArchivesDao;
+    private CleanArchiveDao cleanArchiveDao;
 
     @Test
-    public void testcleanArchivesDao() {
-        System.out.println(cleanArchivesDao.findById(2));
+    public void testcleanArchiveDao() {
+        System.out.println(cleanArchiveDao.findById(2));
     }
 
 

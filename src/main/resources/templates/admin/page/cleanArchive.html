@@ -40,9 +40,8 @@
                     <br />
                     <!-- 列表 -->
                     <el-table ref="link" :data="cleanArchives" border tooltip-effect="dark" style="width: 100%">
-                        <el-table-column prop="id" align="center" sortable label="编号" show-overflow-tooltip
-                                         width="80"></el-table-column>
-                        <el-table-column align="center" prop="userName" label="用户姓名" width="170" show-overflow-tooltip></el-table-column>
+                        <el-table-column align="center" type="index" width="80"></el-table-column>
+                        <el-table-column align="center" prop="userName" sortable label="用户姓名" width="170" show-overflow-tooltip></el-table-column>
                         <el-table-column align="center" prop="shoushou" label="收受红包、礼金、有价证券及其他受馈赠的情况" width="170" show-overflow-tooltip></el-table-column>
                         <el-table-column align="center" prop="geren" label="个人操办婚丧嫁娶报备及执行情况" width="170" show-overflow-tooltip></el-table-column>
                         <el-table-column align="center" prop="peiou" label="配偶及成年子女就业及所在国籍情况" width="170" show-overflow-tooltip></el-table-column>
@@ -62,9 +61,9 @@
                         <el-table-column label="操作" align="center">
                             <template slot-scope="scope">
                                 <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning"
-                                           @click="handlePass(scope.row.id)">审核通过</el-button>
+                                           @click="handleChangeStatus(scope.row.id, 1)">审核通过</el-button>
                                 <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning"
-                                           @click="handleRejected(scope.row.id)">审核不通过</el-button>
+                                           @click="handleChangeStatus(scope.row.id, 3)">审核不通过</el-button>
                                 <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning"
                                            @click="handleEdit(scope.row.id)">编辑</el-button>
                             </template>

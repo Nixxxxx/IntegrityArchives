@@ -39,9 +39,9 @@
                     </el-row>
                     <br />
                     <!-- 列表 -->
-                    <el-table ref="link" :data="personDecla" border tooltip-effect="dark" style="width: 100%">
-                        <el-table-column prop="id" align="center" sortable label="编号" show-overflow-tooltip
-                                         width="80"></el-table-column>
+                    <el-table ref="link" :data="personDeclas" border tooltip-effect="dark" style="width: 100%">
+                        <el-table-column align="center" type="index" width="80"></el-table-column>
+                        <!--<el-table-column prop="id" align="center" sortable label="编号" show-overflow-tooltip width="80"></el-table-column>-->
                         <el-table-column align="center" prop="userName" label="用户姓名" width="170" show-overflow-tooltip></el-table-column>
                         <el-table-column align="center" prop="renmian" label="任免情况" width="170" show-overflow-tooltip></el-table-column>
                         <el-table-column align="center" prop="renshi" label="人事档案情况" width="170" show-overflow-tooltip></el-table-column>

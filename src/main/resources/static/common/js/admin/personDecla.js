@@ -1,7 +1,7 @@
 var app = new Vue({
     el: '#app',
     data: {
-        personDecla: [{
+        personDeclas: [{
             id: '',
             userId: '',
             userName: '',
@@ -18,7 +18,6 @@ var app = new Vue({
         }],
         editor: {
             id: '',
-            userId: '',
             userName: '',
             renmian: '',
             renshi: '',
@@ -73,7 +72,7 @@ var app = new Vue({
         //条件查询
         search(pageCode, pageSize) {
             this.$http.post(api.personDecla.findByPage(pageSize, pageCode), this.searchEntity).then(result => {
-                this.personDecla = result.body.data.rows;
+                this.personDeclas = result.body.data.rows;
             this.pageConf.totalPage = result.body.data.total;
         });
 

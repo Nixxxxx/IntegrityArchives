@@ -43,19 +43,15 @@ public class PersonDeclaManageController extends BaseController {
         return ResponseCode.success(super.selectByPageNumSize(queryPage, () -> personDeclaService.findByPage(personDecla)));
     }
 
-
-    @GetMapping(value = "/findByUserId")  //TODO
+    @GetMapping(value = "/findByUserId")
     public ResponseCode findByUserId(@RequestParam("userId") Integer userId) {
         return ResponseCode.success(personDeclaService.findByUserId(userId));
     }
 
-    @GetMapping(value = "/findById")  //TODO
+    @GetMapping(value = "/findById")
     public ResponseCode findById(@RequestParam("id") Integer id) {
         return ResponseCode.success(personDeclaService.findById(id));
     }
-
-
-
 
     @PostMapping("/update")
     public ResponseCode update(@RequestBody PersonDecla personDecla) {

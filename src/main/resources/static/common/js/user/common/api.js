@@ -29,9 +29,21 @@ const api = {
         update: '/user/userInfo/update',
     },
     userFamily: {
-        findById(id) {
-            return '/user/userFamily/findById?id=' + id
+        findByUserId(userId) {
+            return '/user/userFamily/findByUserId?userId=' + userId
         },
         update: '/user/userFamily/update',
+    },
+    personDecla: {
+        findByUserId(userId) {
+            return '/manage/personDecla/findByUserId?userId=' + userId
+        },
+        update: '/manage/personDecla/update',
+    },
+    cleanArchive: {
+        findByUserId(id) {
+            return '/manage/cleanArchive/findByUserId?userId=' + userId
+        },
+        update: '/manage/cleanArchive/update',
     },
 };

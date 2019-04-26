@@ -17,8 +17,8 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_clean_arichives")
-public class CleanArchives {
+@Table(name = "tb_clean_arichive")
+public class CleanArchive {
 
     @Id
     private Integer id;    //id 唯一标识，自增长策略

@@ -7,14 +7,7 @@ const api = {
     common: {
         logout: '/admin/logout'
     },
-    index: {
-        articleCount: '/article/findAllCount',
-        commentsCount: '/comments/findAllCount',
-        tagsCount: '/tags/findAllCount',
-        linksCount: '/users/findAllCount',
-        allArticle: '/article/findAll'
-    },
-    admins: {
+    admin: {
         findByPage(pageSize, pageCode) {
             return '/manage/admin/findByPage?pageSize=' + pageSize + '&pageCode=' + pageCode
         },
@@ -25,7 +18,7 @@ const api = {
         delete: '/manage/admin/delete',
         update: '/manage/admin/update',
     },
-    users: {
+    user: {
         findByPage(pageSize, pageCode) {
             return '/manage/user/findByPage?pageSize=' + pageSize + '&pageCode=' + pageCode
         },
@@ -37,10 +30,9 @@ const api = {
         update: '/manage/user/update',
     },
     userInfo: {
-        findById(id) {
-            return '/manage/userInfo/findById?id=' + id
+        findByUserId(userId) {
+            return '/manage/userInfo/findByUserId?userId=' + userId
         },
-        save: '/manage/userInfo/save',
         update: '/manage/userInfo/update',
     },
     personDecla: {
@@ -54,11 +46,11 @@ const api = {
     },
     cleanArchive: {
         findByPage(pageSize, pageCode) {
-            return '/manage/cleanArchives/findByPage?pageSize=' + pageSize + '&pageCode=' + pageCode
+            return '/manage/cleanArchive/findByPage?pageSize=' + pageSize + '&pageCode=' + pageCode
         },
         findById(id) {
-            return '/manage/cleanArchives/findById?id=' + id
+            return '/manage/cleanArchive/findById?id=' + id
         },
-        update: '/manage/cleanArchives/update',
+        update: '/manage/cleanArchive/update',
     },
 };

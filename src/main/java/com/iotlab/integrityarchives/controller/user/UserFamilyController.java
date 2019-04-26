@@ -1,4 +1,3 @@
-/*
 package com.iotlab.integrityarchives.controller.user;
 
 import com.iotlab.integrityarchives.common.controller.BaseController;
@@ -22,4 +21,3 @@ public class UserFamilyController extends BaseController {
         return ResponseCode.success(userFamilyService.findByUserId(userId));
     }
 }
-*/

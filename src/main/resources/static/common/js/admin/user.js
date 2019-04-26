@@ -90,7 +90,7 @@ var app = new Vue({
         },
         //条件查询
         search(pageCode, pageSize) {
-            this.$http.post(api.users.findByPage(pageSize, pageCode), this.searchEntity).then(result => {
+            this.$http.post(api.user.findByPage(pageSize, pageCode), this.searchEntity).then(result => {
                 this.users = result.body.data.rows;
                 this.pageConf.totalPage = result.body.data.total;
             });
@@ -120,7 +120,7 @@ var app = new Vue({
                 type: 'warning',
                 center: true
             }).then(() => {
-                this.$http.post(api.users.delete, JSON.stringify(ids)).then(result => {
+                this.$http.post(api.user.delete, JSON.stringify(ids)).then(result => {
                     if (result.body.code == 200) {
                         this._notify(result.body.msg, 'success')
                         if ((this.pageConf.totalPage - 1) / this.pageConf.pageSize === (this.pageConf.pageCode - 1)) {
@@ -151,7 +151,7 @@ var app = new Vue({
                 this._notify('输入的信息不能为空', 'warning')
                 return;
             } else {
-                this.$http.post(api.users.save, JSON.stringify(this.addEditor)).then(result => {
+                this.$http.post(api.user.save, JSON.stringify(this.addEditor)).then(result => {
                     this.reloadList();
                 if (result.body.code == 200) {
                     this.addEditor = {};
@@ -170,7 +170,7 @@ var app = new Vue({
             this.changePasswdDialog = true;
             this.passwdEditor = {}; //清空表单
             //查询当前id对应的数据
-            this.$http.get(api.users.findById(id)).then(result => {
+            this.$http.get(api.user.findByUserId(id)).then(result => {
                 this.passwdEditor = result.body.data;
             });
         },
@@ -181,7 +181,7 @@ var app = new Vue({
         changePasswd() {
             this.changePasswdDialog = false;
             //查询当前id对应的数据
-            this.$http.post(api.users.update, JSON.stringify(this.passwdEditor)).then(result => {
+            this.$http.post(api.user.update, JSON.stringify(this.passwdEditor)).then(result => {
                 this.reloadList();
                 if (result.body.code == 200) {
                     this._notify(result.body.msg, 'success')
@@ -197,7 +197,7 @@ var app = new Vue({
             this.editDialog = true;
             this.editor = {}; //清空表单
             //查询当前id对应的数据
-            this.$http.get(api.userInfo.findById(id)).then(result => {
+            this.$http.get(api.userInfo.findByUserId(id)).then(result => {
                 this.editor = result.body.data;
         });
         },

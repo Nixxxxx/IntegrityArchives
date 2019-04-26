@@ -18,7 +18,6 @@ var app = new Vue({
         }],
         editor: {
             id: '',
-            userId: '',
             userName: '',
             shoushou: '',       //收受红包、礼金、有价证券及其他受馈赠的情况
             geren: '',          //个人操办婚丧嫁娶报备及执行情况
@@ -73,7 +72,7 @@ var app = new Vue({
         //条件查询
         search(pageCode, pageSize) {
             this.$http.post(api.cleanArchive.findByPage(pageSize, pageCode), this.searchEntity).then(result => {
-                this.cleanArchive = result.body.data.rows;
+                this.cleanArchives = result.body.data.rows;
             this.pageConf.totalPage = result.body.data.total;
         });
 
@@ -115,8 +114,8 @@ var app = new Vue({
             this.editor = {}
         },
 
-        handlePass(id) {
-            this.$http.post(api.users.update, {id: id,enableStatus: '1'}).then(result => {
+        handleChangeStatus(id, enableStatus) {
+            this.$http.post(api.user.update, JSON.stringify({id: id,enableStatus: enableStatus})).then(result => {
                 this.reloadList();
                 if (result.body.code == 200) {
                     this._notify(result.body.msg, 'success')
