@@ -37,8 +37,10 @@ public class PersonDeclaServiceImpl extends BaseServiceImpl<PersonDecla> impleme
 
     @Override
     public List<PersonDecla> findByPage(PersonDecla personDecla) {
-        System.out.println("从前端得到的实体为"+personDecla);
-        return personDeclaDao.findListByWord(personDecla.getUserName());
+        if(personDecla.getUserName()!=null){
+        return personDeclaDao.findListByWord(personDecla.getUserName());}
+        else
+            return personDeclaDao.selectAll();
     }
 
     @Override

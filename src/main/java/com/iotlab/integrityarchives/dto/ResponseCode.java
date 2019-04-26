@@ -41,7 +41,16 @@ public class ResponseCode {
         return new ResponseCode(StatusEnums.SUCCESS, data);
     }
 
-    public static ResponseCode error() {
+    public static ResponseCode Syserror() {
         return new ResponseCode(StatusEnums.SYSTEM_ERROR);
     }
-}
+    public static ResponseCode RepeaterrorType() {
+        return new ResponseCode(StatusEnums.PARAM_REPEAT);
+    }
+
+
+
+
+
+    }
+

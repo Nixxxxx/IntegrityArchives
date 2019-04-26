@@ -2,12 +2,15 @@ package com.iotlab.integrityarchives.service.impl;
 
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.CleanArchivesDao;
+import com.iotlab.integrityarchives.entity.Admin;
 import com.iotlab.integrityarchives.entity.CleanArchives;
 import com.iotlab.integrityarchives.entity.PersonDecla;
 import com.iotlab.integrityarchives.service.CleanArchivesService;
 import com.iotlab.integrityarchives.service.PersonDeclaService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -33,10 +36,22 @@ public class CleanArchivesServiceImpl extends BaseServiceImpl<CleanArchives> imp
 
 
 
+
+
     @Override
     public List<CleanArchives> findByPage(CleanArchives cleanArchives) {
-        return cleanArchivesDao.findListByWord(cleanArchives.getUserName());
+
+        if(cleanArchives.getUserName()!=null){
+            return cleanArchivesDao.findListByWord(cleanArchives.getUserName());}
+        else
+            return cleanArchivesDao.selectAll();
+
     }
+
+
+
+
+
 
     @Override
     public void update(CleanArchives cleanArchives) {

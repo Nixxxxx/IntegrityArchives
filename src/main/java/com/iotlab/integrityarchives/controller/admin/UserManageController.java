@@ -93,6 +93,12 @@ public class UserManageController extends BaseController {
             user.setLastEditTime(user.getCreateTime());
             user.setUserPasswd(Md5Util.MD5Encode(user.getUserPasswd(),"utf8"));
             //插入后，直接把id返回给主键
+            List<User> listuser=userService.findAll();
+            for(User verfy:listuser){
+                if(user.getUserNumber()==verfy.getUserNumber()){
+                    return  ResponseCode.RepeaterrorType();
+                }
+            }
             userService.insertUserReturnId(user);
             System.out.println("用户id为" + user.getId());
 
