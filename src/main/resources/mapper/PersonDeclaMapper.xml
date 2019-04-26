@@ -21,22 +21,32 @@
     </resultMap>
 
 
-    <select id="findPersonDecalByUserId" parameterType="Integer" resultMap="PersonDeclaResult">
-        SELECT
-            tpd.*,
-            tu.name
-        from tb_person_decla tpd, tb_user tu
-        where tpd.user_id = #{id} and tpd.user_id = tu.id
-    </select>
 
-    <select id="findListByWord" parameterType="string" resultMap="PersonDeclaResult">
+
+    <select id="findListByWord"  resultMap="PersonDeclaResult">
         select tpd.*,tu.name
         from tb_person_decla  tpd,tb_user tu
         where tpd.user_id=tu.id  and tu.name LIKE CONCAT('%', #{word}, '%')
-
-
     </select>
 
+    <select id="findAllList"  resultMap="PersonDeclaResult">
+        select tpd.*,tu.name
+        from tb_person_decla  tpd,tb_user tu
+        where tpd.user_id=tu.id
+    </select>
+
+    <select id="findByUserId"  parameterType="integer" resultMap="PersonDeclaResult">
+        select tpd.*,tu.name
+        from tb_person_decla  tpd,tb_user tu
+        where tpd.user_id=tu.id and tpd.user_id=#{userId}
+    </select>
+
+
+    <select id="findById"  resultMap="PersonDeclaResult">
+        select tpd.*,tu.name
+        from tb_person_decla  tpd,tb_user tu
+        where tpd.user_id=tu.id and tpd.id=#{id}
+    </select>
 
 
 

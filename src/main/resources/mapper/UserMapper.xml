@@ -16,6 +16,11 @@
         values (#{id}, #{userNumber}, #{userPasswd},#{name},#{createTime},#{lastEditTime},#{enableStatus})
     </insert>
 
+    <select id="countUserNumber" parameterType="String" resultType="int">
+        select count(user_number)
+        from tb_user
+        where user_number=#{userNumber}
+    </select>
 
 
 

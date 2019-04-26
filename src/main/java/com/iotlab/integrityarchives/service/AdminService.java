@@ -56,4 +56,9 @@ public interface AdminService extends BaseService<Admin> {
      * @param ids
      */
     void delete(List<Long> ids);
+
+
+    int countAdminNumber(String adminNumber);
+
+
 }

@@ -2,13 +2,14 @@ package com.iotlab.integrityarchives.service.impl;
 
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.UserFamilyDao;
-import com.iotlab.integrityarchives.entity.Admin;
-import com.iotlab.integrityarchives.entity.User;
+
 import com.iotlab.integrityarchives.entity.Userfamily;
 import com.iotlab.integrityarchives.service.UserFamilyService;
-import com.iotlab.integrityarchives.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
+
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ import java.util.List;
  * @date 2019/4/25
  * @备注
  **/
+@Service
+@SuppressWarnings("all")
 public class UserFamilyServiceImpl extends BaseServiceImpl<Userfamily> implements UserFamilyService {
     @Autowired
     private UserFamilyDao userFamilyDao;
@@ -29,10 +32,11 @@ public class UserFamilyServiceImpl extends BaseServiceImpl<Userfamily> implement
     }
 
     @Override
-    public Userfamily findByUserId(Integer id) {
+    public List<Userfamily> findByUserId(Integer userId) {
         Example example = new Example(Userfamily.class);
-        example.and().andEqualTo("userId",id);
-        return userFamilyDao.selectByPrimaryKey(example);
+        example.and().andEqualTo("userId",userId);
+        return userFamilyDao.selectByExample(example);
+                //selectByPrimaryKey(example);
     }
 
     @Override

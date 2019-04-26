@@ -20,10 +20,10 @@ public interface UserFamilyService extends BaseService<Userfamily> {
     /**
      * 根据ID查询
      *
-     * @param id
+     * @param userId
      * @return
      */
-    Userfamily findByUserId(Integer id);
+    List<Userfamily> findByUserId(Integer userId);
 
 
 

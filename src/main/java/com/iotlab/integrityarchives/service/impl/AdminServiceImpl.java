@@ -74,6 +74,10 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
         }
     }
 
+    @Override
+    public int countAdminNumber(String adminNumber) {
+        return adminDao.countAdminNumber(adminNumber);
+    }
 
 
     @Override

@@ -6,23 +6,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.iotlab.integrityarchives.dao.AdminDao">
 
 
-
-    <select id="findById" parameterType="Integer" resultType="com.iotlab.integrityarchives.entity.Admin">
-        select * from admin where admin_id=#{id}
+    <select id="countAdminNumber" parameterType="String" resultType="int">
+        select count(admin_number)
+        from tb_admin
+        where admin_number=#{adminNumber}
     </select>
 
-    <select id="findAll" resultType="com.iotlab.integrityarchives.entity.Admin">
-        select * from admin order by admin_id desc
-    </select>
 
-    <select id="countAll" resultType="Integer">
-        select count(*) from admin
-    </select>
-
-    <select id="findByPage" parameterType="Map" resultType="com.iotlab.integrityarchives.entity.Admin">
-        select * from admin order by admin_id desc
-        <if test="start!=null and quantity!=null">
-            limit #{start},#{quantity}
-        </if>
-    </select>
 </mapper>

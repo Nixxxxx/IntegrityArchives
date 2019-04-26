@@ -20,11 +20,8 @@
         <result column="enable_status" property="enableStatus"/>
     </resultMap>
 
-    <select id="findCleanArchivesResultByUserId" parameterType="Integer" resultMap="CleanArchivesResult">
-        SELECT tca.*,tu.name
-        from  tb_clean_arichives  tca,tb_user tu
-        where tca.user_id=#{id}  and tca.user_id=tu.id;
-    </select>
+
+
 
     <select id="findListByWord" parameterType="string" resultMap="CleanArchivesResult">
        select tca.*,tu.name
@@ -32,8 +29,23 @@
         where tca.user_id=tu.id and tu.name LIKE CONCAT('%', #{word}, '%')
     </select>
 
+    <select id="findAllList" parameterType="string" resultMap="CleanArchivesResult">
+        select tca.*,tu.name
+        from tb_clean_arichives  tca,tb_user tu
+        where tca.user_id=tu.id
+    </select>
 
+    <select id="findByUserId" parameterType="Integer" resultMap="CleanArchivesResult">
+        select tca.*,tu.name
+        from tb_clean_arichives  tca,tb_user tu
+        where tca.user_id=tu.id and tca.user_id=#{userId}
+    </select>
 
+    <select id="findById" parameterType="Integer" resultMap="CleanArchivesResult">
+        select tca.*,tu.name
+        from tb_clean_arichives  tca,tb_user tu
+        where tca.user_id=tu.id and tca.id=#{id}
+    </select>
 
 
 

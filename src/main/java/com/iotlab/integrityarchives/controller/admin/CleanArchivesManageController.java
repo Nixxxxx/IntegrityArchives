@@ -46,8 +46,14 @@ public class CleanArchivesManageController extends BaseController {
 
     @GetMapping(value = "/findById")  //TODO
     public ResponseCode findById(@RequestParam("id") Integer id) {
-        return ResponseCode.success(cleanArchivesService.findByUserId(id));
+        return ResponseCode.success(cleanArchivesService.findById(id));
     }
+
+    @GetMapping(value = "/findByUserId")  //TODO
+    public ResponseCode findByUserId(@RequestParam("userId") Integer userId) {
+        return ResponseCode.success(cleanArchivesService.findByUserId(userId));
+    }
+
 
     @PostMapping("/update")
     public ResponseCode update(@RequestBody CleanArchives cleanArchives) {

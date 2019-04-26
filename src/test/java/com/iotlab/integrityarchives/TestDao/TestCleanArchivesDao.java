@@ -24,7 +24,7 @@ public class TestCleanArchivesDao {
 
     @Test
     public void testcleanArchivesDao() {
-        System.out.println(cleanArchivesDao.findCleanArchivesResultByUserId(2));
+        System.out.println(cleanArchivesDao.findById(2));
     }
 
 

@@ -12,12 +12,18 @@ public interface PersonDeclaService extends BaseService<PersonDecla> {
 
     /**
      *   通过指定用户id查询到用户的信息
-     * @param id
+     * @param userId
      * @return
      */
-    PersonDecla findByUserId(Integer id);
+    PersonDecla findByUserId(Integer userId);
 
 
+    /**
+     *   通过指定用户id查询到用户的信息
+     * @param Id
+     * @return
+     */
+    PersonDecla findById(Integer Id);
 
 
 

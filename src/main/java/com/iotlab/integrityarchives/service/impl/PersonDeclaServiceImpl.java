@@ -3,14 +3,10 @@ package com.iotlab.integrityarchives.service.impl;
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.PersonDeclaDao;
 import com.iotlab.integrityarchives.entity.PersonDecla;
-import com.iotlab.integrityarchives.entity.User;
-import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.service.PersonDeclaService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -30,17 +26,21 @@ public class PersonDeclaServiceImpl extends BaseServiceImpl<PersonDecla> impleme
 
     @Override
     public PersonDecla findByUserId(Integer id) {
-        return personDeclaDao.findPersonDecalByUserId(id);
+        return personDeclaDao.findByUserId(id);
     }
 
+    @Override
+    public PersonDecla findById(Integer Id) {
+        return personDeclaDao.findById(Id);
+    }
 
 
     @Override
     public List<PersonDecla> findByPage(PersonDecla personDecla) {
-        if(personDecla.getUserName()!=null){
-        return personDeclaDao.findListByWord(personDecla.getUserName());}
-        else
-            return personDeclaDao.selectAll();
+        if (personDecla.getUserName() != null) {
+            return personDeclaDao.findListByWord(personDecla.getUserName());
+        } else
+            return personDeclaDao.findAllList();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class PersonDeclaServiceImpl extends BaseServiceImpl<PersonDecla> impleme
     public void save(PersonDecla personDecla) {
         try {
             //passwordHelper.encryptPassword(user); //加密
-           personDeclaDao.insert(personDecla);
+            personDeclaDao.insert(personDecla);
         } catch (Exception e) {
             e.printStackTrace();
             // throw new GlobalException(e.getMessage());

@@ -1,6 +1,7 @@
 package com.iotlab.integrityarchives.TestDao;
 
 import com.iotlab.integrityarchives.dao.CleanArchivesDao;
+import com.iotlab.integrityarchives.dao.UserDao;
 import com.iotlab.integrityarchives.dao.UserFamilyDao;
 import com.iotlab.integrityarchives.entity.Userfamily;
 import org.junit.Test;
@@ -22,6 +23,15 @@ public class TestUserFamilyDao {
 
     @Autowired
     private UserFamilyDao userFamilyDao;
+
+    @Autowired
+    private UserDao userDao;
+
+
+    @Test
+    public void testUserDao(){
+        System.out.println("查出来的用户工号数量为:"+userDao.countUserNumber("0451362"));
+    }
 
     @Test
     public void testUserFamilyDao() {

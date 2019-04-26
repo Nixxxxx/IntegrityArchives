@@ -82,6 +82,11 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     }
 
     @Override
+    public int countUserNumber(String userNumber) {
+        return userDao.countUserNumber(userNumber);
+    }
+
+    @Override
     public User findByName(String username) {
         if (!username.isEmpty()) {
             User user = new User();

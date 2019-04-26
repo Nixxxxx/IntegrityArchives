@@ -2,9 +2,7 @@
 package com.iotlab.integrityarchives.service;
 
 import com.iotlab.integrityarchives.common.service.BaseService;
-import com.iotlab.integrityarchives.entity.Admin;
 import com.iotlab.integrityarchives.entity.User;
-import com.iotlab.integrityarchives.entity.UserInfo;
 
 import java.util.List;
 
@@ -13,6 +11,7 @@ public interface UserService extends BaseService<User> {
 
     /**
      * 查询所有的用户
+     *
      * @return
      */
     List<User> findAll();
@@ -45,7 +44,6 @@ public interface UserService extends BaseService<User> {
     List<User> findByPage(User user);
 
 
-
     /**
      * 更新
      *
@@ -60,16 +58,5 @@ public interface UserService extends BaseService<User> {
      */
     void delete(List<Long> ids);
 
-   /* *
-     * 获取系统设置数据
-     *
-     * @return
-    Setting findSetting();
-
-    *//**
-     * 更新设置信息
-     *
-     * @param setting
-     *//*
-    void updateSetting(Setting setting);*/
+    int countUserNumber(String userNumber);
 }

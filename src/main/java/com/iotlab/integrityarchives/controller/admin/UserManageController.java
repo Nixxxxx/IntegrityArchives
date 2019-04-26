@@ -91,41 +91,40 @@ public class UserManageController extends BaseController {
             user.setEnableStatus(EnableStatusEnum.PASS.getCode());
             user.setCreateTime(new Date());
             user.setLastEditTime(user.getCreateTime());
-            user.setUserPasswd(Md5Util.MD5Encode(user.getUserPasswd(),"utf8"));
-            //插入后，直接把id返回给主键
-            List<User> listuser=userService.findAll();
-            for(User verfy:listuser){
-                if(user.getUserNumber()==verfy.getUserNumber()){
-                    return  ResponseCode.RepeaterrorType();
-                }
+            user.setUserPasswd(Md5Util.MD5Encode(user.getUserPasswd(), "utf8"));
+            //判断用户工号（登录帐号）是否存在
+            if (userService.countUserNumber(user.getUserNumber()) >= 1) {
+                return ResponseCode.RepeaterrorType();
+            } else {
+                //插入后，直接把id返回给主键
+                userService.insertUserReturnId(user);
+                System.out.println("用户id为" + user.getId());
+
+
+                UserInfo userInfo = new UserInfo();
+                userInfo.setUserId(user.getId());
+                userInfo.setName(user.getName());
+                userInfo.setCreateTime(user.getCreateTime());
+                userInfo.setLastEditTime(user.getLastEditTime());
+                userInfo.setEnableStatus(1);
+                userInfoService.save(userInfo);
+
+                PersonDecla personDecla = new PersonDecla();
+                personDecla.setUserId(user.getId());
+                personDecla.setCreateTime(user.getCreateTime());
+                personDecla.setLastEditTime(user.getLastEditTime());
+                personDecla.setEnableStatus(1);
+                personDeclaService.save(personDecla);
+
+                CleanArchives cleanArchives = new CleanArchives();
+                cleanArchives.setUserId(user.getId());
+                cleanArchives.setCreateTime(user.getCreateTime());
+                cleanArchives.setLastEditTime(user.getLastEditTime());
+                cleanArchives.setEnableStatus(1);
+                cleanArchivesService.save(cleanArchives);
+
+                return ResponseCode.success();
             }
-            userService.insertUserReturnId(user);
-            System.out.println("用户id为" + user.getId());
-
-
-            UserInfo userInfo = new UserInfo();
-            userInfo.setUserId(user.getId());
-            userInfo.setName(user.getName());
-            userInfo.setCreateTime(user.getCreateTime());
-            userInfo.setLastEditTime(user.getLastEditTime());
-            userInfo.setEnableStatus(1);
-            userInfoService.save(userInfo);
-
-            PersonDecla personDecla = new PersonDecla();
-            personDecla.setUserId(user.getId());
-            personDecla.setCreateTime(user.getCreateTime());
-            personDecla.setLastEditTime(user.getLastEditTime());
-            personDecla.setEnableStatus(1);
-            personDeclaService.save(personDecla);
-
-            CleanArchives cleanArchives=new CleanArchives();
-            cleanArchives.setUserId(user.getId());
-            cleanArchives.setCreateTime(user.getCreateTime());
-            cleanArchives.setLastEditTime(user.getLastEditTime());
-            cleanArchives.setEnableStatus(1);
-            cleanArchivesService.save(cleanArchives);
-
-            return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -136,7 +135,13 @@ public class UserManageController extends BaseController {
     public ResponseCode update(@RequestBody User user) {
         try {
             user.setLastEditTime(new Date());
-            userService.update(user);
+
+            if (userService.countUserNumber(user.getUserNumber()) >= 1) {
+                return ResponseCode.RepeaterrorType();
+            }
+            else{
+                userService.update(user);
+            }
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();

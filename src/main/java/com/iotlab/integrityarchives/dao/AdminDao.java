@@ -6,5 +6,9 @@ import com.iotlab.integrityarchives.entity.Admin;
 
 public interface AdminDao extends MyMapper<Admin> {
 
-    Admin findById(Integer id);
+
+     int countAdminNumber(String adminNumber);
+
+
+
 }

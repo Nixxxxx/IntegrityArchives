@@ -15,11 +15,25 @@ import java.util.List;
  **/
 public interface PersonDeclaDao extends MyMapper<PersonDecla> {
 
-    PersonDecla findPersonDecalByUserId(Integer id);
+
     /**
      * 通过姓名或者工号模糊查询列表
      * @param word
      * @return
      */
     List<PersonDecla> findListByWord(String word);
+
+    /**
+     * 默认查找所有的廉政列表
+     * @return
+     */
+    List<PersonDecla>  findAllList();
+
+
+    PersonDecla findById(Integer id);
+
+    PersonDecla findByUserId(Integer userId);
+
+
+
 }

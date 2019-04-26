@@ -1,4 +1,4 @@
-/*
+
 package com.iotlab.integrityarchives.controller.admin;
 
 import com.iotlab.integrityarchives.common.controller.BaseController;
@@ -22,7 +22,7 @@ public class UserFamilyManageController extends BaseController {
     private UserFamilyService userFamilyService;
 
     @GetMapping(value = "/findByUserId")
-    public ResponseCode findByUserId(@RequestParam("id") Integer userId) {
+    public ResponseCode findByUserId(@RequestParam("userId") Integer userId) {
         return ResponseCode.success(userFamilyService.findByUserId(userId));
     }
 
@@ -63,4 +63,3 @@ public class UserFamilyManageController extends BaseController {
     }
 
 }
-*/

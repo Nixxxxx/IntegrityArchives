@@ -20,14 +20,14 @@ import java.util.List;
  * @version v.0.1
  * @Description TODO
  * @date 2019/4/17        管理员CRUD    用户CRUD   信息CRUD
- * @备注  超级管理员  唯一    1               1        1
- *       系统管理员  多个    0               1        1
- *       用户              0               0        1
+ * @备注 超级管理员  唯一    1               1        1
+ * 系统管理员  多个    0               1        1
+ * 用户              0               0        1
  **/
 @RestController
 @SuppressWarnings("all")
 @RequestMapping("/manage/admin")
-@Api(tags="管理员控制API",value="测试")
+@Api(tags = "管理员控制API", value = "测试")
 public class AdminManageController extends BaseController {
 
     @Autowired
@@ -35,6 +35,7 @@ public class AdminManageController extends BaseController {
 
     /**
      * 通过id查询到指定管理员
+     *
      * @param id
      * @return
      */
@@ -46,16 +47,18 @@ public class AdminManageController extends BaseController {
 
     /**
      * 查询所有的管理员
+     *
      * @return
      */
-    @GetMapping(value="/findAll")
-    public ResponseCode findAll(){
+    @GetMapping(value = "/findAll")
+    public ResponseCode findAll() {
         System.out.println("进入访问管理员列表路径");
         return ResponseCode.success(adminService.findAll());
     }
 
     /**
      * 分页查询
+     *
      * @param queryPage
      * @param admin
      * @return
@@ -80,10 +83,14 @@ public class AdminManageController extends BaseController {
             admin.setEnableStatus(EnableStatusEnum.PASS.getCode());
             admin.setCreateTime(new Date());
             admin.setLastEditTime(admin.getCreateTime());
-            admin.setAdminPasswd(Md5Util.MD5Encode(admin.getAdminPasswd(),"utf8"));
+            admin.setAdminPasswd(Md5Util.MD5Encode(admin.getAdminPasswd(), "utf8"));
+            //判断管理员工号是否存在
+            if (adminService.countAdminNumber(admin.getAdminNumber()) >= 1) {
+            return ResponseCode.RepeaterrorType();
+            }
             adminService.save(admin);
             return ResponseCode.success();
-        } catch  (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
@@ -93,6 +100,10 @@ public class AdminManageController extends BaseController {
     public ResponseCode update(@RequestBody Admin admin) {
         try {
             admin.setLastEditTime(new Date());
+            //判断管理员工号是否存在
+            if (adminService.countAdminNumber(admin.getAdminNumber()) >= 1) {
+                return ResponseCode.RepeaterrorType();
+            }
             adminService.update(admin);
             return ResponseCode.success();
         } catch (Exception e) {

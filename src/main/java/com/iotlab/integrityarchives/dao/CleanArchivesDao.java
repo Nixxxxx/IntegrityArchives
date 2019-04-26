@@ -14,7 +14,6 @@ import java.util.List;
  **/
 public interface CleanArchivesDao extends MyMapper<CleanArchives> {
 
-    CleanArchives findCleanArchivesResultByUserId(Integer id);
 
     /**
      * 通过姓名或者工号模糊查询列表
@@ -22,4 +21,21 @@ public interface CleanArchivesDao extends MyMapper<CleanArchives> {
      * @return
      */
     List<CleanArchives> findListByWord(String word);
+
+
+    List<CleanArchives> findAllList();
+
+
+    CleanArchives findById(Integer id);
+
+    CleanArchives findByUserId(Integer userId);
+
+
+
+
 }
+
+
+
+
+
