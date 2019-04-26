@@ -95,7 +95,7 @@ var app = new Vue({
             //查询当前id对应的数据
             this.$http.get(api.cleanArchive.findById(id)).then(result => {
                 this.editor = result.body.data;
-        });
+            });
         },
         //关闭编辑窗口
         handleEditClose(key, keyPath) {
@@ -106,13 +106,24 @@ var app = new Vue({
             //查询当前id对应的数据
             this.$http.post(api.cleanArchive.update, JSON.stringify(this.editor)).then(result => {
                 this.reloadList();
-            if (result.body.code == 200) {
-                this._notify(result.body.msg, 'success')
-            } else {
-                this._notify(result.body.msg, 'error')
-            }
-        });
+                if (result.body.code == 200) {
+                    this._notify(result.body.msg, 'success')
+                } else {
+                    this._notify(result.body.msg, 'error')
+                }
+            });
             this.editor = {}
+        },
+
+        handlePass(id) {
+            this.$http.post(api.users.update, {id: id,enableStatus: '1'}).then(result => {
+                this.reloadList();
+                if (result.body.code == 200) {
+                    this._notify(result.body.msg, 'success')
+                } else {
+                    this._notify(result.body.msg, 'error')
+                }
+            });
         },
 
         dateFormat:function(row, column) {

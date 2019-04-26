@@ -54,11 +54,11 @@ const api = {
     },
     cleanArchive: {
         findByPage(pageSize, pageCode) {
-            return '/manage/cleanArchive/findByPage?pageSize=' + pageSize + '&pageCode=' + pageCode
+            return '/manage/cleanArchives/findByPage?pageSize=' + pageSize + '&pageCode=' + pageCode
         },
         findById(id) {
-            return '/manage/cleanArchive/findById?id=' + id
+            return '/manage/cleanArchives/findById?id=' + id
         },
-        update: '/manage/cleanArchive/update',
+        update: '/manage/cleanArchives/update',
     },
 };

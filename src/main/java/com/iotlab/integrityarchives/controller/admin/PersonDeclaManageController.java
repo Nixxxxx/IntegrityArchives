@@ -25,7 +25,7 @@ import java.util.List;
 @SuppressWarnings("all")
 @RequestMapping("/manage/personDecla")
 @Api(tags = "个人申报记录实体控制", value = "测试")
-public class PersonDeclaController extends BaseController {
+public class PersonDeclaManageController extends BaseController {
 
     @Autowired
     private PersonDeclaService personDeclaService;

@@ -26,7 +26,7 @@ import java.util.List;
 @SuppressWarnings("all")
 @RequestMapping("/manage/cleanArchives")
 @Api(tags = "廉政档案控制逻辑", value = "测试")
-public class CleanArchivesController extends BaseController {
+public class CleanArchivesManageController extends BaseController {
 
     @Autowired
     private CleanArchivesService cleanArchivesService;

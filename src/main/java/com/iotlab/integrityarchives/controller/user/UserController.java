@@ -37,8 +37,6 @@ public class UserController extends BaseController {
         return ResponseCode.success(userService.findById(id));
     }
 
-
-
     @PostMapping("/update")
     public ResponseCode update(@RequestBody User user) {
         try {
