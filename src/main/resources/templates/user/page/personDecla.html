@@ -20,7 +20,7 @@
                 <el-card>
                     <h2>家庭成员信息</h2>
                     <!-- 列表 -->
-                    <el-table ref="link" :data="families" border tooltip-effect="dark" style="width: 100%">
+                    <el-table ref="link" :data="family" border tooltip-effect="dark" style="width: 100%">
                         <el-table-column prop="id" align="center" sortable label="编号" show-overflow-tooltip width="80"></el-table-column>
                         <el-table-column align="center" prop="appellation" label="称谓" width="100" show-overflow-tooltip></el-table-column>
                         <el-table-column align="center" prop="name" label="姓名" width="100" show-overflow-tooltip></el-table-column>
@@ -29,6 +29,12 @@
                         <el-table-column align="center" prop="workUnitAndPosition" label="工作单位及职务" width="300" show-overflow-tooltip></el-table-column>
                         <el-table-column align="center" prop="createTime" :formatter="dateFormat" label="创建时间" width="170"></el-table-column>
                         <el-table-column align="center" prop="lastEditTime" :formatter="dateFormat" label="最后编辑时间" width="170"></el-table-column>
+                        <el-table-column label="操作" align="center">
+                            <template slot-scope="scope">
+                                <el-button icon="el-icon-delete" size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+                                <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleEdit(scope.row.id)">编辑</el-button>
+                            </template>
+                        </el-table-column>
                     </el-table>
                 </el-card>
             </el-main>
@@ -37,5 +43,5 @@
 </div>
 </body>
 <div th:replace="user/common/js"></div>
-<script type="text/javascript" th:src="@{/common/js/user/family.js}"></script>
+<script type="text/javascript" th:src="@{/common/js/user/personDecla.js}"></script>
 </html>

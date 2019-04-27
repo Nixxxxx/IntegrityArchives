@@ -41,7 +41,7 @@ const api = {
         update: '/manage/personDecla/update',
     },
     cleanArchive: {
-        findByUserId(id) {
+        findByUserId(userId) {
             return '/manage/cleanArchive/findByUserId?userId=' + userId
         },
         update: '/manage/cleanArchive/update',
