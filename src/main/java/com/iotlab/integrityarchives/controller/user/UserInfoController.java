@@ -19,16 +19,16 @@ public class UserInfoController extends BaseController {
     @Autowired
     private UserInfoService userInfoService;
 
-    @GetMapping(value = "/findById")
-    public ResponseCode findById(@RequestParam("id") Integer id) {
-        return ResponseCode.success(userInfoService.findByUserId(id));
+    @GetMapping(value = "/findByUserId")
+    public ResponseCode findByUserId(@RequestParam("userId") Integer userId) {
+        return ResponseCode.success(userInfoService.findByUserId(userId));
     }
 
     @PostMapping("/update")
-    public ResponseCode update(@RequestBody UserInfo userinfo) {
+    public ResponseCode update(@RequestBody UserInfo userInfo) {
         try {
-            userinfo.setLastEditTime(new Date());
-            userInfoService.update(userinfo);
+            userInfo.setLastEditTime(new Date());
+            userInfoService.update(userInfo);
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();

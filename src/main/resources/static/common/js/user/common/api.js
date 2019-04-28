@@ -23,8 +23,8 @@ const api = {
         localUpload: '/user/user/localUpload',
     },
     userInfo: {
-        findById(id) {
-            return '/user/userInfo/findById?id=' + id
+        findByUserId(userId) {
+            return '/user/userInfo/findByUserId?userId=' + userId
         },
         update: '/user/userInfo/update',
     },

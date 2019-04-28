@@ -29,69 +29,65 @@
                                     <table cellpadding="0" cellspacing="0" border="1">
                                         <tr>
                                             <td width="64">姓名</td>
-                                            <td width="109">王绚浩</td>
+                                            <td width="109">{{userInfo.name}}</td>
                                             <td width="73">性别</td>
-                                            <td width="46">男</td>
+                                            <td width="46">{{userInfo.gender}}</td>
                                             <td width="112">出生年月（岁）</td>
-                                            <td width="159">汉族</td>
+                                            <td width="159">{{userInfo.dateOfBirth}}</td>
                                             <td width="154" rowspan="4"><p ><img src="3c1dd7d958c7dc47a2b707e8a72b5e64.jpg" width="154" height="203" /></p></td>
                                         </tr>
                                         <tr>
                                             <td>民族</td>
-                                            <td>汉</td>
+                                            <td>{{userInfo.nation}}</td>
                                             <td>籍贯</td>
-                                            <td>60kg</td>
+                                            <td>{{userInfo.nativePlace}}</td>
                                             <td>出生地</td>
-                                            <td>团员</td>
+                                            <td>{{userInfo.placeOfBirth}}</td>
                                         </tr>
                                         <tr>
                                             <td>入党时间</td>
-                                            <td>三年制</td>
+                                            <td>{{userInfo.dateOfJoinParty}}</td>
                                             <td>参加工作时间</td>
-                                            <td>专科</td>
+                                            <td>{{userInfo.dateOfJoinWork}}</td>
                                             <td>健康状态</td>
-                                            <td>2016.07</td>
+                                            <td>{{userInfo.physicalCondition}}</td>
                                         </tr>
                                         <tr>
-                                            <td height="46">户籍</td>
-                                            <td colspan="2">山东省淄博市高青县</td>
-                                            <td>出生年月</td>
-                                            <td colspan="2">1995.0403</td>
+                                            <td height="46">专业技术职务</td>
+                                            <td colspan="2">{{userInfo.technicalPosition}}</td>
+                                            <td>熟悉专业有何专长</td>
+                                            <td colspan="2">{{userInfo.familiarMajorAndSpecialty}}</td>
                                         </tr>
                                         <tr>
                                             <td rowspan="3">学历<br/>学位</td>
                                             <tr>
                                                 <td height="39">全日制<br/>教育</td>
-                                                <td colspan="2"><p>读写熟练，简单日常交流。</p></td>
-                                                <td>在职<br/>教育</td>
-                                                <td colspan="2"><p>熟练使用Office、WPS、PPT等办公软件</p></td>
+                                                <td colspan="2"><p>{{userInfo.fullTimeDegree}}</p></td>
+                                                <td height="39">毕业院校<br/>系及专业</td>
+                                                <td colspan="2"><p>{{userInfo.fullTimeGraduatedUniversityAndMajor}}</p></td>
                                             </tr>
                                             <tr>
-                                                <td height="39">毕业院校<br/>系及专业</td>
-                                                <td colspan="2"><p>读写熟练，简单日常交流。</p></td>
+                                                <td>在职<br/>教育</td>
+                                                <td colspan="2"><p>{{userInfo.partTimeDegree}}</p></td>
                                                 <td>毕业院校<br/>系及专业</td>
-                                                <td colspan="2"><p>熟练使用Office、WPS、PPT等办公软件</p></td>
+                                                <td colspan="2"><p>{{userInfo.partTimeGraduatedUniversityAndMajor}}</p></td>
                                             </tr>
                                         </tr>
                                         <tr>
                                             <td colspan="2"><p>现任职务</p></td>
-                                            <td colspan="5"><p>担任飞翔合唱团13级负责人 </p></td>
+                                            <td colspan="5"><p>{{userInfo.currentPosition}} </p></td>
                                         </tr>
                                         <tr>
                                             <td><p >简历</p></td>
-                                            <td colspan="6"><p>担任飞翔合唱团13级负责人 </p>
-                                                <p >2014年3月获得山东&#8220;青歌赛&#8221;民族业余组一等奖。 </p>
-                                                <p >2014年3月获得山东&#8220;青歌赛&#8221;民族业余组二等奖。 </p>
-                                                <p >2014年7月获得全国大学生艺术展演声乐类三等奖， </p>
-                                                <p >2014年7月获得山东省大学生艺术展演声乐类一等奖。 </p></td>
+                                            <td colspan="6">{{userInfo.resume}}</td>
                                         </tr>
                                         <tr>
                                             <td><p >奖惩情况</p></td>
-                                            <td colspan="6"><p>担任飞翔合唱团13级负责人 </p></td>
+                                            <td colspan="6"><p>{{userInfo.rewardsAndPunishment}}</p></td>
                                         </tr>
                                         <tr>
                                             <td><p >年度考核结果</p></td>
-                                            <td colspan="6"><p>担任飞翔合唱团13级负责人 </p></td>
+                                            <td colspan="6"><p>{{userInfo.annualAssessmentResults}}</p></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -127,9 +123,9 @@
                        :show-file-list="false"
                        :on-success="handleAvatarSuccess"
                        :before-upload="beforeAvatarUpload">
-                <img v-if="user.avatar" :src="user.avatar" class="avatar" height="200px">
+                <img v-if="userInfo.avatar" :src="userInfo.avatar" class="avatar" height="200px">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                <div v-if="!user.avatar" class="el-upload__text">点我上传本地头像</div>
+                <div v-if="!userInfo.avatar" class="el-upload__text">点我上传本地头像</div>
             </el-upload>
         </div>
         <span slot="footer" class="dialog-footer">

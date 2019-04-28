@@ -1,8 +1,9 @@
 var app = new Vue({
     el: '#app',
     data: {
-        user: {
+        userInfo: {
             id: '',
+            avater: '',
             name: '',                                //教工姓名
             gender: '',                              //性别
             dateOfBirth: '',                         //出生年月
@@ -28,6 +29,7 @@ var app = new Vue({
             password: '',
             repassword: '',
         },
+        userId: '43',
         localUpload: api.user.localUpload,
         avatarDialog: false,
         defaultActive: '2',
@@ -42,7 +44,7 @@ var app = new Vue({
         window.onresize = function () {
             app.changeDiv();
         }
-        this.getUserInfo();
+        this.getUserInfo(this.userId);
     },
     mounted() {
         this.$refs.loader.style.display = 'none';
@@ -55,41 +57,30 @@ var app = new Vue({
             })
         },
         //获取当前用户信息
-        getUserInfo() {
-            this.$http.get(api.user.info).then(result => {
-                this.user = result.body.data;
-                this.pass.id = result.body.data.id;
+        getUserInfo(userId) {
+            this.$http.get(api.userInfo.findByUserId(userId)).then(result => {
+                this.userInfo = result.body.data;
             });
         },
 
-        save() {
-            this.$http.post(api.user.update, JSON.stringify(this.user)).then(result => {
-                if (result.body.code == 200) {
-                    this._notify(result.body.msg, 'success')
-                    window.location.href = api.common.logout
-                } else {
-                    this._notify(result.body.msg, 'error')
-                }
-            });
-        },
         //触发关闭按钮
         handleClose() {
             this.avatarDialog = false;
         },
         handleEditAvatar() {
-            this.$http.get(api.user.avatar).then(response => {
+            this.$http.get(api.userInfo.avatar).then(response => {
                 this.avatarList = response.body;
             });
             this.avatarDialog = true;
         },
         //修改头像
         changeAvatar(url) {
-            this.user.avatar = url;
+            this.userInfo.avatar = url;
             var data = {
-                id: this.user.id,
-                avatar: this.user.avatar
+                id: this.userInfo.id,
+                avatar: this.userInfo.avatar
             };
-            this.$http.post(api.user.update, JSON.stringify(data)).then(response => {
+            this.$http.post(api.userInfo.update, JSON.stringify(data)).then(response => {
                 this.avatarDialog = false;
                 if (response.body.code == 200) {
                     this._notify('更换头像成功', 'success')
@@ -110,7 +101,7 @@ var app = new Vue({
                     if (result.body.code == 200) {
                         this._notify(result.body.msg, 'success');
                         //执行/logout请求
-                        window.location.href = '/admin/logout'; //更改了密码，注销当前登录状态，重新登录
+                        window.location.href = '/user/logout'; //更改了密码，注销当前登录状态，重新登录
                     } else {
                         this._notify(result.body.msg, 'error');
                     }

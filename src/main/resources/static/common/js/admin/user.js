@@ -40,10 +40,28 @@ var app = new Vue({
         },
         passwdEditor: {
             id: '',
-            userNumber: '',
             userPasswd: '',
+            repasswd: '',
+        },
+        families: [{
+            id: '',
+            appellation: '',
             name: '',
-            enableStatus: ''
+            age: '',
+            politicsStatus: '',
+            workUnitAndPosition: '',
+            createTime: '',
+            lastEditTime: ''
+        }],
+        familyEditor: {
+            id: '',
+            appellation: '',
+            name: '',
+            age: '',
+            politicsStatus: '',
+            workUnitAndPosition: '',
+            createTime: '',
+            lastEditTime: ''
         },
         pageConf: {
             //设置一些初始值(会被覆盖)
@@ -60,6 +78,7 @@ var app = new Vue({
         editDialog: false,
         addDialog: false,
         changePasswdDialog: false,
+        userFamilyDialog: false,
         mobileStatus: false, //是否是移动端
         sidebarStatus: true, //侧边栏状态，true：打开，false：关闭
         sidebarFlag: ' openSidebar ', //侧边栏标
@@ -179,25 +198,29 @@ var app = new Vue({
             this.changePasswdDialog = false;
         },
         changePasswd() {
-            this.changePasswdDialog = false;
-            //查询当前id对应的数据
-            this.$http.post(api.user.update, JSON.stringify(this.passwdEditor)).then(result => {
-                this.reloadList();
-                if (result.body.code == 200) {
-                    this._notify(result.body.msg, 'success')
-                } else {
-                    this._notify(result.body.msg, 'error')
-                }
-            });
-            this.passwdEditor = {}
+            if (this.passwdEditor.passwd.length < 6) {
+                this._notify('请重新输入密码，密码长度在6位及以上', 'warning');
+            } else if (this.passwdEditor.userPasswd != this.pass.repassword) {
+                this._notify('两次输入的密码不一致', 'warning');
+            } else {
+                this.changePasswdDialog = false;
+                this.$http.post(api.user.update, JSON.stringify(this.passwdEditor)).then(result => {
+                    if (result.body.code == 200) {
+                    this._notify(result.body.msg, 'success');
+                    } else {
+                        this._notify(result.body.msg, 'error');
+                    }
+                    this.passwdEditor = {}
+                });
+            }
         },
 
         //触发编辑按钮
-        handleEdit(id) {
+        handleEdit(userId) {
             this.editDialog = true;
             this.editor = {}; //清空表单
             //查询当前id对应的数据
-            this.$http.get(api.userInfo.findByUserId(id)).then(result => {
+            this.$http.get(api.userInfo.findByUserId(userId)).then(result => {
                 this.editor = result.body.data;
         });
         },
@@ -217,6 +240,52 @@ var app = new Vue({
             }
         });
             this.editor = {}
+        },
+
+        //触发编辑按钮
+        handleUserFamily(id) {
+            this.userFamilyDialog = true;
+            this.families = {}; //清空表单
+            //查询当前id对应的数据
+            this.$http.get(api.userFamily.findByUserId(id)).then(result => {
+                this.families = result.body.data;
+            });
+        },
+        //关闭编辑窗口
+        handleUserFamilyClose(key, keyPath) {
+            this.userFamilyDialog = false;
+        },
+        userFamilyEdit() {
+            this.userFamilyDialog = false;
+            //查询当前id对应的数据
+            this.$http.post(api.userFamily.update, JSON.stringify(this.editor)).then(result => {
+                this.reloadList();
+                if (result.body.code == 200) {
+                    this._notify(result.body.msg, 'success')
+                } else {
+                    this._notify(result.body.msg, 'error')
+                }
+            });
+            this.editor = {}
+        },
+        addUserFamily() {
+            if (this.addEditor.userNumber == null || this.addEditor.userNumber == '' || this.addEditor.userPasswd == null || this.addEditor.userPasswd == '') {
+                this.reloadList();
+                this._notify('输入的信息不能为空', 'warning')
+                return;
+            } else {
+                this.$http.post(api.userFamily.save, JSON.stringify(this.familyEditor)).then(result => {
+                    this.reloadList();
+                if (result.body.code == 200) {
+                    this.familyEditor = {};
+                    this._notify(result.body.msg, 'success')
+                } else {
+                    this._notify(result.body.msg, 'error')
+                }
+            });
+            }
+            this.editor = {};
+            this.addDialog = false;
         },
 
         //日期显示格式化

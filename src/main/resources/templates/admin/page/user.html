@@ -59,12 +59,10 @@
                             </el-table-column>
                             <el-table-column label="操作" align="center">
                                 <template slot-scope="scope">
-                                    <el-button icon="el-icon-delete" size="mini" type="danger"
-                                        @click="handleDelete(scope.row.id)">删除</el-button>
-                                    <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning"
-                                               @click="handleChangePasswd(scope.row.id)">修改密码</el-button>
-                                    <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning"
-                                               @click="handleEdit(scope.row.id)">编辑个人信息</el-button>
+                                    <el-button icon="el-icon-delete" size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+                                    <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleChangePasswd(scope.row.id)">修改密码</el-button>
+                                    <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleEdit(scope.row.id)">编辑个人信息</el-button>
+                                    <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleUserFamily(scope.row.id)">家庭成员</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -108,19 +106,15 @@
         <el-dialog title="修改教工密码" :visible.sync="changePasswdDialog" width="30%" :append-to-body='true'
                    :before-close="handleChangePasswdClose">
             <span>
-                <el-form :inline="true" :model="passwdEditor">
-                    <el-form-item prop="userNumber" :rules="[{ required: true, message: '请输入教工工号'}]" label="教工工号">
-                        <el-input style="width: 200px" v-model="passwdEditor.userNumber" placeholder="请输入教工工号"></el-input>
+                <el-form :inline="true" ref="passwdEditor" :model="passwdEditor">
+                    <el-form-item :rules="[{ required: true, message: '请输入输入新密码'}]" label="输入新密码">
+                        <el-input style="width: 200px" v-model="passwdEditor.userPasswd" placeholder="请输入新密码,密码长度在6位及以上"></el-input>
                     </el-form-item>
-                    <el-form-item prop="userPasswd" :rules="[{ required: true, message: '请输入教工密码'}]" label="教工密码">
-                        <el-input style="width: 200px" v-model="passwdEditor.userPasswd" placeholder="请输入教工密码"></el-input>
+                    <el-form-item :rules="[{ required: true, message: '确认新密码'}]" label="确认新密码">
+                        <el-input style="width: 200px" v-model="passwdEditor.repasswd" placeholder="确认新密码"></el-input>
                     </el-form-item>
-                    <el-form-item label="状态">
-                        <el-select v-model="passwdEditor.enableStatus" style="width: 120px">
-                            <el-option label="审核通过" value="1"></el-option>
-                            <el-option label="待审核" value="2"></el-option>
-                            <el-option label="未通过审核" value="3"></el-option>
-                        </el-select>
+                    <el-form-item>
+                        <el-button type="danger" @click="changePassword" style="float:right;">修改密码</el-button>
                     </el-form-item>
                 </el-form>
             </span>
@@ -128,6 +122,60 @@
                 <el-button @click="changePasswdDialog = false">取 消</el-button>
                 <el-button type="primary" @click="changePasswd">修 改</el-button>
             </span>
+        </el-dialog>
+
+        <!-- 家庭成员 -->
+        <el-dialog title="修改教工密码" :visible.sync="userFamilyDialog" width="70%" :append-to-body='true'
+                   :before-close="handleUserFamilyClose">
+            <el-card class="card-category">
+                <div slot="header">
+                    <span>添加家庭成员</span>
+                </div>
+                <div>
+                    <el-form :inline="true" :model="familyEditor" class="demo-form-inline">
+                        <el-form-item required prop="appellation" :rules="[{ required: true, message: '请输入称谓'}]" label="称谓">
+                            <el-input style="width: 100px" v-model="editor.appellation" placeholder="请输入称谓"></el-input>
+                        </el-form-item>
+                        <el-form-item required prop="name" :rules="[{ required: true, message: '请输入姓名'}]" label="姓名">
+                            <el-input style="width: 100px" v-model="editor.name" placeholder="请输入姓名"></el-input>
+                        </el-form-item>
+                        <el-form-item required prop="age" :rules="[{ required: true, message: '请输入年龄'}]" label="年龄">
+                            <el-input style="width: 100px" v-model="editor.age" placeholder="请输入年龄"></el-input>
+                        </el-form-item>
+                        <el-form-item required prop="politicsStatus" :rules="[{ required: true, message: '请输入政治面貌'}]" label="政治面貌">
+                            <el-input style="width: 150px" v-model="editor.politicsStatus" placeholder="请输入政治面貌"></el-input>
+                        </el-form-item>
+                        <el-form-item required prop="workUnitAndPosition" :rules="[{ required: true, message: '请输入工作单位及职务'}]" label="工作单位及职务">
+                            <el-input style="width: 500px" v-model="editor.workUnitAndPosition" placeholder="请输入工作单位及职务"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="success" @click="addUserFamily">添加</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </el-card>
+            <el-card>
+                <h2>家庭成员信息</h2>
+                <!-- 列表 -->
+                <el-table ref="link" :data="families" border tooltip-effect="dark" style="width: 100%">
+                    <el-table-column prop="id" align="center" sortable label="编号" show-overflow-tooltip width="80"></el-table-column>
+                    <el-table-column align="center" prop="appellation" label="称谓" width="100" show-overflow-tooltip></el-table-column>
+                    <el-table-column align="center" prop="name" label="姓名" width="100" show-overflow-tooltip></el-table-column>
+                    <el-table-column align="center" prop="age" label="年龄" width="80" show-overflow-tooltip></el-table-column>
+                    <el-table-column align="center" prop="politicsStatus" label="政治面貌" width="150" show-overflow-tooltip></el-table-column>
+                    <el-table-column align="center" prop="workUnitAndPosition" label="工作单位及职务" width="300" show-overflow-tooltip></el-table-column>
+                    <el-table-column align="center" prop="createTime" :formatter="dateFormat" label="创建时间" width="170"></el-table-column>
+                    <el-table-column align="center" prop="lastEditTime" :formatter="dateFormat" label="最后编辑时间" width="170"></el-table-column>
+                    <el-table-column label="操作" align="center">
+                        <template slot-scope="scope">
+                            <el-button icon="el-icon-delete" size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+                            <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleChangePasswd(scope.row.id)">修改密码</el-button>
+                            <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleEdit(scope.row.id)">编辑个人信息</el-button>
+                            <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleUserFamily(scope.row.id)">家庭成员</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-card>
         </el-dialog>
 
         <!-- 编辑个人信息 -->
