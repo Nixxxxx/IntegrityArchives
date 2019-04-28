@@ -136,13 +136,24 @@ public class UserManageController extends BaseController {
         try {
             user.setLastEditTime(new Date());
 
-            if (userService.countUserNumber(user.getUserNumber()) >= 1) {
-                return ResponseCode.RepeaterrorType();
-            }
-            else{
+            //判断管理员工号是否存在
+            List<String> numberList=userService.numberList();
+
+            //得到原来的number
+            String oldNumber=userService.findoldNumberById(user.getId());
+            //得到现在的number
+            String currentNumber=user.getUserNumber();
+
+
+            if(currentNumber.equals(oldNumber)){
                 userService.update(user);
-            }
-            return ResponseCode.success();
+                return ResponseCode.success();
+            }else if(numberList.contains(currentNumber)){
+                return ResponseCode.RepeaterrorType();
+            }else{    userService.update(user);
+                return ResponseCode.success();}
+
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

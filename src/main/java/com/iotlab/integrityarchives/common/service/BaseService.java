@@ -20,4 +20,6 @@ public interface BaseService<T> {
     void updateNotNull(T entity);
 
     List<T> selectByExample(Object example);
+
+
 }

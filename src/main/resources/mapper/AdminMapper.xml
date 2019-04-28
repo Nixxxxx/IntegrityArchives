@@ -12,5 +12,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where admin_number=#{adminNumber}
     </select>
 
+    <select id="findAllNumber" resultType="string">
+        select admin_number
+        from tb_admin;
+    </select>
+
+
+    <select id="findNumberByadminId" parameterType="Integer" resultType="string">
+        select admin_number
+        from tb_admin
+        where id=#{adminId}
+    </select>
+
+
+
 
 </mapper>

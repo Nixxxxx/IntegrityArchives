@@ -19,7 +19,7 @@ public interface UserService extends BaseService<User> {
     /**
      * 根据number查询用户数据
      *
-     * @param username
+     * @param number
      * @return
      */
     User findByNumber(String number);
@@ -59,4 +59,11 @@ public interface UserService extends BaseService<User> {
     void delete(List<Long> ids);
 
     int countUserNumber(String userNumber);
+
+
+    List<String> numberList();
+
+    String findoldNumberById(Integer id);
+
+
 }

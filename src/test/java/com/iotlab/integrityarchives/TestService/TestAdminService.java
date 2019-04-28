@@ -26,7 +26,9 @@ public class TestAdminService {
     public void testselectByNumber() {
 
         System.out.println(adminService.findByNumber("005909"));
-
+        System.out.println("123:"+adminService.numberList().get(0));
+        System.out.println("123:"+adminService.numberList().get(1));
+        System.out.println("123:"+adminService.numberList().get(2));
     }
 
 

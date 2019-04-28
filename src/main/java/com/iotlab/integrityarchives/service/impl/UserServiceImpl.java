@@ -109,4 +109,14 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         List<User> list = userDao.selectByExample(example);
         return list;
     }
+
+    @Override
+    public List<String> numberList() {
+        return userDao.findAllNumber();
+    }
+
+    @Override
+    public String findoldNumberById(Integer id) {
+        return userDao.findNumberByuserId(id);
+    }
 }

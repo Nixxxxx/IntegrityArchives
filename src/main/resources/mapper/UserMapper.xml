@@ -23,5 +23,18 @@
     </select>
 
 
+    <select id="findAllNumber" resultType="string">
+        select user_number
+        from tb_user;
+    </select>
+
+
+    <select id="findNumberByuserId" parameterType="Integer" resultType="string">
+        select user_number
+        from tb_user
+        where id=#{userId}
+    </select>
+
+
 
 </mapper>

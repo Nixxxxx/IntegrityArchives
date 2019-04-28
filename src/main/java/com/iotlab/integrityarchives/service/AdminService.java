@@ -61,4 +61,9 @@ public interface AdminService extends BaseService<Admin> {
     int countAdminNumber(String adminNumber);
 
 
+    List<String> numberList();
+
+    String findoldNumberById(Integer id);
+
+
 }

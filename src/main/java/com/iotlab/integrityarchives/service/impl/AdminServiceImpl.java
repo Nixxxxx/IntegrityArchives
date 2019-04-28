@@ -41,8 +41,18 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
             adminDao.insert(admin);
         } catch (Exception e) {
             e.printStackTrace();
-           // throw new GlobalException(e.getMessage());
+            // throw new GlobalException(e.getMessage());
         }
+    }
+
+    @Override
+    public List<String> numberList() {
+        return adminDao.findAllNumber();
+    }
+
+    @Override
+    public String findoldNumberById(Integer id) {
+        return adminDao.findNumberByadminId(id);
     }
 
     @Override
@@ -51,9 +61,8 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
         if (admin.getId() != 0) {
             try {
                 if (admin.getAdminPasswd() != null && !"".equals(admin.getAdminPasswd())) {
-                    //passwordHelper.encryptPassword(admin); //加密
+                    this.updateNotNull(admin);
                 }
-                this.updateNotNull(admin);
             } catch (Exception e) {
                 e.printStackTrace();
                 //throw new GlobalException(e.getMessage());
@@ -69,7 +78,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
                 this.batchDelete(ids, "id", Admin.class);
             } catch (Exception e) {
                 e.printStackTrace();
-               // throw new GlobalException(e.getMessage());
+                // throw new GlobalException(e.getMessage());
             }
         }
     }
@@ -96,7 +105,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
     public List<Admin> findByPage(Admin admin) {
         Example example = new Example(Admin.class);
         if (!StringUtils.isEmpty(admin.getAdminNumber())) {
-            example.createCriteria().andLike("adminNumber", "%" + admin.getAdminNumber()+ "%");
+            example.createCriteria().andLike("adminNumber", "%" + admin.getAdminNumber() + "%");
         }
         List<Admin> list = adminDao.selectByExample(example);
         return list;

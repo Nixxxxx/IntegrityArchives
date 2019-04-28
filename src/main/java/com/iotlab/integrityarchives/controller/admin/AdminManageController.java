@@ -100,12 +100,25 @@ public class AdminManageController extends BaseController {
     public ResponseCode update(@RequestBody Admin admin) {
         try {
             admin.setLastEditTime(new Date());
+            System.out.println("已经进入方法");
             //判断管理员工号是否存在
-            if (adminService.countAdminNumber(admin.getAdminNumber()) >= 1) {
+            List<String> numberList=adminService.numberList();
+            //得到原来的number
+            String oldNumber=adminService.findoldNumberById(admin.getId());
+            //得到现在的number
+            String currentNumber=admin.getAdminNumber();
+
+            if(currentNumber.equals(oldNumber)){
+                adminService.update(admin);
+                return ResponseCode.success();
+            }else if(numberList.contains(currentNumber)){
                 return ResponseCode.RepeaterrorType();
-            }
-            adminService.update(admin);
-            return ResponseCode.success();
+            }else{    adminService.update(admin);
+                return ResponseCode.success();}
+
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
