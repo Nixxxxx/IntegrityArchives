@@ -32,6 +32,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     }
 
 
+
     @Override
     public User findById(Integer id) {
         return userDao.selectByPrimaryKey(id);
@@ -87,10 +88,10 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     }
 
     @Override
-    public User findByName(String username) {
-        if (!username.isEmpty()) {
+    public User findByNumber(String number) {
+        if (!number.isEmpty()) {
             User user = new User();
-            user.setUserNumber(username);
+            user.setUserNumber(number);
             return userDao.select(user).get(0);
         } else {
             return new User();

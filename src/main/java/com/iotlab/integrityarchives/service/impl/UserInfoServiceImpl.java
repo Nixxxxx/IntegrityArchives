@@ -63,8 +63,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
 
 
     @Override
-    public UserInfo findByUserId(Integer id) {
-        return userInfoDao.findByUserId(id);
+    public UserInfo findByUserId(Integer userId) {
+        return userInfoDao.findByUserId(userId);
     }
 
 

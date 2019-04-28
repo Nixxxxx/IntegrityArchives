@@ -25,12 +25,12 @@ public interface AdminService extends BaseService<Admin> {
     Admin findById(Integer id);
 
     /**
-     * 根据Name查询用户数据
+     * 根据number查询用户数据
      *
-     * @param username
+     * @param number
      * @return
      */
-    Admin findByName(String username);
+    Admin findByNumber(String number);
 
 
     /**

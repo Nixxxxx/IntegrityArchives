@@ -17,12 +17,12 @@ public interface UserService extends BaseService<User> {
     List<User> findAll();
 
     /**
-     * 根据Name查询用户数据
+     * 根据number查询用户数据
      *
      * @param username
      * @return
      */
-    User findByName(String username);
+    User findByNumber(String number);
 
     /**
      * 根据ID查询

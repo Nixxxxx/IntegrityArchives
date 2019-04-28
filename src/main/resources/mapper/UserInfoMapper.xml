@@ -43,7 +43,7 @@
     <select id="findByUserId" parameterType="Integer" resultMap="UserInfoResult">
         SELECT *
         from tb_user_info
-        where id = #{id}
+        where user_id = #{userId}
     </select>
 
 

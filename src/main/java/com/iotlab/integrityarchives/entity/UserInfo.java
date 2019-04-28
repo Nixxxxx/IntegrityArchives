@@ -1,13 +1,15 @@
 package com.iotlab.integrityarchives.entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.thymeleaf.standard.expression.Each;
+
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -87,6 +89,9 @@ public class UserInfo {
     @Column(name = "annual_assessment_results")
     private String annualAssessmentResults;             //年度考核结果
 
+    @Transient
+    private Userfamily userfamily;
+
     private Date createTime;
     private Date lastEditTime;
     private Integer enableStatus;
@@ -97,6 +102,12 @@ public class UserInfo {
        this.enableStatus=enableStatus;
     }
 
-
-
+    public UserInfo(Integer id, @NotNull Integer userId, String name, String gender, String dateOfBirth, String nation) {
+        this.id = id;
+        this.userId = userId;
+        this.name = name;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.nation = nation;
+    }
 }
