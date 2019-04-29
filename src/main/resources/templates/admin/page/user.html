@@ -60,8 +60,8 @@
                             <el-table-column label="操作" align="center">
                                 <template slot-scope="scope">
                                     <el-button icon="el-icon-delete" size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
-                                    <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleChangePasswd(scope.row.id)">修改密码</el-button>
-                                    <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleEdit(scope.row.id)">编辑个人信息</el-button>
+                                    <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleChangePasswd(scope.row.id, scope.row.userNumber)">修改密码</el-button>
+                                    <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleEdit(scope.row.id)">编辑信息</el-button>
                                     <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleUserFamily(scope.row.id)">家庭成员</el-button>
                                 </template>
                             </el-table-column>
@@ -103,18 +103,15 @@
         </el-dialog>
 
         <!-- 修改密码 -->
-        <el-dialog title="修改教工密码" :visible.sync="changePasswdDialog" width="30%" :append-to-body='true'
+        <el-dialog title="修改密码" :visible.sync="changePasswdDialog" width="30%" :append-to-body='true'
                    :before-close="handleChangePasswdClose">
             <span>
                 <el-form :inline="true" ref="passwdEditor" :model="passwdEditor">
-                    <el-form-item :rules="[{ required: true, message: '请输入输入新密码'}]" label="输入新密码">
-                        <el-input style="width: 200px" v-model="passwdEditor.userPasswd" placeholder="请输入新密码,密码长度在6位及以上"></el-input>
+                    <el-form-item required prop="userNumber" :rules="[{ required: true, message: '请输入账号'}]" label="用户账号">
+                        <el-input style="width: 200px" v-model="passwdEditor.userNumber" placeholder="请输入账号"></el-input>
                     </el-form-item>
-                    <el-form-item :rules="[{ required: true, message: '确认新密码'}]" label="确认新密码">
-                        <el-input style="width: 200px" v-model="passwdEditor.repasswd" placeholder="确认新密码"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="danger" @click="changePassword" style="float:right;">修改密码</el-button>
+                    <el-form-item required prop="userPasswd" :rules="[{ required: true, message: '请输入密码'}]" label="用户密码">
+                        <el-input style="width: 200px" v-model="passwdEditor.userPasswd" placeholder="请输入密码"></el-input>
                     </el-form-item>
                 </el-form>
             </span>
@@ -188,8 +185,8 @@
                     </el-form-item>
                     <el-form-item label="性别">
                         <el-select v-model="editor.gender" style="width: 120px" placeholder="请选择性别">
-                            <el-option label="男" value="male"></el-option>
-                            <el-option label="女" value="female"></el-option>
+                            <el-option label="男" :value="male"></el-option>
+                            <el-option label="女" :value="female"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item prop="dateOfBirth" label="出生年月">

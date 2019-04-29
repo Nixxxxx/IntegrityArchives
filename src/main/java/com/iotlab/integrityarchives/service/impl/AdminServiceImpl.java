@@ -93,9 +93,9 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
     public Admin findByNumber(String number) {
         if (!number.isEmpty()) {
             Admin admin = new Admin();
-            admin.setAdminNumber(number); //设置查询条件
-            //只取列表中第一个
-            return adminDao.select(admin).get(0);
+            admin.setAdminNumber(number);
+            List<Admin> admins = adminDao.select(admin);
+            return admins.size() == 0 ? null : admins.get(0);
         } else {
             return new Admin();
         }

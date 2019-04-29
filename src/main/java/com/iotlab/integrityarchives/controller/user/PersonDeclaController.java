@@ -31,6 +31,7 @@ public class PersonDeclaController extends BaseController {
     public ResponseCode update(@RequestBody PersonDecla personDecla) {
         try {
             personDecla.setLastEditTime(new Date());
+            personDecla.setEnableStatus(EnableStatusEnum.VERIFYING.getCode());
             personDeclaService.update(personDecla);
             return ResponseCode.success();
         } catch (Exception e) {

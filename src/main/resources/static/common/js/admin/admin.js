@@ -4,7 +4,6 @@ var app = new Vue({
         admins: [{
             id: '',
             adminNumber: '',
-            adminPasswd: '',
             createTime: '',
             lstEditTime: '',
             enableStatus: ''
@@ -18,6 +17,9 @@ var app = new Vue({
             id: '',
             adminNumber: '',
             adminPasswd: '',
+        },
+        changeStatusEditor: {
+            id: '',
             enableStatus: ''
         },
         pageConf: {
@@ -34,6 +36,7 @@ var app = new Vue({
 
         editDialog: false,
         addDialog: false,
+        changeStatusDialog: false,
         mobileStatus: false, //是否是移动端
         sidebarStatus: true, //侧边栏状态，true：打开，false：关闭
         sidebarFlag: ' openSidebar ', //侧边栏标
@@ -122,41 +125,72 @@ var app = new Vue({
         },
         add() {
             if (this.addEditor.adminNumber == null || this.addEditor.adminNumber == '' || this.addEditor.adminPasswd == null || this.addEditor.adminPasswd == '') {
-                this.reloadList();
                 this._notify('输入的信息不能为空', 'warning')
                 return;
+            } else if (this.addEditor.adminPasswd.length < 5) {
+                this._notify('请重新输入密码，密码长度在5位及以上', 'warning');
             } else {
                 this.$http.post(api.admin.save, JSON.stringify(this.addEditor)).then(result => {
                     this.reloadList();
-                if (result.body.code == 200) {
-                    this.addEditor = {};
-                    this._notify(result.body.msg, 'success')
-                } else {
-                    this._notify(result.body.msg, 'error')
-                }
-            });
+                    if (result.body.code == 200) {
+                        this.addEditor = {};
+                        this._notify(result.body.msg, 'success')
+                    } else {
+                        this._notify(result.body.msg, 'error')
+                    }
+                });
+                this.editor = {};
+                this.addDialog = false;
             }
-            this.editor = {};
-            this.addDialog = false;
         },
 
         //触发编辑按钮
-        handleEdit(id) {
+        handleEdit(id, adminNumber) {
             this.editDialog = true;
             this.editor = {}; //清空表单
-            //查询当前id对应的数据
-            this.$http.get(api.admin.findById(id)).then(result => {
-                this.editor = result.body.data;
-            });
+            this.editor.id = id;
+            this.editor.adminNumber = adminNumber;
         },
         //关闭编辑窗口
         handleEditClose(key, keyPath) {
             this.editDialog = false;
         },
         edit() {
-            this.editDialog = false;
-            //查询当前id对应的数据
-            this.$http.post(api.admin.update, JSON.stringify(this.editor)).then(result => {
+            if (this.editor.adminNumber == null || this.editor.adminNumber == '' || this.editor.adminPasswd == null || this.editor.adminPasswd == '') {
+                this._notify('输入的信息不能为空', 'warning')
+                return;
+            } else if (this.editor.adminPasswd.length < 5) {
+                this._notify('请重新输入密码，密码长度在5位及以上', 'warning');
+            } else{
+                this.editDialog = false;
+                //查询当前id对应的数据
+                this.$http.post(api.admin.update, JSON.stringify(this.editor)).then(result => {
+                    this.reloadList();
+                    if (result.body.code == 200) {
+                        this._notify(result.body.msg, 'success')
+                    } else {
+                        this._notify(result.body.msg, 'error')
+                    }
+                });
+                this.editor = {}
+            }
+        },
+
+        //触发更新状态按钮
+        handleChangeStatus(id, adminNumber, enableStatus) {
+            this.changeStatusDialog = true;
+            this.changeStatusEditor = {}; //清空表单
+            this.changeStatusEditor.id = id;
+            this.changeStatusEditor.adminNumber = adminNumber;
+            this.changeStatusEditor.enableStatus = enableStatus;
+        },
+        //关闭编辑窗口
+        handleChangeStatusClose(key, keyPath) {
+            this.changeStatusDialog = false;
+        },
+        changeStatus() {
+            this.changeStatusDialog = false;
+            this.$http.post(api.admin.update, JSON.stringify(this.changeStatusEditor)).then(result => {
                 this.reloadList();
                 if (result.body.code == 200) {
                     this._notify(result.body.msg, 'success')
@@ -164,7 +198,7 @@ var app = new Vue({
                     this._notify(result.body.msg, 'error')
                 }
             });
-            this.editor = {}
+            this.changeStatusEditor = {}
         },
 
         dateFormat:function(row, column) {

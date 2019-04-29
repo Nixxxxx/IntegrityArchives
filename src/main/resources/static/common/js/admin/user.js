@@ -165,44 +165,44 @@ var app = new Vue({
             this.addDialog = false;
         },
         add() {
-            if (this.addEditor.userNumber == null || this.addEditor.userNumber == '' || this.addEditor.userPasswd == null || this.addEditor.userPasswd == '') {
-                this.reloadList();
+            if (this.addEditor.userNumber == null || this.addEditor.userNumber == '' || this.addEditor.userPasswd == null || this.addEditor.userPasswd == '' || this.addEditor.name == null || this.addEditor.name == '') {
                 this._notify('输入的信息不能为空', 'warning')
                 return;
+            } else if (this.addEditor.userPasswd.length < 5) {
+                this._notify('请重新输入密码，密码长度在5位及以上', 'warning');
             } else {
                 this.$http.post(api.user.save, JSON.stringify(this.addEditor)).then(result => {
                     this.reloadList();
-                if (result.body.code == 200) {
-                    this.addEditor = {};
-                    this._notify(result.body.msg, 'success')
-                } else {
-                    this._notify(result.body.msg, 'error')
-                }
-            });
+                    if (result.body.code == 200) {
+                        this.addEditor = {};
+                        this._notify(result.body.msg, 'success')
+                    } else {
+                        this._notify(result.body.msg, 'error')
+                    }
+                });
+                this.editor = {};
+                this.addDialog = false;
             }
-            this.editor = {};
-            this.addDialog = false;
         },
 
         //触发修改密码按钮
-        handleChangePasswd(id) {
+        handleChangePasswd(id, userNumber) {
             this.changePasswdDialog = true;
             this.passwdEditor = {}; //清空表单
-            //查询当前id对应的数据
-            this.$http.get(api.user.findByUserId(id)).then(result => {
-                this.passwdEditor = result.body.data;
-            });
+            this.passwdEditor.id = id;
+            this.passwdEditor.userNumber = userNumber;
         },
         //关闭窗口
         handleChangePasswdClose(key, keyPath) {
             this.changePasswdDialog = false;
         },
         changePasswd() {
-            if (this.passwdEditor.passwd.length < 6) {
-                this._notify('请重新输入密码，密码长度在6位及以上', 'warning');
-            } else if (this.passwdEditor.userPasswd != this.pass.repassword) {
-                this._notify('两次输入的密码不一致', 'warning');
-            } else {
+            if (this.passwdEditor.userNumber == null || this.passwdEditor.userNumber == '' || this.passwdEditor.userPasswd == null || this.passwdEditor.userPasswd == '') {
+                this._notify('输入的信息不能为空', 'warning')
+                return;
+            } else if (this.passwdEditor.userPasswd.length < 5) {
+                this._notify('请重新输入密码，密码长度在5位及以上', 'warning');
+            } else{
                 this.changePasswdDialog = false;
                 this.$http.post(api.user.update, JSON.stringify(this.passwdEditor)).then(result => {
                     if (result.body.code == 200) {

@@ -94,7 +94,7 @@ var app = new Vue({
             //查询当前id对应的数据
             this.$http.get(api.personDecla.findById(id)).then(result => {
                 this.editor = result.body.data;
-        });
+            });
         },
         //关闭编辑窗口
         handleEditClose(key, keyPath) {

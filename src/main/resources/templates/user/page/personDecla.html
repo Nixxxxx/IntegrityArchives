@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="user/common/head"></head>
-<title>家庭成员</title>
+<title>个人动态</title>
 <link rel="stylesheet" th:href="@{/common/css/links.css}">
 <body>
 <!-- vue入口 -->
@@ -18,24 +18,33 @@
             <!-- main -->
             <el-main class="app-main">
                 <el-card>
-                    <h2>家庭成员信息</h2>
-                    <!-- 列表 -->
-                    <el-table ref="link" :data="family" border tooltip-effect="dark" style="width: 100%">
-                        <el-table-column prop="id" align="center" sortable label="编号" show-overflow-tooltip width="80"></el-table-column>
-                        <el-table-column align="center" prop="appellation" label="称谓" width="100" show-overflow-tooltip></el-table-column>
-                        <el-table-column align="center" prop="name" label="姓名" width="100" show-overflow-tooltip></el-table-column>
-                        <el-table-column align="center" prop="age" label="年龄" width="80" show-overflow-tooltip></el-table-column>
-                        <el-table-column align="center" prop="politicsStatus" label="政治面貌" width="150" show-overflow-tooltip></el-table-column>
-                        <el-table-column align="center" prop="workUnitAndPosition" label="工作单位及职务" width="300" show-overflow-tooltip></el-table-column>
-                        <el-table-column align="center" prop="createTime" :formatter="dateFormat" label="创建时间" width="170"></el-table-column>
-                        <el-table-column align="center" prop="lastEditTime" :formatter="dateFormat" label="最后编辑时间" width="170"></el-table-column>
-                        <el-table-column label="操作" align="center">
-                            <template slot-scope="scope">
-                                <el-button icon="el-icon-delete" size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
-                                <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleEdit(scope.row.id)">编辑</el-button>
-                            </template>
-                        </el-table-column>
-                    </el-table>
+                    <el-button type="primary" @click="edit">更 新</el-button>
+                    <el-tag v-if="personDecla.enableStatus == 1">审核通过</el-tag>
+                    <el-tag type="success" v-if="personDecla.enableStatus == 2">待审核</el-tag>
+                    <el-tag type="danger" v-if="personDecla.enableStatus == 3">未通过审核</el-tag>
+                    <el-form :inline="true" :model="editor">
+                        <el-form-item prop="renmian" label="任免情况&emsp;&emsp;" style="width: 600px">
+                            <el-input type="textarea" style="width: 500px" autosize placeholder="请输入内容" v-model="personDecla.renmian"></el-input>
+                        </el-form-item><br/>
+                        <el-form-item prop="renshi" label="人事档案情况">
+                            <el-input type="textarea" style="width: 500px" autosize placeholder="请输入内容" v-model="personDecla.renshi"></el-input>
+                        </el-form-item><br/>
+                        <el-form-item prop="yinbu" label="因不如实报告个人有关事项受到处理的情况">
+                            <el-input type="textarea" style="width: 500px" autosize placeholder="请输入内容" v-model="personDecla.yinbu"></el-input>
+                        </el-form-item><br/>
+                        <el-form-item prop="xunshi" label="巡视视察、信访、案件监督管理以及其他方面移交的问题线索和处理情况">
+                            <el-input type="textarea" style="width: 550px" autosize placeholder="请输入内容" v-model="personDecla.xunshi"></el-input>
+                        </el-form-item><br/>
+                        <el-form-item prop="kaizhan" label="开展谈话函询、初步核实、审查调查、以及其他工作形成的材料">
+                            <el-input type="textarea" style="width: 550px" autosize placeholder="请输入内容" v-model="personDecla.kaizhan"></el-input>
+                        </el-form-item><br/>
+                        <el-form-item prop="dangfeng" label="党风廉政意见回复材料">
+                            <el-input type="textarea" style="width: 550px" autosize placeholder="请输入内容" v-model="personDecla.dangfeng"></el-input>
+                        </el-form-item><br/>
+                        <el-form-item prop="qita" label="其他反映廉政情况的材料">
+                            <el-input type="textarea" style="width: 550px" autosize placeholder="请输入内容" v-model="personDecla.qita"></el-input>
+                        </el-form-item>
+                    </el-form>
                 </el-card>
             </el-main>
         </el-container>

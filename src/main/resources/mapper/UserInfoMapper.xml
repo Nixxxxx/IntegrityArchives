@@ -8,6 +8,7 @@
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="name" property="name"/>
+        <!--<result column="avater" property="avater" typeHandler="org.apache.ibatis.type.BlobTypeHandler"/>-->
         <result column="gender" property="gender"/>
         <result column="date_of_birth" property="dateOfBirth"/>
         <result column="nation" property="nation"/>

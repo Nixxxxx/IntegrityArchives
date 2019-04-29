@@ -1,16 +1,15 @@
 package com.iotlab.integrityarchives.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import java.sql.Blob;
 import java.util.Date;
 
 /**
@@ -34,6 +33,9 @@ public class UserInfo {
 
     @Column(name = "name")
     private String name;      //教工姓名
+
+    /*@Column(name = "avater")
+    private Blob avater;*/
 
     @Column(name = "gender")
     private String gender;                              //性别

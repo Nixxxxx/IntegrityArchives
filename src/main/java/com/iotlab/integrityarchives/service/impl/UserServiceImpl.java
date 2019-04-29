@@ -3,7 +3,6 @@ package com.iotlab.integrityarchives.service.impl;
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.UserDao;
 import com.iotlab.integrityarchives.entity.User;
-import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,9 +91,10 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         if (!number.isEmpty()) {
             User user = new User();
             user.setUserNumber(number);
-            return userDao.select(user).get(0);
+            List<User> users = userDao.select(user);
+            return users.size() == 0 ? null : users.get(0);
         } else {
-            return new User();
+            return null;
         }
     }
 
