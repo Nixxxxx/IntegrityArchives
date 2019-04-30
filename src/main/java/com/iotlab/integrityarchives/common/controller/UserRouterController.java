@@ -14,7 +14,7 @@ public class UserRouterController {
      * @return
      */
     @GetMapping(value = {"/info"})
-    public String admin() {
+    public String info() {
         return "user/page/info";
     }
 
@@ -24,7 +24,7 @@ public class UserRouterController {
      * @return
      */
     @GetMapping(value = {"/family"})
-    public String user() {
+    public String family() {
         return "user/page/family";
     }
 

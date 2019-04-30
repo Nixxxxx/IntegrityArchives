@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,6 +28,8 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
     public void save(UserInfo userInfo) {
         try {
             //passwordHelper.encryptPassword(user); //加密
+            userInfo.setCreateTime(new Date());
+            userInfo.setLastEditTime(userInfo.getCreateTime());
             userInfoDao.insert(userInfo);
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,6 +42,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
     public void update(UserInfo userInfo) {
         if (userInfo.getId() != 0) {
             try {
+                userInfo.setLastEditTime(new Date());
                 this.updateNotNull(userInfo);
             } catch (Exception e) {
                 e.printStackTrace();

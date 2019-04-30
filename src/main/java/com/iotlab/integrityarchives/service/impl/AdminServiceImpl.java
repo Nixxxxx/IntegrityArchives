@@ -4,12 +4,14 @@ import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.AdminDao;
 import com.iotlab.integrityarchives.entity.Admin;
 import com.iotlab.integrityarchives.service.AdminService;
+import com.iotlab.integrityarchives.util.Md5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,6 +40,8 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
     public void save(Admin admin) {
         try {
             //passwordHelper.encryptPassword(admin); //加密
+            admin.setCreateTime(new Date());
+            admin.setLastEditTime(admin.getCreateTime());
             adminDao.insert(admin);
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,11 +65,12 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
         if (admin.getId() != 0) {
             try {
                 if (admin.getAdminPasswd() != null && !"".equals(admin.getAdminPasswd())) {
+                    admin.setLastEditTime(new Date());
+                    admin.setAdminPasswd(Md5Util.MD5Encode(admin.getAdminPasswd(), "utf-8"));
                     this.updateNotNull(admin);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                //throw new GlobalException(e.getMessage());
             }
         }
     }

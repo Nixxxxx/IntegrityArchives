@@ -100,7 +100,6 @@ public class AdminManageController extends BaseController {
     public ResponseCode update(@RequestBody Admin admin) {
         try {
             admin.setLastEditTime(new Date());
-            System.out.println("已经进入方法");
             //判断管理员工号是否存在
             List<String> numberList=adminService.numberList();
             //得到原来的number
@@ -108,6 +107,8 @@ public class AdminManageController extends BaseController {
             //得到现在的number
             String currentNumber=admin.getAdminNumber();
 
+            if(admin.getAdminPasswd() != null && !admin.getAdminPasswd().isEmpty())
+                admin.setAdminPasswd(Md5Util.MD5Encode(admin.getAdminPasswd(), "utf8"));
             if(currentNumber.equals(oldNumber)){
                 adminService.update(admin);
                 return ResponseCode.success();

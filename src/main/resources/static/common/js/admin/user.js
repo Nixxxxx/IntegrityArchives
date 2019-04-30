@@ -1,6 +1,7 @@
 var app = new Vue({
     el: '#app',
     data: {
+        img: '',
         users: [{
             id: '',
             userNumber: '',
@@ -17,6 +18,7 @@ var app = new Vue({
         },
         editor: {
             id: '',
+            avater: '',
             name: '',                                //教工姓名
             gender: '',                              //性别
             dateOfBirth: '',                         //出生年月
@@ -43,26 +45,6 @@ var app = new Vue({
             userPasswd: '',
             repasswd: '',
         },
-        families: [{
-            id: '',
-            appellation: '',
-            name: '',
-            age: '',
-            politicsStatus: '',
-            workUnitAndPosition: '',
-            createTime: '',
-            lastEditTime: ''
-        }],
-        familyEditor: {
-            id: '',
-            appellation: '',
-            name: '',
-            age: '',
-            politicsStatus: '',
-            workUnitAndPosition: '',
-            createTime: '',
-            lastEditTime: ''
-        },
         pageConf: {
             //设置一些初始值(会被覆盖)
             pageCode: 1, //当前页
@@ -70,8 +52,9 @@ var app = new Vue({
             totalPage: 12, //总记录数
             pageOption: [6, 10, 20], //分页选项
         },
-        defaultActive: '3',
 
+        localUpload: api.user.localUpload,
+        defaultActive: '3',
         //条件查询单独封装的对象
         searchEntity: {},
 
@@ -90,6 +73,7 @@ var app = new Vue({
         window.onresize = function() {
             app.changeDiv();
         }
+        document.getElementById("header-admin").innerHTML = window.localStorage.getItem("adminNumber") + ",你好";
         this.search(this.pageConf.pageCode, this.pageConf.pageSize);
     },
     mounted() {
@@ -242,52 +226,71 @@ var app = new Vue({
             this.editor = {}
         },
 
-        //触发编辑按钮
-        handleUserFamily(id) {
-            this.userFamilyDialog = true;
-            this.families = {}; //清空表单
-            //查询当前id对应的数据
-            this.$http.get(api.userFamily.findByUserId(id)).then(result => {
-                this.families = result.body.data;
-            });
-        },
-        //关闭编辑窗口
-        handleUserFamilyClose(key, keyPath) {
-            this.userFamilyDialog = false;
-        },
-        userFamilyEdit() {
-            this.userFamilyDialog = false;
-            //查询当前id对应的数据
-            this.$http.post(api.userFamily.update, JSON.stringify(this.editor)).then(result => {
-                this.reloadList();
-                if (result.body.code == 200) {
-                    this._notify(result.body.msg, 'success')
-                } else {
-                    this._notify(result.body.msg, 'error')
-                }
-            });
-            this.editor = {}
-        },
-        addUserFamily() {
-            if (this.addEditor.userNumber == null || this.addEditor.userNumber == '' || this.addEditor.userPasswd == null || this.addEditor.userPasswd == '') {
-                this.reloadList();
-                this._notify('输入的信息不能为空', 'warning')
-                return;
-            } else {
-                this.$http.post(api.userFamily.save, JSON.stringify(this.familyEditor)).then(result => {
-                    this.reloadList();
-                if (result.body.code == 200) {
-                    this.familyEditor = {};
-                    this._notify(result.body.msg, 'success')
-                } else {
-                    this._notify(result.body.msg, 'error')
-                }
-            });
-            }
-            this.editor = {};
-            this.addDialog = false;
-        },
+        imgPreview (file) {
+            // 看支持不支持FileReader
+            if (!file || !window.FileReader) return;
 
+            if (/^image/.test(file.type)) {
+                // 创建一个reader
+                var reader = new FileReader();
+                // 将图片将转成 base64 格式
+                reader.readAsDataURL(file);
+                // 读取成功后的回调
+                reader.onloadend = function () {
+                    this.img = this.result;
+                }
+            }
+        },
+        handleFileChange (e) {
+            this.file = this.$refs.inputer.files[0];
+            // 在获取到文件对象进行预览就行了！
+            this.imgPreview(this.file);
+        },
+        changeAvatar(url){
+            this.user.avatar = url;
+            var data = {
+                id: this.user.id,
+                avatar: this.user.avatar
+            };
+            this.$http.post(api.user.update, JSON.stringify(data)).then(response => {
+                this.avatarDialog = false;
+                if (response.body.code == 200) {
+                    this._notify('更换头像成功', 'success')
+                } else {
+                    this._notify(response.body.msg, 'error')
+                }
+            })
+        },
+        /**
+         * 图片上传
+         * @param res
+         * @param file
+         * @param fileList
+         */
+        //文件上传成功的钩子函数
+        handleAvatarSuccess(res, file, fileList) {
+            this._notify('图片上传成功', 'success');
+            if (res.code == 200) {
+                this.user.avatar = res.data.url;
+                this.avatarDialog = false;
+            }
+        },
+        //文件上传前的前的钩子函数
+        beforeAvatarUpload(file) {
+            const isJPG = file.type === 'image/jpeg';
+            const isGIF = file.type === 'image/gif';
+            const isPNG = file.type === 'image/png';
+            const isBMP = file.type === 'image/bmp';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+
+            if (!isJPG && !isGIF && !isPNG && !isBMP) {
+                this.$message.error('上传图片必须是JPG/GIF/PNG/BMP 格式!');
+            }
+            if (!isLt2M) {
+                this.$message.error('上传图片大小不能超过 2MB!');
+            }
+            return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
+        },
         //日期显示格式化
         dateFormat:function(row, column) {
             var date = row[column.property];

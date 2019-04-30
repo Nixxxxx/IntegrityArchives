@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,10 +48,10 @@ public class PersonDeclaServiceImpl extends BaseServiceImpl<PersonDecla> impleme
     public void update(PersonDecla personDecla) {
         if (personDecla.getId() != 0) {
             try {
+                personDecla.setLastEditTime(new Date());
                 this.updateNotNull(personDecla);
             } catch (Exception e) {
                 e.printStackTrace();
-                //throw new GlobalException(e.getMessage());
             }
         }
     }

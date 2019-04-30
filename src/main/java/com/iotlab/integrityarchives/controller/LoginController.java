@@ -3,8 +3,10 @@ package com.iotlab.integrityarchives.controller;
 import com.iotlab.integrityarchives.common.controller.BaseController;
 import com.iotlab.integrityarchives.dto.ResponseCode;
 import com.iotlab.integrityarchives.entity.UserToken;
+import com.iotlab.integrityarchives.enums.StatusEnums;
 import com.iotlab.integrityarchives.service.AdminService;
 import com.iotlab.integrityarchives.service.UserService;
+import com.iotlab.integrityarchives.util.Md5Util;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,20 +32,21 @@ public class LoginController extends BaseController {
                               @RequestParam(value = "remember", required = false) String remember) {
         if (number != null && password != null) {
             Subject subject = SecurityUtils.getSubject();
-            UserToken token = new UserToken(number, password, "Admin");
-            if (remember.equals("true")) {
+            UserToken token = new UserToken(number, Md5Util.MD5Encode(password, "utf8"), "Admin");
+            System.out.println(Md5Util.MD5Encode(password, "utf8"));
+            if (remember != null && remember.equals("true")) {
                 token.setRememberMe(true);
             } else {
                 token.setRememberMe(false);
             }
             try {
                 subject.login(token);
-                return ResponseCode.success();
+                return ResponseCode.success(adminService.findByNumber(number));
             }catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return ResponseCode.Syserror();
+        return ResponseCode.loginError();
     }
 
     @ResponseBody
@@ -54,7 +57,7 @@ public class LoginController extends BaseController {
                               @RequestParam(value = "remember", required = false) String remember) {
         if (number != null && password != null) {
             Subject subject = SecurityUtils.getSubject();
-            UserToken token = new UserToken(number, password, "User");
+            UserToken token = new UserToken(number, Md5Util.MD5Encode(password, "utf8"), "User");
             if (remember.equals("true")) {
                 token.setRememberMe(true);
             } else {
@@ -62,12 +65,12 @@ public class LoginController extends BaseController {
             }
             try {
                 subject.login(token);
-                return ResponseCode.success();
+                return ResponseCode.success(userService.findByNumber(number));
             }catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return ResponseCode.Syserror();
+        return ResponseCode.loginError();
     }
 
     @RequestMapping(value="/logout")

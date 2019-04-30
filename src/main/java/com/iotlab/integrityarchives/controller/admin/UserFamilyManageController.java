@@ -3,7 +3,7 @@ package com.iotlab.integrityarchives.controller.admin;
 
 import com.iotlab.integrityarchives.common.controller.BaseController;
 import com.iotlab.integrityarchives.dto.ResponseCode;
-import com.iotlab.integrityarchives.entity.Userfamily;
+import com.iotlab.integrityarchives.entity.UserFamily;
 import com.iotlab.integrityarchives.service.UserFamilyService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class UserFamilyManageController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ResponseCode update(@RequestBody Userfamily userfamily) {
+    public ResponseCode update(@RequestBody UserFamily userfamily) {
         try {
             userfamily.setLastEditTime(new Date());
             userFamilyService.update(userfamily);
@@ -39,7 +39,7 @@ public class UserFamilyManageController extends BaseController {
     }
 
     @PostMapping(value = "/save")
-    public ResponseCode save(@RequestBody Userfamily userFamily) {
+    public ResponseCode save(@RequestBody UserFamily userFamily) {
         try {
             userFamily.setCreateTime(new Date());
             userFamily.setLastEditTime(userFamily.getCreateTime());
@@ -61,7 +61,5 @@ public class UserFamilyManageController extends BaseController {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-
 
 }

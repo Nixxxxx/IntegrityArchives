@@ -7,6 +7,7 @@ import com.iotlab.integrityarchives.service.CleanArchiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,10 +49,10 @@ public class CleanArchiveServiceImpl extends BaseServiceImpl<CleanArchive> imple
     public void update(CleanArchive cleanArchive) {
         if (cleanArchive.getId() != 0) {
             try {
+                cleanArchive.setLastEditTime(new Date());
                 this.updateNotNull(cleanArchive);
             } catch (Exception e) {
                 e.printStackTrace();
-                //throw new GlobalException(e.getMessage());
             }
         }
     }
@@ -64,7 +65,6 @@ public class CleanArchiveServiceImpl extends BaseServiceImpl<CleanArchive> imple
                 this.batchDelete(ids, "userId", CleanArchive.class);
             } catch (Exception e) {
                 e.printStackTrace();
-                // throw new GlobalException(e.getMessage());
             }
         }
 

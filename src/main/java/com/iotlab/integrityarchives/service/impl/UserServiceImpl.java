@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,18 +20,10 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     @Autowired
     private UserDao userDao;
 
-
-
-/*    @Autowired
-    private PasswordHelper passwordHelper;*/
-
     @Override
     public List<User> findAll() {
-
         return userDao.selectAll();
     }
-
-
 
     @Override
     public User findById(Integer id) {
@@ -41,8 +34,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     @Transactional
     public int  insertUserReturnId(User user) {
         try {
-            //passwordHelper.encryptPassword(user); //加密
-
+            user.setCreateTime(new Date());
+            user.setLastEditTime(user.getCreateTime());
             return userDao.insertUserReturnId(user);
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,12 +50,11 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         if (user.getId() != 0) {
             try {
                 if (user.getUserPasswd() != null && !"".equals(user.getUserPasswd())) {
-                    //passwordHelper.encryptPassword(user); //加密
                 }
+                user.setLastEditTime(new Date());
                 this.updateNotNull(user);
             } catch (Exception e) {
                 e.printStackTrace();
-                //throw new GlobalException(e.getMessage());
             }
         }
     }
@@ -76,7 +68,6 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
                 this.batchDelete(ids, "id", User.class);
             } catch (Exception e) {
                 e.printStackTrace();
-                // throw new GlobalException(e.getMessage());
             }
         }
     }

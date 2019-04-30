@@ -23,7 +23,7 @@ public class PersonDeclaController extends BaseController {
     private PersonDeclaService personDeclaService;
 
     @GetMapping(value = "/findByUserId")
-    public ResponseCode findByUserId(@RequestParam("id") Integer userId) {
+    public ResponseCode findByUserId(@RequestParam("userId") Integer userId) {
         return ResponseCode.success(personDeclaService.findByUserId(userId));
     }
 

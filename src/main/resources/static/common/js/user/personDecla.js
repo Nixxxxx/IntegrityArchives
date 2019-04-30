@@ -13,9 +13,8 @@ var app = new Vue({
             qita: '',
             enableStatus: ''
         },
-        userId: '43',
-        editDialog: false,
-        defaultActive: '4',
+        userId: '',
+        defaultActive: '3',
         mobileStatus: false, //是否是移动端
         sidebarStatus: true, //侧边栏状态，true：打开，false：关闭
         sidebarFlag: ' openSidebar ', //侧边栏标志
@@ -27,6 +26,8 @@ var app = new Vue({
         window.onresize = function () {
             app.changeDiv();
         }
+        document.getElementById("header-user").innerHTML = window.localStorage.getItem("userName") + ",你好";
+        this.userId = window.localStorage.userId;
         this.getPersonDecla();
     },
     mounted() {
@@ -49,14 +50,13 @@ var app = new Vue({
         edit() {
             //查询当前id对应的数据
             this.$http.post(api.personDecla.update, JSON.stringify(this.personDecla)).then(result => {
-                this.reloadList();
                 if (result.body.code == 200) {
-                    this._notify(result.body.msg, 'success')
+                    this._notify(result.body.msg, 'success');
+                    this.getPersonDecla();
                 } else {
                     this._notify(result.body.msg, 'error')
                 }
             });
-            this.getPersonDecla();
         },
 
         /**

@@ -44,13 +44,14 @@ public class ResponseCode {
     public static ResponseCode Syserror() {
         return new ResponseCode(StatusEnums.SYSTEM_ERROR);
     }
+
     public static ResponseCode RepeaterrorType() {
         return new ResponseCode(StatusEnums.PARAM_REPEAT);
     }
 
-
-
-
-
+    public static ResponseCode loginError() {
+        return new ResponseCode(StatusEnums.ACCOUNT_ERROR);
     }
+
+}
 

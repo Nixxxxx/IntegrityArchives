@@ -19,11 +19,10 @@
             <el-main class="app-main">
                 <el-card>
                     <h2>个人信息</h2>
-                    <el-row :gutter="200">
-                        <el-col :xs="24" :sm="12" :lg="16" :span="12" style="padding-bottom: 20px;">
                             <el-card class="card-category">
                                 <div slot="header">
                                     <span>个人信息</span>
+                                    <el-button size="small" style="float:right" plain type="primary" @click="handleChangePasswd">修改密码</el-button>
                                 </div>
                                 <div>
                                     <table cellpadding="0" cellspacing="0" border="1">
@@ -92,46 +91,26 @@
                                     </table>
                                 </div>
                             </el-card>
-                        </el-col>
-                        <el-col :xs="24" :sm="12" :lg="8" :span="12">
-                            <el-card class="card-category">
-                                <div slot="header">
-                                    <span>修改密码</span>
-                                </div>
-                                <el-form label-width="100px" ref="pass" :model="pass">
-                                    <el-form-item required prop="password" :rules="[{ required: true, message: '请输入新密码'}]" label="输入新密码">
-                                        <el-input placeholder="请输入新密码,密码长度在6位及以上" v-model="pass.password" type="password"></el-input>
-                                    </el-form-item>
-                                    <el-form-item required prop="repassword" :rules="[{ required: true, message: '确认新密码'}]" label="确认新密码">
-                                        <el-input placeholder="确认新密码" v-model="pass.repassword" type="password"></el-input>
-                                    </el-form-item>
-                                    <el-form-item>
-                                        <el-button type="danger" @click="changePassword" style="float:right;">修改密码</el-button>
-                                    </el-form-item>
-                                </el-form>
-                            </el-card>
-                        </el-col>
-                    </el-row>
                 </el-card>
             </el-main>
         </el-container>
-    </div>
-    <el-dialog title="更换头像" :visible.sync="avatarDialog" width="40%" :before-close="handleClose" :close-on-press-escape="false" :close-on-click-modal="false">
-        <div class="modal-body">
-            <el-upload class="avatar-uploader"
-                       :action="localUpload"
-                       :show-file-list="false"
-                       :on-success="handleAvatarSuccess"
-                       :before-upload="beforeAvatarUpload">
-                <img v-if="userInfo.avatar" :src="userInfo.avatar" class="avatar" height="200px">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                <div v-if="!userInfo.avatar" class="el-upload__text">点我上传本地头像</div>
-            </el-upload>
-        </div>
-        <span slot="footer" class="dialog-footer">
-        <el-button type="primary">确 定</el-button>
-        <el-button @click="avatarDialog = false">取 消</el-button>
-    </span>
+    </div><!-- 修改密码 -->
+    <el-dialog title="修改密码" :visible.sync="changePasswdDialog" width="30%" :append-to-body='true'
+               :before-close="handleChangePasswdClose">
+            <span>
+                <el-form label-width="100px" ref="pass" :model="pass">
+                    <el-form-item required prop="userPasswd" :rules="[{ required: true, message: '请输入新密码'}]" label="输入新密码">
+                        <el-input placeholder="请输入新密码,密码长度在5位及以上" v-model="pass.userPasswd" type="password"></el-input>
+                    </el-form-item>
+                    <el-form-item required prop="repassword" :rules="[{ required: true, message: '确认新密码'}]" label="确认新密码">
+                        <el-input placeholder="确认新密码" v-model="pass.repassword" type="password"></el-input>
+                    </el-form-item>
+                </el-form>
+            </span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="changePasswdDialog = false">取 消</el-button>
+                <el-button type="primary" @click="changePasswd">修 改</el-button>
+            </span>
     </el-dialog>
 </div>
 </body>
