@@ -3,6 +3,7 @@ package com.iotlab.integrityarchives.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -10,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author created by Zhangdazhuang
@@ -21,6 +23,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Table(name = "tb_user_info")
 public class UserInfo {
 
@@ -33,8 +36,8 @@ public class UserInfo {
     @Column(name = "name")
     private String name;      //教工姓名
 
-    /*@Column(name = "avater")
-    private Blob avater;*/
+    @Column(name = "avater")
+    private String avater;
 
     @Column(name = "gender")
     private String gender;                              //性别
@@ -91,7 +94,7 @@ public class UserInfo {
     private String annualAssessmentResults;             //年度考核结果
 
     @Transient
-    private UserFamily userfamily;
+    private List<Userfamily> userFamilyList;
 
     private Date createTime;
     private Date lastEditTime;

@@ -2,6 +2,7 @@ package com.iotlab.integrityarchives.TestDao;
 
 import com.iotlab.integrityarchives.dao.CleanArchiveDao;
 import com.iotlab.integrityarchives.entity.CleanArchive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Ignore
 public class TestCleanArchiveDao {
 
     @Autowired

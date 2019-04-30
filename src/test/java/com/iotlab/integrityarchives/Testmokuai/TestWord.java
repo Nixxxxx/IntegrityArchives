@@ -1,83 +1,79 @@
-package com.iotlab.integrityarchives.controller.user;
+package com.iotlab.integrityarchives.Testmokuai;
 
-import com.iotlab.integrityarchives.common.controller.BaseController;
-import com.iotlab.integrityarchives.dto.ResponseCode;
+import com.iotlab.integrityarchives.dao.UserInfoDao;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.entity.Userfamily;
-import com.iotlab.integrityarchives.service.UserInfoService;
-import com.iotlab.integrityarchives.util.ImageUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
-import io.swagger.annotations.Api;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.*;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
-@SuppressWarnings("all")
-@RequestMapping("/user/userInfo")
-@Api(tags = "干部信息控制API", value = "测试")
-public class UserInfoController extends BaseController {
+/**
+ * @author created by Zhangdazhuang
+ * @version v.0.1
+ * @Description TODO
+ * @date 2019/4/29
+ * @备注
+ **/
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Ignore
+public class TestWord {
 
     @Autowired
-    private UserInfoService userInfoService;
+    private UserInfoDao userInfoDao;
 
-    @GetMapping(value = "/findByUserId")
-    public ResponseCode findByUserId(@RequestParam("userId") Integer userId) {
-        return ResponseCode.success(userInfoService.findByUserId(userId));
-    }
-
-    @PostMapping("/update")
-    public ResponseCode update(@RequestBody UserInfo userInfo) {
-        try {
-            userInfo.setLastEditTime(new Date());
-            //userInfo.setAvater(ImageUtil.imagePath(file));
-            userInfoService.update(userInfo);
-            return ResponseCode.success();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-    @PostMapping(value = "/testupload")
-    public void tesetUpload(@RequestParam("fileName") MultipartFile file){
-        System.out.println(ImageUtil.imagePath(file));
+    @Test
+    @Ignore
+    public void testuserInfoDao() {
+        System.out.println(userInfoDao.findUserInfoByuserId(43));
     }
 
 
-
-    @GetMapping("/print")
-    public ResponseCode printUserInfo(@RequestParam("userId") Integer userId) {
+    @Test
+    public void test() {
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        UserInfo userInfo = userInfoService.findUserInfoByuserId(userId);
+        UserInfo userInfo = userInfoDao.findUserInfoByuserId(43);
         List<Userfamily> userFamilyList = userInfo.getUserFamilyList();
+
         try {
             dataMap.put("name", userInfo.getName());
             dataMap.put("gender", userInfo.getGender());
             dataMap.put("dateOfBirth", userInfo.getDateOfBirth());
             dataMap.put("nation", userInfo.getNation());
             dataMap.put("nativePlace", userInfo.getNativePlace());
-            dataMap.put("chushengdi", userInfo.getPlaceOfBirth());
+            dataMap.put("chushengdi",userInfo.getPlaceOfBirth());
             dataMap.put("rudangdate", userInfo.getDateOfJoinParty());
             dataMap.put("canjiadate", userInfo.getDateOfJoinWork());
             dataMap.put("zhuanchang", userInfo.getFamiliarMajorAndSpecialty());
             dataMap.put("jiangcheng", userInfo.getRewardsAndPunishment());
-            dataMap.put("niandukaohe", userInfo.getAnnualAssessmentResults());
+            dataMap.put("niandukaohe",userInfo.getAnnualAssessmentResults());
             dataMap.put("zhuanye", userInfo.getTechnicalPosition());
             dataMap.put("jiankang", userInfo.getPhysicalCondition());
             dataMap.put("quanrizhi", userInfo.getFullTimeDegree());
             dataMap.put("yuanxiao", userInfo.getFullTimeGraduatedUniversityAndMajor());
             dataMap.put("zaizhi", userInfo.getPartTimeDegree());
             dataMap.put("biyeyuanxiao", userInfo.getPartTimeGraduatedUniversityAndMajor());
+
             dataMap.put("xianren", userInfo.getCurrentPosition());
             dataMap.put("jianli", userInfo.getResume());
+
+
+        /* for(int i=0;i<userFamilyList.size();i++)
+         {
+             dataMap.put("")
+         }*/
+
 
 
             //日期
@@ -93,31 +89,24 @@ public class UserInfoController extends BaseController {
              * 指定ftl文件所在目录的路径，而不是ftl文件的路径
              */
             //指定路径的第一种方式（根据某个类的相对路径指定）
-
+            System.out.println(this.getClass());
             configuration.setClassForTemplateLoading(this.getClass(), "/");
 
             //指定路径的第二种方式，我的路径是C：/a.ftl
             //configuration.setDirectoryForTemplateLoading(new File("c:/"));
 
             //输出文档路径及名称
-            File outFile = new File("D:/" + userInfo.getName() + "-信息导出.doc");
+            File outFile = new File("D:/" +  userInfo.getName() + "报销信息导出.doc");
 
             //以utf-8的编码读取ftl文件
             Template template = configuration.getTemplate("干部基本信息表.ftl", "utf-8");
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "utf-8"), 10240);
             template.process(dataMap, out);
             out.close();
-            return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseCode.Syserror();
         }
     }
-
-
-
-
-
 
 
 }

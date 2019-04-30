@@ -77,6 +77,10 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
         return userInfoDao.findListByWord(word);
     }
 
+    @Override
+    public UserInfo findUserInfoByuserId(Integer userId) {
+        return userInfoDao.findUserInfoByuserId(userId);
+    }
 
 
 }

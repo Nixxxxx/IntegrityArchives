@@ -7,6 +7,7 @@
     <resultMap id="UserInfoResult" type="com.iotlab.integrityarchives.entity.UserInfo">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
+        <result column="avater" property="avater"/>
         <result column="name" property="name"/>
         <!--<result column="avater" property="avater" typeHandler="org.apache.ibatis.type.BlobTypeHandler"/>-->
         <result column="gender" property="gender"/>
@@ -22,7 +23,7 @@
         <result column="full_time_degree" property="fullTimeDegree"/>
         <result column="full_time_graduated_university_and_major" property="fullTimeGraduatedUniversityAndMajor"/>
         <result column="part_time_degree" property="partTimeDegree"/>
-        <result column="part-time_graduated_university_and_major" property="partTimeGraduatedUniversityAndMajor"/>
+        <result column="part_time_graduated_university_and_major" property="partTimeGraduatedUniversityAndMajor"/>
         <result column="current_position" property="currentPosition"/>
         <result column="resume" property="resume"/>
         <result column="rewards_and_punishment" property="rewardsAndPunishment"/>
@@ -30,8 +31,21 @@
         <result column="create_time" property="createTime"/>
         <result column="last_edit_time" property="lastEditTime"/>
         <result column="enable_status" property="enableStatus"/>
+        <collection property="userFamilyList" column="user_id" javaType="ArrayList"
+                    ofType="com.iotlab.integrityarchives.entity.Userfamily" select="getUserFamilyByuserId"/>
     </resultMap>
 
+    <resultMap id="UserFamilyResult" type="com.iotlab.integrityarchives.entity.Userfamily">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="appellation" property="appellation"/>
+        <result column="user_family_name" property="userFamilyName"/>
+        <result column="age" property="age"/>
+        <result column="politics_status" property="politicsStatus"/>
+        <result column="work_unit_and_position" property="workUnitAndPosition"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+    </resultMap>
 
     <select id="findListByWord" parameterType="string" resultMap="UserInfoResult">
         SELECT *
@@ -41,10 +55,25 @@
     </select>
 
 
+    <!--定义中间结果集-->
+    <select id="getUserFamilyByuserId" parameterType="integer" resultMap="UserFamilyResult">
+        select *
+        from tb_user_family
+        where user_id = #{userId}
+    </select>
+
+
     <select id="findByUserId" parameterType="Integer" resultMap="UserInfoResult">
         SELECT *
         from tb_user_info
         where user_id = #{userId}
+    </select>
+
+
+    <select id="findUserInfoByuserId" parameterType="integer" resultMap="UserInfoResult">
+        select *
+        from tb_user_info tui
+        where tui.user_id = #{userId}
     </select>
 
 

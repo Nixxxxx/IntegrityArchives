@@ -29,7 +29,7 @@ public interface UserInfoService extends BaseService<UserInfo> {
      */
     List<UserInfo> findListByWord(String word);
 
-
+      UserInfo findUserInfoByuserId(Integer userId);
 
 
 
