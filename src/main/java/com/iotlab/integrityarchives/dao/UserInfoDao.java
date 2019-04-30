@@ -12,4 +12,7 @@ public interface UserInfoDao extends MyMapper<UserInfo> {
     //通过姓名模糊查询或者工号唯一查询列表
     List<UserInfo> findListByWord(String word);
 
+    UserInfo findUserInfoByuserId(Integer userId);
+
+
 }

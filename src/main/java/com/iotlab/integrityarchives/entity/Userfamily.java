@@ -23,10 +23,13 @@ public class Userfamily {
     @NotNull
     @Column(name = "user_id")
     private Integer userId;
+
+
+
     @Column(name = "appellation")
     private String appellation;  //称谓
-    @Column(name = "name")
-    private String name;        //姓名
+    @Column(name = "user_family_name")
+    private String userFamilyName;        //姓名
     @Column(name = "age")
     private String age;        // 年龄
     @Column(name = "politics_status")
