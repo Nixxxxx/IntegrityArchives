@@ -12,7 +12,7 @@ import java.util.Date;
  * @version v.0.1
  * @Description TODO
  * @date 2019/4/24
- * @备注 个人申报记录实体
+ * @备注 个人申报记录实体 只有管理员填写
  **/
 @Data
 @AllArgsConstructor

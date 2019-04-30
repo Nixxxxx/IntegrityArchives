@@ -9,9 +9,10 @@ var app = new Vue({
             politicsStatus: '',
             workUnitAndPosition: '',
             createTime: '',
-            lastEditTime: ''
+            lastEditTime: '',
+            enableStatus: ''
         }],
-        userId: '43',
+        userId: '',
         editor: {
             id: '',
             appellation: '',
@@ -32,6 +33,8 @@ var app = new Vue({
         window.onresize = function() {
             app.changeDiv();
         }
+        document.getElementById("header-admin").innerHTML = window.localStorage.getItem("adminNumber") + ",你好";
+        this.userId = window.localStorage.userId;
         this.search();
     },
     mounted() {
@@ -48,6 +51,8 @@ var app = new Vue({
                 this.families = result.body.data;
             });
         },
+
+
 
         dateFormat:function(row, column) {
             var date = row[column.property];

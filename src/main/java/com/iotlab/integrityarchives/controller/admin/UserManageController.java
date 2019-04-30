@@ -144,16 +144,17 @@ public class UserManageController extends BaseController {
             //得到现在的number
             String currentNumber=user.getUserNumber();
 
-
+            if(user.getUserPasswd() != null && !user.getUserPasswd().isEmpty())
+                user.setUserPasswd(Md5Util.MD5Encode(user.getUserPasswd(), "utf8"));
             if(currentNumber.equals(oldNumber)){
                 userService.update(user);
                 return ResponseCode.success();
             }else if(numberList.contains(currentNumber)){
                 return ResponseCode.RepeaterrorType();
-            }else{    userService.update(user);
-                return ResponseCode.success();}
-
-
+            }else{
+                userService.update(user);
+                return ResponseCode.success();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

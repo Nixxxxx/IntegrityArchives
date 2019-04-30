@@ -41,7 +41,8 @@ public class UserController extends BaseController {
     public ResponseCode update(@RequestBody User user) {
         try {
             user.setLastEditTime(new Date());
-            user.setUserPasswd(Md5Util.MD5Encode(user.getUserPasswd(),"utf8"));
+            if(user.getUserPasswd() != null && !user.getUserPasswd().isEmpty())
+                user.setUserPasswd(Md5Util.MD5Encode(user.getUserPasswd(), "utf8"));
             userService.update(user);
             return ResponseCode.success();
         } catch (Exception e) {

@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import java.sql.Blob;
 import java.util.Date;
 
 /**
@@ -92,7 +91,7 @@ public class UserInfo {
     private String annualAssessmentResults;             //年度考核结果
 
     @Transient
-    private Userfamily userfamily;
+    private UserFamily userfamily;
 
     private Date createTime;
     private Date lastEditTime;

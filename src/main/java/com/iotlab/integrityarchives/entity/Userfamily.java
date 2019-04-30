@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tb_user_family")
-public class Userfamily {
+public class UserFamily {
 
     @Id
     @Column(name = "id")

@@ -34,6 +34,7 @@ public class AdminRealm extends AuthorizingRealm{
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		Set<String> roles = new HashSet<String>();
 		roles.add("admin");
+		System.out.println("============================");
 		authorizationInfo.setRoles(roles);
 		return authorizationInfo;
 	}
@@ -45,9 +46,10 @@ public class AdminRealm extends AuthorizingRealm{
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String number = (String) token.getPrincipal();
 		Admin admin = adminService.findByNumber(number);
+		System.out.println(admin == null);
 		if(admin != null){
 			SecurityUtils.getSubject().getSession().setAttribute("admin", admin); // 当前用户信息存到session中
-			AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(admin.getAdminNumber(), admin.getAdminPasswd(), "admin");
+			AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(admin.getAdminNumber(), admin.getAdminPasswd(), "xx");
 			return authcInfo;
 		}else{
 			return null;				

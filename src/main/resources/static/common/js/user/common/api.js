@@ -5,14 +5,7 @@ const WIDTH = 1024;
 const RATIO = 3;
 const api = {
     common: {
-        logout: '/admin/logout'
-    },
-    index: {
-        articleCount: '/article/findAllCount',
-        commentsCount: '/comments/findAllCount',
-        tagsCount: '/tags/findAllCount',
-        linksCount: '/users/findAllCount',
-        allArticle: '/article/findAll'
+        logout: '/user/logout'
     },
     user: {
         findById(id) {
@@ -36,14 +29,14 @@ const api = {
     },
     personDecla: {
         findByUserId(userId) {
-            return '/manage/personDecla/findByUserId?userId=' + userId
+            return '/user/personDecla/findByUserId?userId=' + userId
         },
-        update: '/manage/personDecla/update',
+        update: '/user/personDecla/update',
     },
     cleanArchive: {
         findByUserId(userId) {
-            return '/manage/cleanArchive/findByUserId?userId=' + userId
+            return '/user/cleanArchive/findByUserId?userId=' + userId
         },
-        update: '/manage/cleanArchive/update',
+        update: '/user/cleanArchive/update',
     },
 };

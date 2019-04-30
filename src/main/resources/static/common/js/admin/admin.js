@@ -48,6 +48,7 @@ var app = new Vue({
         window.onresize = function() {
             app.changeDiv();
         }
+        document.getElementById("header-admin").innerHTML = window.localStorage.getItem("adminNumber") + ",你好";
         this.search(this.pageConf.pageCode, this.pageConf.pageSize);
     },
     mounted() {

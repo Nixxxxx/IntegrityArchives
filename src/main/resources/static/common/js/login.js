@@ -50,9 +50,12 @@ new Vue({
                                 remember: this.login.remember
                             }).then(result => {
                                 if (result.body.code == 200) {
-                                window.location.href = "/user/info";
-                                this.loading.close(); //关闭动画加载
-                            } else {
+                                    window.localStorage.userId = result.body.data.id;
+                                    window.localStorage.userName = result.body.data.name;
+                                    window.localStorage.userNumber = result.body.data.userNumber;
+                                    window.location.href = "/user/info";
+                                    this.loading.close(); //关闭动画加载
+                                } else {
                                 // 弹出错误信息框
                                 this.$emit(
                                     'submit-form',
@@ -67,13 +70,14 @@ new Vue({
                             }
                         });
                     }else{
-
                         this.$http.post(api.adminLogin, {
                             number: this.login.username,
                             password: this.login.password,
                             remember: this.login.remember
                         }).then(result => {
                             if (result.body.code == 200) {
+                                window.localStorage.adminId = result.body.data.id;
+                                window.localStorage.adminNumber = result.body.data.number;
                                 window.location.href = "/admin/admin";
                                 this.loading.close(); //关闭动画加载
                             } else {

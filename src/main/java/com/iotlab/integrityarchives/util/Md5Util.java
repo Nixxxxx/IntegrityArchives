@@ -24,11 +24,7 @@ public class Md5Util {
         try{
             resultString = new String(origin);
             MessageDigest md = MessageDigest.getInstance("MD5");
-            if(null == charsetname || "".equals(charsetname)){
-                resultString = byteArrayToHexString(md.digest(resultString.getBytes()));
-            }else{
-                resultString = byteArrayToHexString(md.digest(resultString.getBytes(charsetname)));
-            }
+            resultString = byteArrayToHexString(md.digest(resultString.getBytes(charsetname)));
         }catch (Exception e){
         }
         return resultString;

@@ -34,6 +34,7 @@ public class UserRealm extends AuthorizingRealm{
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		Set<String> roles = new HashSet<String>();
 		roles.add("user");
+		System.out.println("------------------------------------------------------------");
 		authorizationInfo.setRoles(roles);
 		return authorizationInfo;
 	}
@@ -47,7 +48,7 @@ public class UserRealm extends AuthorizingRealm{
 		User user = userService.findByNumber(number);
 		if(user != null){
 			SecurityUtils.getSubject().getSession().setAttribute("user", user); // 当前用户信息存到session中
-			AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getUserNumber(), user.getUserPasswd(), "user");
+			AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getUserNumber(), user.getUserPasswd(), "xx");
 			return authcInfo;
 		}else{
 			return null;				

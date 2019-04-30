@@ -2,12 +2,11 @@ package com.iotlab.integrityarchives.service;
 
 
 import com.iotlab.integrityarchives.common.service.BaseService;
-import com.iotlab.integrityarchives.entity.Admin;
-import com.iotlab.integrityarchives.entity.Userfamily;
+import com.iotlab.integrityarchives.entity.UserFamily;
 
 import java.util.List;
 
-public interface UserFamilyService extends BaseService<Userfamily> {
+public interface UserFamilyService extends BaseService<UserFamily> {
 
 
     /**
@@ -15,7 +14,7 @@ public interface UserFamilyService extends BaseService<Userfamily> {
      *
      * @return
      */
-    List<Userfamily> findAll();
+    List<UserFamily> findAll();
 
     /**
      * 根据ID查询
@@ -23,21 +22,21 @@ public interface UserFamilyService extends BaseService<Userfamily> {
      * @param userId
      * @return
      */
-    List<Userfamily> findByUserId(Integer userId);
+    List<UserFamily> findByUserId(Integer userId);
 
 
 
 
 
 
-    void save(Userfamily Userfamily);
+    void save(UserFamily Userfamily);
 
     /**
      * 更新
      *
      * @param Userfamily
      */
-    void update(Userfamily Userfamily);
+    void update(UserFamily Userfamily);
 
     /**
      * 删除

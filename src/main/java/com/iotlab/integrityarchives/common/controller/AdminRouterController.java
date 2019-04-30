@@ -28,6 +28,11 @@ public class AdminRouterController {
         return "admin/page/user";
     }
 
+    @GetMapping(value = {"/userFamily"})
+    public String userFamily() {
+        return "admin/page/family";
+    }
+
     @GetMapping(value = {"/personDecla"})
     public String personDecla() {
         return "admin/page/personDecla";
