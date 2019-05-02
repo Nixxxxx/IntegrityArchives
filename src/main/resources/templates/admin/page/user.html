@@ -11,7 +11,6 @@
         <div :class="'app-wrapper' + sidebarFlag">
             <!-- aside -->
             <div th:replace="admin/common/side"></div>
-
             <!-- container -->
             <el-container class="main-container">
                 <!-- header -->
@@ -62,7 +61,6 @@
                                     <el-button icon="el-icon-delete" size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
                                     <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleChangePasswd(scope.row.id, scope.row.userNumber)">修改密码</el-button>
                                     <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleEdit(scope.row.id)">编辑信息</el-button>
-                                    <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleUserFamily(scope.row.id)">家庭成员</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -79,7 +77,6 @@
                 </el-main>
             </el-container>
         </div>
-
         <!-- 添加用户 -->
         <el-dialog title="添加用户" :visible.sync="addDialog" width="30%" :append-to-body='true'
                    :before-close="handleAddClose">
@@ -101,7 +98,6 @@
                 <el-button type="primary" @click="add">确 定</el-button>
             </span>
         </el-dialog>
-
         <!-- 修改密码 -->
         <el-dialog title="修改密码" :visible.sync="changePasswdDialog" width="30%" :append-to-body='true'
                    :before-close="handleChangePasswdClose">
@@ -120,89 +116,178 @@
                 <el-button type="primary" @click="changePasswd">修 改</el-button>
             </span>
         </el-dialog>
-
-        <!-- 编辑个人信息 -->
-        <el-dialog title="编辑个人信息" :visible.sync="editDialog" width="65%" :append-to-body='true'
-                   :before-close="handleEditClose">
+        <!-- 编辑家庭成员 -->
+        <el-dialog title="编辑用户家庭成员" :visible.sync="userFamilyDialog" width="75%" :append-to-body='true'
+                   :before-close="handleUserFamilyClose">
+            <el-card class="card-category">
+                <div slot="header">
+                    <span>添加家庭成员</span>
+                </div>
+                <div>
+                    <el-form :inline="true" :model="addUserFamilyEditor" class="demo-form-inline">
+                        <el-form-item prop="appellation" :rules="[{ required: true, message: '请输入称谓'}]" label="称谓">
+                            <el-input style="width: 100px" v-model="addUserFamilyEditor.appellation" placeholder="请输入称谓"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="userFamilyName" :rules="[{ required: true, message: '请输入姓名'}]" label="姓名">
+                            <el-input style="width: 100px" v-model="addUserFamilyEditor.userFamilyName" placeholder="请输入姓名"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="age" label="年龄">
+                            <el-input style="width: 100px" v-model="addUserFamilyEditor.age" placeholder="请输入年龄"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="politicsStatus" label="政治面貌">
+                            <el-input style="width: 150px" v-model="addUserFamilyEditor.politicsStatus" placeholder="请输入政治面貌"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="workUnitAndPosition" label="工作单位及职务">
+                            <el-input style="width: 500px" v-model="addUserFamilyEditor.workUnitAndPosition" placeholder="请输入工作单位及职务"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="success" @click="addUserFamily">添加</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </el-card>
+            <el-card class="card-category">
+                <div slot="header">
+                    <span>家庭成员信息</span>
+                </div>
+                <!-- 列表 -->
+                <el-table ref="link" :data="families" border tooltip-effect="dark" style="width: 100%">
+                    <el-table-column prop="id" align="center" sortable label="编号" show-overflow-tooltip width="80">
+                        <template slot-scope="{row,$index}">
+                            <span>{{$index + 1}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" prop="appellation" label="称谓" width="100" show-overflow-tooltip></el-table-column>
+                    <el-table-column align="center" prop="userFamilyName" label="姓名" width="100" show-overflow-tooltip></el-table-column>
+                    <el-table-column align="center" prop="age" label="年龄" width="80" show-overflow-tooltip></el-table-column>
+                    <el-table-column align="center" prop="politicsStatus" label="政治面貌" width="150" show-overflow-tooltip></el-table-column>
+                    <el-table-column align="center" prop="workUnitAndPosition" label="工作单位及职务" width="300" show-overflow-tooltip></el-table-column>
+                    <el-table-column label="操作" align="center">
+                        <template slot-scope="scope">
+                            <el-button icon="el-icon-delete" size="mini" type="danger" @click="handleUserFamilyDelete(scope.row.id)">删除</el-button>
+                            <el-button style="margin-left:0;" size="mini" icon="el-icon-edit" type="warning" @click="handleUserFamilyEdit(scope.row.id)">编辑</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-card>
+        </el-dialog>
+        <!-- 修改家庭成员 -->
+        <el-dialog title="修改密码" :visible.sync="userFamilyEditDialog" width="30%" :append-to-body='true'
+                   :before-close="handleUserFamilyEditClose">
             <span>
-                <el-form :inline="true" :model="editor">
-                    <input type="file" @change="handleFileChange" ref="inputer"/><br/>
-                    <img :src="img" style="height:100px;width:100px;"/>
-                    <!--<div>
-                        <el-upload class="avatar-uploader" @change="handleFileChange" ref="inputer" :show-file-list="false">
-                            <img :src="img" class="avatar" height="200px">
-                            <i class="el-icon-plus avatar-uploader-icon"></i>
-                            <div class="el-upload__text">点我上传本地头像</div>
-                        </el-upload>
-                    </div>-->
-                    <div align="right">
-                        <el-form-item prop="name" label="姓名">
-                            <el-input style="width: 100px" :disabled="true" v-model="editor.name"></el-input>
-                        </el-form-item>
-                        <el-form-item label="性别">
-                            <el-select v-model="editor.gender" style="width: 120px" placeholder="请选择性别">
-                                <el-option label="男" value="男"></el-option>
-                                <el-option label="女" value="女"></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item prop="dateOfBirth" label="出生年月">
-                            <el-input style="width: 150px" v-model="editor.dateOfBirth" placeholder="请输入出生年月"></el-input>
-                        </el-form-item><br/>
-                        <el-form-item prop="nation" label="民族">
-                            <el-input style="width: 100px" v-model="editor.nation"></el-input>
-                        </el-form-item>
-                        <el-form-item prop="nativePlace" label="籍贯">
-                            <el-input style="width: 120px" v-model="editor.nativePlace"></el-input>
-                        </el-form-item>
-                        <el-form-item prop="placeOfBirth" label="出生地&emsp;">
-                            <el-input style="width: 150px" v-model="editor.placeOfBirth"></el-input>
-                        </el-form-item><br/>
-                        <el-form-item prop="dateOfJoinParty" label="入党时间">
-                            <el-input style="width: 100px" v-model="editor.dateOfJoinParty"></el-input>
-                        </el-form-item>
-                        <el-form-item prop="dateOfJoinWork" label="参加工作时间">
-                            <el-input style="width: 90px" v-model="editor.dateOfJoinWork"></el-input>
-                        </el-form-item>
-                        <el-form-item prop="physicalCondition" label="健康状况">
-                            <el-input style="width: 100px" v-model="editor.physicalCondition"></el-input>
-                        </el-form-item><br/>
-                    </div>
-                    <el-form-item prop="technicalPosition" label="专业技术职务&emsp;">
-                        <el-input style="width: 200px" v-model="editor.technicalPosition"></el-input>
+                <el-form :inline="true" :model="userFamilyEditor" class="demo-form-inline">
+                    <el-form-item prop="appellation" :rules="[{ required: true, message: '请输入称谓'}]" label="称谓">
+                        <el-input style="width: 100px" v-model="userFamilyEditor.appellation" placeholder="请输入称谓"></el-input>
                     </el-form-item>
-                    <el-form-item prop="familiarMajorAndSpecialty" label="熟悉专业有何专长&emsp;&emsp;&ensp;">
-                        <el-input style="width: 300px" v-model="editor.familiarMajorAndSpecialty"></el-input>
-                    </el-form-item><br/>
-                    <el-form-item prop="fullTimeDegree" label="全日制学历学位">
-                        <el-input style="width: 200px" v-model="editor.fullTimeDegree"></el-input>
+                    <el-form-item prop="userFamilyName" :rules="[{ required: true, message: '请输入姓名'}]" label="姓名">
+                        <el-input style="width: 100px" v-model="userFamilyEditor.userFamilyName" placeholder="请输入姓名"></el-input>
                     </el-form-item>
-                    <el-form-item prop="fullTimeGraduatedUniversityAndMajor" label="全日制毕业院校系及专业">
-                        <el-input style="width: 300px" v-model="editor.fullTimeGraduatedUniversityAndMajor"></el-input>
-                    </el-form-item><br/>
-                    <el-form-item prop="partTimeDegree" label="在职学历学位&emsp;">
-                        <el-input style="width: 200px" v-model="editor.partTimeDegree"></el-input>
+                    <el-form-item prop="age" label="年龄">
+                        <el-input style="width: 100px" v-model="userFamilyEditor.age" placeholder="请输入年龄"></el-input>
                     </el-form-item>
-                    <el-form-item prop="partTimeGraduatedUniversityAndMajor" label="在职毕业院校系及专业&emsp;">
-                        <el-input style="width: 300px" v-model="editor.partTimeGraduatedUniversityAndMajor"></el-input>
-                    </el-form-item><br/>
-                    <el-form-item prop="currentPosition" label="现任职务&emsp;&emsp;">
-                        <el-input style="width: 500px" v-model="editor.currentPosition"></el-input>
-                    </el-form-item><br/>
-                    <el-form-item prop="rewardsAndPunishment" label="奖惩情况&emsp;&emsp;">
-                        <el-input type="textarea" style="width: 500px" autosize placeholder="请输入内容" v-model="editor.rewardsAndPunishment"></el-input>
+                    <el-form-item prop="politicsStatus" label="政治面貌">
+                        <el-input style="width: 150px" v-model="userFamilyEditor.politicsStatus" placeholder="请输入政治面貌"></el-input>
                     </el-form-item>
-                    <el-form-item prop="annualAssessmentResults" label="年度考核结果">
-                        <el-input type="textarea" style="width: 500px" autosize placeholder="请输入内容" v-model="editor.annualAssessmentResults"></el-input>
-                    </el-form-item>
-                    <el-form-item prop="resume" label="简历">
-                        <el-input type="textarea" style="width: 550px" autosize placeholder="请输入内容" v-model="editor.resume"></el-input>
+                    <el-form-item prop="workUnitAndPosition" label="工作单位及职务">
+                        <el-input style="width: 400px" v-model="userFamilyEditor.workUnitAndPosition" placeholder="请输入工作单位及职务"></el-input>
                     </el-form-item>
                 </el-form>
             </span>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="editDialog = false">取 消</el-button>
-                <el-button type="primary" @click="edit">确 定</el-button>
+                <el-button @click="userFamilyEditDialog = false">取 消</el-button>
+                <el-button type="primary" @click="userFamilyEdit">修 改</el-button>
             </span>
+        </el-dialog>
+
+        <!-- 编辑个人信息 -->
+        <el-dialog title="编辑个人信息" :visible.sync="editDialog" width="65%" :append-to-body='true'
+                   :before-close="handleEditClose">
+            <el-card class="card-category">
+                <div slot="header">
+                    <span>编辑个人信息</span>
+                    <el-button size="small" style="float:right" plain type="primary" @click="handleUserFamily">编辑家庭成员</el-button>
+                </div>
+                <span>
+                    <el-form :inline="true" :model="editor">
+                        <div>
+                            <el-upload class="avatar-uploader" @change="handleFileChange" action="" ref="inputer" :show-file-list="false">
+                                <img :src="image" class="avatar" height="200px">
+                                <i class="el-icon-plus avatar-uploader-icon"></i>
+                                <div class="el-upload__text">点我上传本地头像</div>
+                            </el-upload>
+                        </div>
+                        <div align="right">
+                            <el-form-item prop="name" label="姓名">
+                                <el-input style="width: 100px" :disabled="true" v-model="editor.name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="性别">
+                                <el-select v-model="editor.gender" style="width: 120px" placeholder="请选择性别">
+                                    <el-option label="男" value="男"></el-option>
+                                    <el-option label="女" value="女"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item prop="dateOfBirth" label="出生年月">
+                                <el-input style="width: 150px" v-model="editor.dateOfBirth" placeholder="请输入出生年月"></el-input>
+                            </el-form-item><br/>
+                            <el-form-item prop="nation" label="民族">
+                                <el-input style="width: 100px" v-model="editor.nation"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="nativePlace" label="籍贯">
+                                <el-input style="width: 120px" v-model="editor.nativePlace"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="placeOfBirth" label="出生地&emsp;">
+                                <el-input style="width: 150px" v-model="editor.placeOfBirth"></el-input>
+                            </el-form-item><br/>
+                            <el-form-item prop="dateOfJoinParty" label="入党时间">
+                                <el-input style="width: 100px" v-model="editor.dateOfJoinParty"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="dateOfJoinWork" label="参加工作时间">
+                                <el-input style="width: 90px" v-model="editor.dateOfJoinWork"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="physicalCondition" label="健康状况">
+                                <el-input style="width: 100px" v-model="editor.physicalCondition"></el-input>
+                            </el-form-item><br/>
+                        </div>
+                        <el-form-item prop="technicalPosition" label="专业技术职务&emsp;">
+                            <el-input style="width: 200px" v-model="editor.technicalPosition"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="familiarMajorAndSpecialty" label="熟悉专业有何专长&emsp;&emsp;&ensp;">
+                            <el-input style="width: 300px" v-model="editor.familiarMajorAndSpecialty"></el-input>
+                        </el-form-item><br/>
+                        <el-form-item prop="fullTimeDegree" label="全日制学历学位">
+                            <el-input style="width: 200px" v-model="editor.fullTimeDegree"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="fullTimeGraduatedUniversityAndMajor" label="全日制毕业院校系及专业">
+                            <el-input style="width: 300px" v-model="editor.fullTimeGraduatedUniversityAndMajor"></el-input>
+                        </el-form-item><br/>
+                        <el-form-item prop="partTimeDegree" label="在职学历学位&emsp;">
+                            <el-input style="width: 200px" v-model="editor.partTimeDegree"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="partTimeGraduatedUniversityAndMajor" label="在职毕业院校系及专业&emsp;">
+                            <el-input style="width: 300px" v-model="editor.partTimeGraduatedUniversityAndMajor"></el-input>
+                        </el-form-item><br/>
+                        <el-form-item prop="currentPosition" label="现任职务&emsp;&emsp;">
+                            <el-input style="width: 500px" v-model="editor.currentPosition"></el-input>
+                        </el-form-item><br/>
+                        <el-form-item prop="rewardsAndPunishment" label="奖惩情况&emsp;&emsp;">
+                            <el-input type="textarea" style="width: 500px" autosize placeholder="请输入内容" v-model="editor.rewardsAndPunishment"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="annualAssessmentResults" label="年度考核结果">
+                            <el-input type="textarea" style="width: 500px" autosize placeholder="请输入内容" v-model="editor.annualAssessmentResults"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="resume" label="简历">
+                            <el-input type="textarea" style="width: 550px" autosize placeholder="请输入内容" v-model="editor.resume"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="resume" label="简历">
+                            <el-input type="textarea" style="width: 550px" autosize placeholder="请输入内容" v-model="editor.resume"></el-input>
+                        </el-form-item>
+                    </el-form>
+                </span>
+                    <span slot="footer" class="dialog-footer">
+                    <el-button @click="editDialog = false">取 消</el-button>
+                    <el-button type="primary" @click="edit">确 定</el-button>
+                </span>
+            </el-card>
         </el-dialog>
     </div>
 </body>

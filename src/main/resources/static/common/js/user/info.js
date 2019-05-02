@@ -23,16 +23,23 @@ var app = new Vue({
             resume: '',                              //简历
             rewardsAndPunishment: '',                //奖惩情况
             annualAssessmentResults: '',             //年度考核结果
+            userFamilyList: [{
+                appellation: '',
+                userFamilyName: '',
+                age: '',
+                politicsStatus: '',
+                workUnitAndPosition: '',
+                /*createTime: '',
+                lastEditTime: '',
+                enableStatus: ''*/
+            }]
         },
         families: [{
-            id: '',
             appellation: '',
-            name: '',
+            userFamilyName: '',
             age: '',
             politicsStatus: '',
-            workUnitAndPosition: '',
-            createTime: '',
-            lastEditTime: ''
+            workUnitAndPosition: ''
         }],
         pass: {
             id: '',
@@ -72,6 +79,9 @@ var app = new Vue({
             this.$http.get(api.userInfo.findByUserId(userId)).then(result => {
                 this.userInfo = result.body.data;
             });
+            this.$http.get(api.userFamily.findByUserId(userId)).then(result => {
+                this.families = result.body.data;
+        });
         },
 
         //触发修改密码按钮

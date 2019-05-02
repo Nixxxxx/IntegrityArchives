@@ -26,11 +26,17 @@ public class UserFamilyManageController extends BaseController {
         return ResponseCode.success(userFamilyService.findByUserId(userId));
     }
 
+    @GetMapping(value = "/findById")
+    public ResponseCode findById(@RequestParam("id") Integer id) {
+        System.out.println(userFamilyService.findById(id).getUserFamilyName());
+        return ResponseCode.success(userFamilyService.findById(id));
+    }
+
     @PostMapping("/update")
-    public ResponseCode update(@RequestBody UserFamily userfamily) {
+    public ResponseCode update(@RequestBody UserFamily userFamily) {
         try {
-            userfamily.setLastEditTime(new Date());
-            userFamilyService.update(userfamily);
+            userFamily.setLastEditTime(new Date());
+            userFamilyService.update(userFamily);
             return ResponseCode.success();
         } catch (Exception e) {
             e.printStackTrace();

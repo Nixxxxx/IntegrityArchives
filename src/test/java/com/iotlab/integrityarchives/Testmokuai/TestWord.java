@@ -3,7 +3,6 @@ package com.iotlab.integrityarchives.Testmokuai;
 import com.iotlab.integrityarchives.dao.UserInfoDao;
 import com.iotlab.integrityarchives.entity.UserFamily;
 import com.iotlab.integrityarchives.entity.UserInfo;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;

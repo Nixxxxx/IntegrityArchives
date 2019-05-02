@@ -44,4 +44,6 @@ public interface UserFamilyService extends BaseService<UserFamily> {
      * @param ids
      */
     void delete(List<Long> ids);
+
+    UserFamily findById(Integer id);
 }

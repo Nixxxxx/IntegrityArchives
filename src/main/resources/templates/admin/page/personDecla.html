@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="admin/common/head"></head>
-<title>管理员管理</title>
+<title>廉政档案</title>
 <link rel="stylesheet" th:href="@{/common/css/links.css}">
 
 <body>
@@ -20,7 +20,7 @@
             <!-- main -->
             <el-main class="app-main">
                 <el-card>
-                    <h2>个人动态管理</h2>
+                    <h2>廉政档案</h2>
                     <!-- 功能按钮 -->
                     <el-row :gutter="20">
                         <el-col :xs="12" :sm="12" :lg="6" :span="6" style="display: flex">
@@ -80,7 +80,7 @@
     </div>
 
     <!-- 编辑 -->
-    <el-dialog title="编辑信息" :visible.sync="editDialog" width="50%" :append-to-body='true'
+    <el-dialog title="编辑信息" :visible.sync="editDialog" width="45%" :append-to-body='true'
                :before-close="handleEditClose">
             <span>
                 <el-form :inline="true" :model="editor">
@@ -95,7 +95,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item prop="renmian" label="任免情况">
-                        <el-input type="textarea" style="width: 550px" autosize placeholder="请输入内容" v-model="editor.renmian"></el-input>
+                        <el-input style="width: 250px" placeholder="请输入内容" v-model="editor.renmian"></el-input>
                     </el-form-item>
                     <el-form-item prop="renshi" label="人事档案情况">
                         <el-input type="textarea" style="width: 550px" autosize placeholder="请输入内容" v-model="editor.renshi"></el-input>

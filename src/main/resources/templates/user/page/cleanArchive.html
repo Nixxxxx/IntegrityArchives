@@ -26,37 +26,37 @@
                         <el-tabs v-model="activeName" @tab-click="handleClick">
                             <el-tab-pane label="收受红包、礼金等" name="first">
                                 <el-form-item prop="shoushou" label="收受红包、礼金、有价证券及其他受馈赠的情况" style="width: 600px">
-                                    <el-input type="textarea" style="width: 600px" autosize placeholder="请输入内容" v-model="cleanArchive.shoushou"></el-input>
+                                    <el-input type="textarea" style="width: 600px" :autosize="{ minRows: 8, maxRows: 30}" placeholder="请输入内容" v-model="cleanArchive.shoushou"></el-input>
                                 </el-form-item>
                             </el-tab-pane>
                             <el-tab-pane label="婚丧嫁娶" name="second">
                                 <el-form-item prop="geren" label="个人操办婚丧嫁娶报备及执行情况" style="width: 600px">
-                                    <el-input type="textarea" style="width: 600px" autosize placeholder="请输入内容" v-model="cleanArchive.geren"></el-input>
+                                    <el-input type="textarea" style="width: 600px" :autosize="{ minRows: 8, maxRows: 30}" placeholder="请输入内容" v-model="cleanArchive.geren"></el-input>
                                 </el-form-item>
                             </el-tab-pane>
                             <el-tab-pane label="配偶及子女情况" name="third">
                                 <el-form-item prop="peiou" label="配偶及成年子女就业及所在国籍情况" style="width: 600px">
-                                    <el-input type="textarea" style="width: 600px" autosize placeholder="请输入内容" v-model="cleanArchive.peiou"></el-input>
+                                    <el-input type="textarea" style="width: 600px" :autosize="{ minRows: 8, maxRows: 30}" placeholder="请输入内容" v-model="cleanArchive.peiou"></el-input>
                                 </el-form-item>
                             </el-tab-pane>
                             <el-tab-pane label="企业、社会及其酬取情况" name="fourth">
                                 <el-form-item prop="zaiqi" label="个人在企业、社会及其酬取情况" style="width: 600px">
-                                    <el-input type="textarea" style="width: 600px" autosize placeholder="请输入内容" v-model="cleanArchive.zaiqi"></el-input>
+                                    <el-input type="textarea" style="width: 600px" :autosize="{ minRows: 8, maxRows: 30}" placeholder="请输入内容" v-model="cleanArchive.zaiqi"></el-input>
                                 </el-form-item>
                             </el-tab-pane>
                             <el-tab-pane label="涉矿、涉矿企业经营活动等" name="fifth">
                                 <el-form-item prop="shifou" label="个人是否参与涉矿、涉矿企业经营活动或参与分红情况" style="width: 600px">
-                                    <el-input type="textarea" style="width: 600px" autosize placeholder="请输入内容" v-model="cleanArchive.shifou"></el-input>
+                                    <el-input type="textarea" style="width: 600px" :autosize="{ minRows: 8, maxRows: 30}" placeholder="请输入内容" v-model="cleanArchive.shifou"></el-input>
                                 </el-form-item>
                             </el-tab-pane>
                             <el-tab-pane label="科研经费及财务个人借款" name="sixth">
                                 <el-form-item prop="niandu" label="个人年度科研经费入账使用及财务个人借款情况" style="width: 600px">
-                                    <el-input type="textarea" style="width: 600px" autosize placeholder="请输入内容" v-model="cleanArchive.niandu"></el-input>
+                                    <el-input type="textarea" style="width: 600px" :autosize="{ minRows: 8, maxRows: 30}" placeholder="请输入内容" v-model="cleanArchive.niandu"></el-input>
                                 </el-form-item>
                             </el-tab-pane>
                             <el-tab-pane label="因私出入国（境）" name="seventh">
                                 <el-form-item prop="yinsi" label="个人因私出入国（境）情况" style="width: 600px">
-                                    <el-input type="textarea" style="width: 600px" autosize placeholder="请输入内容" v-model="cleanArchive.yinsi"></el-input>
+                                    <el-input type="textarea" style="width: 600px" :autosize="{ minRows: 8, maxRows: 30}" placeholder="请输入内容" v-model="cleanArchive.yinsi"></el-input>
                                 </el-form-item>
                             </el-tab-pane>
                         </el-tabs>
