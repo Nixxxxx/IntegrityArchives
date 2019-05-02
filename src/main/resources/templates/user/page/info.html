@@ -124,10 +124,14 @@
             <span slot="footer" class="dialog-footer">
                 <el-button @click="changePasswdDialog = false">取 消</el-button>
                 <el-button type="primary" @click="changePasswd">修 改</el-button>
+              <el-button @click="Printword">打印</el-button>
             </span>
     </el-dialog>
 </div>
 </body>
 <div th:replace="user/common/js"></div>
 <script type="text/javascript" th:src="@{/common/js/user/info.js}"></script>
+
+
+
 </html>

@@ -63,11 +63,11 @@
     </select>
 
 
-    <select id="findByUserId" parameterType="Integer" resultMap="UserInfoResult">
+    <!--<select id="findByUserId" parameterType="Integer" resultMap="UserInfoResult">
         SELECT *
         from tb_user_info
         where user_id = #{userId}
-    </select>
+    </select>-->
 
 
     <select id="findUserInfoByuserId" parameterType="integer" resultMap="UserInfoResult">

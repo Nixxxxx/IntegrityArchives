@@ -6,6 +6,7 @@ import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.entity.UserInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserInfoService extends BaseService<UserInfo> {
 
@@ -13,12 +14,12 @@ public interface UserInfoService extends BaseService<UserInfo> {
 
     /**
      *   通过指定用户id查询到用户的信息
-     * @param id
+     * @param
      * @return
      */
-    UserInfo findByUserId(Integer id);
+    //UserInfo findByUserId(Integer id);
 
-
+    Map<String, Object>  exportWordFile(UserInfo userInfo);
 
 
 
