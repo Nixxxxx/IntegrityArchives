@@ -94,7 +94,7 @@ public class UserInfo {
     private String annualAssessmentResults;             //年度考核结果
 
     @Transient
-    private List<Userfamily> userFamilyList;
+    private List<UserFamily> userFamilyList;
 
     private Date createTime;
     private Date lastEditTime;

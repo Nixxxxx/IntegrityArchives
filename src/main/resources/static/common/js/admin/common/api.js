@@ -35,6 +35,17 @@ const api = {
         },
         update: '/manage/userInfo/update',
     },
+    userFamily: {
+        findById(id) {
+            return '/manage/userFamily/findById?id=' + id
+        },
+        findByUserId(userId) {
+            return '/manage/userFamily/findByUserId?userId=' + userId
+        },
+        save: '/manage/userFamily/save',
+        delete: '/manage/userFamily/delete',
+        update: '/manage/userFamily/update',
+    },
     personDecla: {
         findByPage(pageSize, pageCode) {
             return '/manage/personDecla/findByPage?pageSize=' + pageSize + '&pageCode=' + pageCode

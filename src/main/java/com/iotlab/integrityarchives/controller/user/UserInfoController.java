@@ -2,8 +2,8 @@ package com.iotlab.integrityarchives.controller.user;
 
 import com.iotlab.integrityarchives.common.controller.BaseController;
 import com.iotlab.integrityarchives.dto.ResponseCode;
+import com.iotlab.integrityarchives.entity.UserFamily;
 import com.iotlab.integrityarchives.entity.UserInfo;
-import com.iotlab.integrityarchives.entity.Userfamily;
 import com.iotlab.integrityarchives.service.UserInfoService;
 import com.iotlab.integrityarchives.util.ImageUtil;
 import freemarker.template.Configuration;
@@ -57,7 +57,7 @@ public class UserInfoController extends BaseController {
     public ResponseCode printUserInfo(@RequestParam("userId") Integer userId) {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         UserInfo userInfo = userInfoService.findUserInfoByuserId(userId);
-        List<Userfamily> userFamilyList = userInfo.getUserFamilyList();
+        List<UserFamily> userFamilyList = userInfo.getUserFamilyList();
         try {
             dataMap.put("name", userInfo.getName());
             dataMap.put("gender", userInfo.getGender());

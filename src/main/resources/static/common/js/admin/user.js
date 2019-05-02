@@ -1,7 +1,6 @@
 var app = new Vue({
     el: '#app',
     data: {
-        img: '',
         users: [{
             id: '',
             userNumber: '',
@@ -45,6 +44,32 @@ var app = new Vue({
             userPasswd: '',
             repasswd: '',
         },
+        families: [{
+            id: '',
+            appellation: '',
+            userFamilyName: '',
+            age: '',
+            politicsStatus: '',
+            workUnitAndPosition: '',
+            createTime: '',
+            lastEditTime: '',
+            enableStatus: ''
+        }],
+        addUserFamilyEditor: {
+            appellation: '',
+            userFamilyName: '',
+            age: '',
+            politicsStatus: '',
+            workUnitAndPosition: '',
+        },
+        userFamilyEditor: {
+            id: '',
+            appellation: '',
+            userFamilyName: '',
+            age: '',
+            politicsStatus: '',
+            workUnitAndPosition: '',
+        },
         pageConf: {
             //设置一些初始值(会被覆盖)
             pageCode: 1, //当前页
@@ -53,15 +78,17 @@ var app = new Vue({
             pageOption: [6, 10, 20], //分页选项
         },
 
+        image: '',          //用户头像
         localUpload: api.user.localUpload,
+        currentUserId: '',
         defaultActive: '3',
         //条件查询单独封装的对象
         searchEntity: {},
-
         editDialog: false,
         addDialog: false,
         changePasswdDialog: false,
         userFamilyDialog: false,
+        userFamilyEditDialog: false,
         mobileStatus: false, //是否是移动端
         sidebarStatus: true, //侧边栏状态，true：打开，false：关闭
         sidebarFlag: ' openSidebar ', //侧边栏标
@@ -86,7 +113,6 @@ var app = new Vue({
                 type: type
             })
         },
-
         //刷新列表
         reloadList() {
             this.search(this.pageConf.pageCode, this.pageConf.pageSize);
@@ -97,8 +123,8 @@ var app = new Vue({
                 this.users = result.body.data.rows;
                 this.pageConf.totalPage = result.body.data.total;
             });
-
         },
+
         //pageSize改变时触发的函数
         handleSizeChange(val) {
             this.search(this.pageConf.pageCode, val);
@@ -138,6 +164,88 @@ var app = new Vue({
             }).catch(() => {
                 this._notify('已取消删除', 'info')
             });
+        },
+
+        //获取用户家庭成员
+        getUserFamily() {
+            this.$http.get(api.userFamily.findByUserId(this.currentUserId)).then(result => {
+                this.families = result.body.data;
+            });
+        },
+
+        //删除用户家庭成员
+        handleUserFamilyDelete(id) {
+            var ids = new Array();
+            ids.push(id);
+            this.$confirm('你确定永久删除此用户信息？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(() => {
+                this.$http.post(api.userFamily.delete, JSON.stringify(ids)).then(result => {
+                    if (result.body.code == 200) {
+                this._notify(result.body.msg, 'success')
+                } else {
+                    this._notify(result.body.msg, 'error')
+                }
+                this.getUserFamily();
+            });
+            }).catch(() => {
+                    this._notify('已取消删除', 'info')
+                });
+        },
+
+        addUserFamily() {
+            if (this.addUserFamilyEditor.appellation == null || this.addUserFamilyEditor.appellation == '' || this.addUserFamilyEditor.userFamilyName == null || this.addUserFamilyEditor.userFamilyName == '') {
+                this._notify('称谓、姓名不能为空', 'warning')
+                return;
+            }
+            this.addUserFamilyEditor.userId = this.currentUserId;
+            this.$http.post(api.userFamily.save, JSON.stringify(this.addUserFamilyEditor)).then(result => {
+                this.reloadList();
+                if (result.body.code == 200) {
+                    this.addUserFamilyEditor = {};
+                    this._notify(result.body.msg, 'success');
+                    this.getUserFamily();
+                } else {
+                    this._notify(result.body.msg, 'error')
+                }
+            });
+            this.addUserFamilyEditor = {};
+        },
+        //触发编辑用户家庭成员按钮
+        handleUserFamily() {
+            this.userFamilyDialog = true;
+            this.families = {}; //清空表单
+            this.getUserFamily();
+        },
+        //关闭编辑窗口
+        handleUserFamilyClose(key, keyPath) {
+            this.userFamilyDialog = false;
+        },
+        handleUserFamilyEdit(id) {
+            this.userFamilyEditDialog = true;
+            this.$http.get(api.userFamily.findById(id)).then(result => {
+                this.userFamilyEditor = result.body.data;
+        });
+        },
+        //关闭编辑窗口
+        handleUserFamilyEditClose(key, keyPath) {
+            this.userFamilyEditDialog = false;
+        },
+        userFamilyEdit() {
+            this.userFamilyEditDialog = false;
+            //查询当前id对应的数据
+            this.$http.post(api.userFamily.update, JSON.stringify(this.userFamilyEditor)).then(result => {
+                if (result.body.code == 200) {
+                    this._notify(result.body.msg, 'success')
+                } else {
+                    this._notify(result.body.msg, 'error')
+                }
+                this.getUserFamily();
+            });
+            this.userFamilyEditor = {};
         },
 
         //触发添加管理员按钮
@@ -199,53 +307,63 @@ var app = new Vue({
             }
         },
 
-        //触发编辑按钮
+        //触发编辑用户信息按钮
         handleEdit(userId) {
             this.editDialog = true;
             this.editor = {}; //清空表单
             //查询当前id对应的数据
             this.$http.get(api.userInfo.findByUserId(userId)).then(result => {
                 this.editor = result.body.data;
-        });
+            });
+            this.currentUserId = userId;
         },
-        //关闭编辑窗口
+        //关闭编辑用户信息窗口
         handleEditClose(key, keyPath) {
             this.editDialog = false;
         },
+        //修改用户信息
         edit() {
             this.editDialog = false;
             //查询当前id对应的数据
             this.$http.post(api.userInfo.update, JSON.stringify(this.editor)).then(result => {
                 this.reloadList();
-            if (result.body.code == 200) {
-                this._notify(result.body.msg, 'success')
-            } else {
-                this._notify(result.body.msg, 'error')
-            }
-        });
+                if (result.body.code == 200) {
+                    this._notify(result.body.msg, 'success')
+                } else {
+                    this._notify(result.body.msg, 'error')
+                }
+            });
             this.editor = {}
         },
 
-        imgPreview (file) {
-            // 看支持不支持FileReader
-            if (!file || !window.FileReader) return;
 
-            if (/^image/.test(file.type)) {
-                // 创建一个reader
-                var reader = new FileReader();
-                // 将图片将转成 base64 格式
-                reader.readAsDataURL(file);
-                // 读取成功后的回调
-                reader.onloadend = function () {
-                    this.img = this.result;
-                }
-            }
+        handleFileChange(){
+            var That=this;
+            let file=this.$refs.upload.$refs['inputer'].$refs.input; //获取文件数据
+            let fileList=file.files;
+            let reader = new FileReader();     //html5读文件
+            reader.readAsDataURL(fileList[0]); //转BASE64
+            reader.onload=function(e) {        //读取完毕后调用接口
+                this.image = e.target.result;
+                // let obj={
+                //     id: "loginLogo",
+                //     configGroup: "logo",
+                //     configItem : "loginLogo",
+                //     itemValue : imgFile
+                // }
+                // return BaseApi.uploadFiles(obj).then((res)=>{
+                //     if(res.status=='SUCCESS'){
+                //     AlertBox('图片上传成功！','success',true).then(()=>{
+                //         return That.getSysLogo(); //调用获取base64数据接口
+                //     });
+                //     }else{
+                //         Alert('图片上传失败',res);
+                //         return ''
+                //     }
+                // })
+            };
         },
-        handleFileChange (e) {
-            this.file = this.$refs.inputer.files[0];
-            // 在获取到文件对象进行预览就行了！
-            this.imgPreview(this.file);
-        },
+
         changeAvatar(url){
             this.user.avatar = url;
             var data = {
@@ -272,7 +390,6 @@ var app = new Vue({
             this._notify('图片上传成功', 'success');
             if (res.code == 200) {
                 this.user.avatar = res.data.url;
-                this.avatarDialog = false;
             }
         },
         //文件上传前的前的钩子函数
@@ -282,7 +399,6 @@ var app = new Vue({
             const isPNG = file.type === 'image/png';
             const isBMP = file.type === 'image/bmp';
             const isLt2M = file.size / 1024 / 1024 < 2;
-
             if (!isJPG && !isGIF && !isPNG && !isBMP) {
                 this.$message.error('上传图片必须是JPG/GIF/PNG/BMP 格式!');
             }

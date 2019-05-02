@@ -17,9 +17,11 @@ var app = new Vue({
             id: '',
             adminNumber: '',
             adminPasswd: '',
+            enableStatus: ''
         },
         changeStatusEditor: {
             id: '',
+            adminNumber: '',
             enableStatus: ''
         },
         pageConf: {
@@ -178,12 +180,12 @@ var app = new Vue({
         },
 
         //触发更新状态按钮
-        handleChangeStatus(id, adminNumber, enableStatus) {
+        handleChangeStatus(id) {
             this.changeStatusDialog = true;
             this.changeStatusEditor = {}; //清空表单
-            this.changeStatusEditor.id = id;
-            this.changeStatusEditor.adminNumber = adminNumber;
-            this.changeStatusEditor.enableStatus = enableStatus;
+            this.$http.get(api.admin.findById(id)).then(result => {
+                this.changeStatusEditor = result.body.data;
+            });
         },
         //关闭编辑窗口
         handleChangeStatusClose(key, keyPath) {

@@ -76,4 +76,9 @@ public class UserFamilyServiceImpl extends BaseServiceImpl<UserFamily> implement
             }
         }
     }
+
+    @Override
+    public UserFamily findById(Integer id) {
+        return userFamilyDao.selectByPrimaryKey(id);
+    }
 }

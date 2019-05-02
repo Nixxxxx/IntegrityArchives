@@ -29,14 +29,14 @@ public interface UserFamilyService extends BaseService<UserFamily> {
 
 
 
-    void save(UserFamily Userfamily);
+    void save(UserFamily UserFamily);
 
     /**
      * 更新
      *
-     * @param Userfamily
+     * @param UserFamily
      */
-    void update(UserFamily Userfamily);
+    void update(UserFamily UserFamily);
 
     /**
      * 删除
@@ -44,4 +44,6 @@ public interface UserFamilyService extends BaseService<UserFamily> {
      * @param ids
      */
     void delete(List<Long> ids);
+
+    UserFamily findById(Integer id);
 }
