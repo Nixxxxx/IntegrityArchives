@@ -24,7 +24,7 @@ public class ImageUtil {
         String path = "D:/upload";
         String os = System.getProperty("os.name");
         if(os.toLowerCase().startsWith("linux")){
-            path="/usr/upload";
+            path="/pictures";
         }
         File dest = new File(path + "/" + fileName);
         if (!dest.getParentFile().exists()) { //判断文件父目录是否存在

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +26,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Table(name = "tb_user_info")
-public class UserInfo {
+public class UserInfo implements Serializable {
 
     @Id
     private Integer id;
