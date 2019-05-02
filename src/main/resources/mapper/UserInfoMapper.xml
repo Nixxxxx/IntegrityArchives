@@ -32,10 +32,10 @@
         <result column="last_edit_time" property="lastEditTime"/>
         <result column="enable_status" property="enableStatus"/>
         <collection property="userFamilyList" column="user_id" javaType="ArrayList"
-                    ofType="com.iotlab.integrityarchives.entity.Userfamily" select="getUserFamilyByuserId"/>
+                    ofType="com.iotlab.integrityarchives.entity.UserFamily" select="getUserFamilyByuserId"/>
     </resultMap>
 
-    <resultMap id="UserFamilyResult" type="com.iotlab.integrityarchives.entity.Userfamily">
+    <resultMap id="UserFamilyResult" type="com.iotlab.integrityarchives.entity.UserFamily">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="appellation" property="appellation"/>
@@ -63,11 +63,11 @@
     </select>
 
 
-    <select id="findByUserId" parameterType="Integer" resultMap="UserInfoResult">
+    <!--<select id="findByUserId" parameterType="Integer" resultMap="UserInfoResult">
         SELECT *
         from tb_user_info
         where user_id = #{userId}
-    </select>
+    </select>-->
 
 
     <select id="findUserInfoByuserId" parameterType="integer" resultMap="UserInfoResult">

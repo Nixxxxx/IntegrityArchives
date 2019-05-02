@@ -1,7 +1,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /integrity
+    context-path: /
     multipart:
       max-file-size: 10MB  #单个文件
       max-request-size: 100MB #总文件大小

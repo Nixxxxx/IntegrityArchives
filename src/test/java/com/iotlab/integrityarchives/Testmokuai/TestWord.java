@@ -1,8 +1,9 @@
 package com.iotlab.integrityarchives.Testmokuai;
 
 import com.iotlab.integrityarchives.dao.UserInfoDao;
+import com.iotlab.integrityarchives.entity.UserFamily;
 import com.iotlab.integrityarchives.entity.UserInfo;
-import com.iotlab.integrityarchives.entity.Userfamily;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
@@ -44,7 +45,7 @@ public class TestWord {
     public void test() {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         UserInfo userInfo = userInfoDao.findUserInfoByuserId(43);
-        List<Userfamily> userFamilyList = userInfo.getUserFamilyList();
+        List<UserFamily> userFamilyList = userInfo.getUserFamilyList();
 
         try {
             dataMap.put("name", userInfo.getName());

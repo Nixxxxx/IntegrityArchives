@@ -4,6 +4,7 @@ package com.iotlab.integrityarchives.service.impl;
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.UserInfoDao;
 import com.iotlab.integrityarchives.entity.User;
+import com.iotlab.integrityarchives.entity.UserFamily;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.service.UserInfoService;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @SuppressWarnings("all")
@@ -66,10 +69,10 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
     }
 
 
-    @Override
+   /* @Override
     public UserInfo findByUserId(Integer userId) {
         return userInfoDao.findByUserId(userId);
-    }
+    }*/
 
 
     @Override
@@ -80,6 +83,35 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
     @Override
     public UserInfo findUserInfoByuserId(Integer userId) {
         return userInfoDao.findUserInfoByuserId(userId);
+    }
+
+
+    /**
+     * word文件导出
+     */
+    public  Map<String, Object> exportWordFile(UserInfo userInfo) {
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        List<UserFamily> userFamilyList = userInfo.getUserFamilyList();
+        dataMap.put("name", userInfo.getName());
+        dataMap.put("gender", userInfo.getGender());
+        dataMap.put("dateOfBirth", userInfo.getDateOfBirth());
+        dataMap.put("nation", userInfo.getNation());
+        dataMap.put("nativePlace", userInfo.getNativePlace());
+        dataMap.put("chushengdi", userInfo.getPlaceOfBirth());
+        dataMap.put("rudangdate", userInfo.getDateOfJoinParty());
+        dataMap.put("canjiadate", userInfo.getDateOfJoinWork());
+        dataMap.put("zhuanchang", userInfo.getFamiliarMajorAndSpecialty());
+        dataMap.put("jiangcheng", userInfo.getRewardsAndPunishment());
+        dataMap.put("niandukaohe", userInfo.getAnnualAssessmentResults());
+        dataMap.put("zhuanye", userInfo.getTechnicalPosition());
+        dataMap.put("jiankang", userInfo.getPhysicalCondition());
+        dataMap.put("quanrizhi", userInfo.getFullTimeDegree());
+        dataMap.put("yuanxiao", userInfo.getFullTimeGraduatedUniversityAndMajor());
+        dataMap.put("zaizhi", userInfo.getPartTimeDegree());
+        dataMap.put("biyeyuanxiao", userInfo.getPartTimeGraduatedUniversityAndMajor());
+        dataMap.put("xianren", userInfo.getCurrentPosition());
+        dataMap.put("jianli", userInfo.getResume());
+        return dataMap;
     }
 
 
