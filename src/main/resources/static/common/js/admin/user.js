@@ -307,6 +307,11 @@ var app = new Vue({
             }
         },
 
+        //导出word
+        downloadWord() {
+            window.open(api.userInfo.downloadWord(this.currentUserId),"_blank");
+        },
+
         //触发编辑用户信息按钮
         handleEdit(userId) {
             this.editDialog = true;
@@ -323,9 +328,17 @@ var app = new Vue({
         },
         //修改用户信息
         edit() {
-            this.editDialog = false;
+            let files = this.$refs.avatarInput.files
+            let image = {}
+            if(files instanceof Array) {
+                image = files[0]
+            } else {
+                image = this.file
+            }
+            var data = new FormData(this.editor);
+            data.append('image', image);
             //查询当前id对应的数据
-            this.$http.post(api.userInfo.update, JSON.stringify(this.editor)).then(result => {
+            this.$http.post(api.userInfo.update, data).then(result => {
                 this.reloadList();
                 if (result.body.code == 200) {
                     this._notify(result.body.msg, 'success')
@@ -336,32 +349,19 @@ var app = new Vue({
             this.editor = {}
         },
 
-
-        handleFileChange(){
-            var That=this;
-            let file=this.$refs.upload.$refs['inputer'].$refs.input; //获取文件数据
-            let fileList=file.files;
-            let reader = new FileReader();     //html5读文件
-            reader.readAsDataURL(fileList[0]); //转BASE64
-            reader.onload=function(e) {        //读取完毕后调用接口
-                this.image = e.target.result;
-                // let obj={
-                //     id: "loginLogo",
-                //     configGroup: "logo",
-                //     configItem : "loginLogo",
-                //     itemValue : imgFile
-                // }
-                // return BaseApi.uploadFiles(obj).then((res)=>{
-                //     if(res.status=='SUCCESS'){
-                //     AlertBox('图片上传成功！','success',true).then(()=>{
-                //         return That.getSysLogo(); //调用获取base64数据接口
-                //     });
-                //     }else{
-                //         Alert('图片上传失败',res);
-                //         return ''
-                //     }
-                // })
-            };
+        handleFileChange(e){
+            let file = e.target.files[0];
+            if(file) {
+                this.file = file
+                console.log(this.file)
+                let reader = new FileReader()
+                let that = this
+                reader.readAsDataURL(file)
+                reader.onload = function(e){
+                    // 这里的this 指向reader
+                    that.image = this.result
+                }
+            }
         },
 
         changeAvatar(url){

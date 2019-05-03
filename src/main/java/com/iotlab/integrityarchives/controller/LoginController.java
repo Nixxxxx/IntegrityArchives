@@ -2,7 +2,10 @@ package com.iotlab.integrityarchives.controller;
 
 import com.iotlab.integrityarchives.common.controller.BaseController;
 import com.iotlab.integrityarchives.dto.ResponseCode;
+import com.iotlab.integrityarchives.entity.Admin;
+import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.entity.UserToken;
+import com.iotlab.integrityarchives.enums.EnableStatusEnum;
 import com.iotlab.integrityarchives.enums.StatusEnums;
 import com.iotlab.integrityarchives.service.AdminService;
 import com.iotlab.integrityarchives.service.UserService;
@@ -24,6 +27,18 @@ public class LoginController extends BaseController {
     @Autowired
     private UserService userService;
 
+
+    @GetMapping(value = {"/login"})
+    public String login() {
+        return "login/login";
+    }
+
+    @RequestMapping(value="/logout")
+    public String logout(){
+        SecurityUtils.getSubject().logout();
+        return "redirect:/login";
+    }
+
     @ResponseBody
     @RequestMapping("/login/admin")
     public ResponseCode adminLogin(Model model,
@@ -33,7 +48,6 @@ public class LoginController extends BaseController {
         if (number != null && password != null) {
             Subject subject = SecurityUtils.getSubject();
             UserToken token = new UserToken(number, Md5Util.MD5Encode(password, "utf8"), "Admin");
-            System.out.println(Md5Util.MD5Encode(password, "utf8"));
             if (remember != null && remember.equals("true")) {
                 token.setRememberMe(true);
             } else {
@@ -41,7 +55,11 @@ public class LoginController extends BaseController {
             }
             try {
                 subject.login(token);
-                return ResponseCode.success(adminService.findByNumber(number));
+                Admin admin = adminService.findByNumber(number);
+                if(admin.getEnableStatus() != EnableStatusEnum.PASS.getCode()){
+                    return ResponseCode.error(StatusEnums.ACCOUNT_REJECTED);
+                }
+                return ResponseCode.success(admin);
             }catch (Exception e) {
                 e.printStackTrace();
             }
@@ -65,6 +83,10 @@ public class LoginController extends BaseController {
             }
             try {
                 subject.login(token);
+                User user = userService.findByNumber(number);
+                if(user.getEnableStatus() != EnableStatusEnum.PASS.getCode()){
+                    return ResponseCode.error(StatusEnums.ACCOUNT_REJECTED);
+                }
                 return ResponseCode.success(userService.findByNumber(number));
             }catch (Exception e) {
                 e.printStackTrace();
@@ -73,9 +95,4 @@ public class LoginController extends BaseController {
         return ResponseCode.loginError();
     }
 
-    @RequestMapping(value="/logout")
-    public String logout(){
-        SecurityUtils.getSubject().logout();
-        return "redirect:/login";
-    }
 }

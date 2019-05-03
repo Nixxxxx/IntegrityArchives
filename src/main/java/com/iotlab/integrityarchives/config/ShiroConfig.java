@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@Configuration
+/*@Configuration*/
 public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
@@ -30,6 +30,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/user/**", "roles[user]");
         //管理员，需要角色权限 “admin”
         filterChainDefinitionMap.put("/admin/**", "roles[admin]");
+        filterChainDefinitionMap.put("/manage/**", "roles[admin]");
         //开放登陆接口
         filterChainDefinitionMap.put("/login", "anon");
         //其余接口一律拦截

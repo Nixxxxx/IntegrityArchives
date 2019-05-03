@@ -53,5 +53,9 @@ public class ResponseCode {
         return new ResponseCode(StatusEnums.ACCOUNT_ERROR);
     }
 
+    public static ResponseCode error(StatusEnums status) {
+        return new ResponseCode(status);
+    }
+
 }
 

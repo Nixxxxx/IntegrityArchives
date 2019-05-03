@@ -33,6 +33,9 @@ const api = {
         findByUserId(userId) {
             return '/manage/userInfo/findByUserId?userId=' + userId
         },
+        downloadWord(userId) {
+            return '/manage/userInfo/print?userId=' + userId
+        },
         update: '/manage/userInfo/update',
     },
     userFamily: {

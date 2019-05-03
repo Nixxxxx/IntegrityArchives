@@ -53,7 +53,7 @@ new Vue({
                                     window.localStorage.userId = result.body.data.id;
                                     window.localStorage.userName = result.body.data.name;
                                     window.localStorage.userNumber = result.body.data.userNumber;
-                                    window.location.href = "/user/info";
+                                    window.location.href = "/user/index";
                                     this.loading.close(); //关闭动画加载
                                 } else {
                                 // 弹出错误信息框
@@ -78,7 +78,7 @@ new Vue({
                             if (result.body.code == 200) {
                                 window.localStorage.adminId = result.body.data.id;
                                 window.localStorage.adminNumber = result.body.data.number;
-                                window.location.href = "/admin/admin";
+                                window.location.href = "/admin/index";
                                 this.loading.close(); //关闭动画加载
                             } else {
                                 // 弹出错误信息框

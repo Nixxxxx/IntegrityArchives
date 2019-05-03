@@ -106,21 +106,21 @@ public class UserManageController extends BaseController {
                 userInfo.setName(user.getName());
                 userInfo.setCreateTime(user.getCreateTime());
                 userInfo.setLastEditTime(user.getLastEditTime());
-                userInfo.setEnableStatus(1);
+                userInfo.setEnableStatus(EnableStatusEnum.PASS.getCode());
                 userInfoService.save(userInfo);
 
                 PersonDecla personDecla = new PersonDecla();
                 personDecla.setUserId(user.getId());
                 personDecla.setCreateTime(user.getCreateTime());
                 personDecla.setLastEditTime(user.getLastEditTime());
-                personDecla.setEnableStatus(1);
+                personDecla.setEnableStatus(EnableStatusEnum.PASS.getCode());
                 personDeclaService.save(personDecla);
 
                 CleanArchive cleanArchive = new CleanArchive();
                 cleanArchive.setUserId(user.getId());
                 cleanArchive.setCreateTime(user.getCreateTime());
                 cleanArchive.setLastEditTime(user.getLastEditTime());
-                cleanArchive.setEnableStatus(1);
+                cleanArchive.setEnableStatus(EnableStatusEnum.PASS.getCode());
                 cleanArchiveService.save(cleanArchive);
 
                 return ResponseCode.success();

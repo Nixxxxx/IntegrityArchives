@@ -24,13 +24,13 @@ public class UserModularRealmAuthenticator extends ModularRealmAuthenticator {
         // 登录类型
         String loginType = userToken.getLoginType();
         // 所有Realm
-        System.out.println(loginType);
         Collection<Realm> realms = getRealms();
         // 登录类型对应的所有Realm
         List<Realm> typeRealms = new ArrayList<>();
         for (Realm realm : realms) {
-            System.out.println(realm.getName());
             if (realm.getName().contains(loginType)) {
+                System.out.println(realm.getName());
+                System.out.println(loginType);
                 typeRealms.add(realm);
             }
         }

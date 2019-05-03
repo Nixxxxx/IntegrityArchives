@@ -31,12 +31,17 @@ public class UserRealm extends AuthorizingRealm{
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-		Set<String> roles = new HashSet<String>();
-		roles.add("user");
-		System.out.println("------------------------------------------------------------");
-		authorizationInfo.setRoles(roles);
-		return authorizationInfo;
+		Set<String> realmNames = principals.getRealmNames();
+		for(String realmName : realmNames){
+			if(realmName.contains("UserRealm")){
+				SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+				Set<String> roles = new HashSet<String>();
+				roles.add("user");
+				authorizationInfo.setRoles(roles);
+				return authorizationInfo;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -48,7 +53,7 @@ public class UserRealm extends AuthorizingRealm{
 		User user = userService.findByNumber(number);
 		if(user != null){
 			SecurityUtils.getSubject().getSession().setAttribute("user", user); // 当前用户信息存到session中
-			AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getUserNumber(), user.getUserPasswd(), "xx");
+			AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getUserNumber(), user.getUserPasswd(), getName());
 			return authcInfo;
 		}else{
 			return null;				

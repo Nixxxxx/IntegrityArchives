@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserRouterController {
 
+
+    @GetMapping(value = {"/index"})
+    public String index() {
+        return "user/index";
+    }
     /**
      * 用户信息页
      *
@@ -16,16 +21,6 @@ public class UserRouterController {
     @GetMapping(value = {"/info"})
     public String info() {
         return "user/page/info";
-    }
-
-    /**
-     *  用户家庭成员页
-     *
-     * @return
-     */
-    @GetMapping(value = {"/family"})
-    public String family() {
-        return "user/page/family";
     }
 
     @GetMapping(value = {"/personDecla"})
