@@ -128,21 +128,26 @@ var app = new Vue({
         },
         add() {
             if (this.addEditor.adminNumber == null || this.addEditor.adminNumber == '' || this.addEditor.adminPasswd == null || this.addEditor.adminPasswd == '') {
-                this._notify('输入的信息不能为空', 'warning')
+                this._notify('输入的信息不能为空', 'warning');
                 return;
-            } else if (this.addEditor.adminPasswd.length < 5) {
+            }
+            var pattern = /^\d{6}$/;
+            if (!pattern.test(this.addEditor.adminNumber)) {
+                this._notify('账号为6位数字', 'warning');
+                return;
+            }
+            if (this.addEditor.adminPasswd.length < 5) {
                 this._notify('请重新输入密码，密码长度在5位及以上', 'warning');
             } else {
                 this.$http.post(api.admin.save, JSON.stringify(this.addEditor)).then(result => {
-                    this.reloadList();
                     if (result.body.code == 200) {
                         this.addEditor = {};
+                        this.reloadList();
                         this._notify(result.body.msg, 'success')
                     } else {
                         this._notify(result.body.msg, 'error')
                     }
                 });
-                this.editor = {};
                 this.addDialog = false;
             }
         },
@@ -162,10 +167,15 @@ var app = new Vue({
             if (this.editor.adminNumber == null || this.editor.adminNumber == '' || this.editor.adminPasswd == null || this.editor.adminPasswd == '') {
                 this._notify('输入的信息不能为空', 'warning')
                 return;
-            } else if (this.editor.adminPasswd.length < 5) {
+            }
+            var pattern = /^\d{6}$/;
+            if (!pattern.test(this.editor.adminNumber)) {
+                this._notify('账号为6位数字', 'warning');
+                return;
+            }
+            if (this.editor.adminPasswd.length < 5) {
                 this._notify('请重新输入密码，密码长度在5位及以上', 'warning');
             } else{
-                this.editDialog = false;
                 //查询当前id对应的数据
                 this.$http.post(api.admin.update, JSON.stringify(this.editor)).then(result => {
                     this.reloadList();
@@ -175,6 +185,7 @@ var app = new Vue({
                         this._notify(result.body.msg, 'error')
                     }
                 });
+                this.editDialog = false;
                 this.editor = {}
             }
         },

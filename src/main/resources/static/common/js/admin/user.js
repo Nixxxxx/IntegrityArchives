@@ -17,7 +17,7 @@ var app = new Vue({
         },
         editor: {
             id: '',
-            avater: '',
+            avatar: '',
             name: '',                                //教工姓名
             gender: '',                              //性别
             dateOfBirth: '',                         //出生年月
@@ -78,7 +78,6 @@ var app = new Vue({
             pageOption: [6, 10, 20], //分页选项
         },
 
-        image: '',          //用户头像
         localUpload: api.user.localUpload,
         currentUserId: '',
         defaultActive: '3',
@@ -260,7 +259,13 @@ var app = new Vue({
             if (this.addEditor.userNumber == null || this.addEditor.userNumber == '' || this.addEditor.userPasswd == null || this.addEditor.userPasswd == '' || this.addEditor.name == null || this.addEditor.name == '') {
                 this._notify('输入的信息不能为空', 'warning')
                 return;
-            } else if (this.addEditor.userPasswd.length < 5) {
+            }
+            var pattern = /^\d{6}$/;
+            if (!pattern.test(this.addEditor.userNumber)) {
+                this._notify('账号为6位数字', 'warning');
+                return;
+            }
+            if (this.addEditor.userPasswd.length < 5) {
                 this._notify('请重新输入密码，密码长度在5位及以上', 'warning');
             } else {
                 this.$http.post(api.user.save, JSON.stringify(this.addEditor)).then(result => {
@@ -292,7 +297,13 @@ var app = new Vue({
             if (this.passwdEditor.userNumber == null || this.passwdEditor.userNumber == '' || this.passwdEditor.userPasswd == null || this.passwdEditor.userPasswd == '') {
                 this._notify('输入的信息不能为空', 'warning')
                 return;
-            } else if (this.passwdEditor.userPasswd.length < 5) {
+            }
+            var pattern = /^\d{6}$/;
+            if (!pattern.test(this.passwdEditor.userNumber)) {
+                this._notify('账号为6位数字', 'warning');
+                return;
+            }
+            if (this.passwdEditor.userPasswd.length < 5) {
                 this._notify('请重新输入密码，密码长度在5位及以上', 'warning');
             } else{
                 this.changePasswdDialog = false;
@@ -324,29 +335,60 @@ var app = new Vue({
         },
         //关闭编辑用户信息窗口
         handleEditClose(key, keyPath) {
+            this.clearFile()
             this.editDialog = false;
         },
         //修改用户信息
         edit() {
-            let files = this.$refs.avatarInput.files
-            let image = {}
-            if(files instanceof Array) {
-                image = files[0]
-            } else {
-                image = this.file
+            var data = new FormData();
+            if(document.getElementById('avatarInput').value != ''){
+                let files = this.$refs.avatarInput.files
+                var image = {}
+                if(files instanceof Array) {
+                    image = files[0]
+                } else {
+                    image = this.file
+                }
+                data.append('image', image);
             }
-            var data = new FormData(this.editor);
-            data.append('image', image);
+            data.append('id', this.editor.id);
+            if(this.editor.name != '') data.append('name', this.editor.name);
+            if(this.editor.gender != '') data.append('gender', this.editor.gender);
+            if(this.editor.dateOfBirth != '') data.append('dateOfBirth', this.editor.dateOfBirth);
+            if(this.editor.nation != '') data.append('nation', this.editor.nation);
+            if(this.editor.nativePlace != '') data.append('nativePlace', this.editor.nativePlace);
+            if(this.editor.placeOfBirth != '') data.append('placeOfBirth', this.editor.placeOfBirth);
+            if(this.editor.dateOfJoinParty != '') data.append('dateOfJoinParty', this.editor.dateOfJoinParty);
+            if(this.editor.dateOfJoinWork != '') data.append('dateOfJoinWork', this.editor.dateOfJoinWork);
+            if(this.editor.physicalCondition != '') data.append('physicalCondition', this.editor.physicalCondition);
+            if(this.editor.technicalPosition != '') data.append('technicalPosition', this.editor.technicalPosition);
+            if(this.editor.familiarMajorAndSpecialty != '') data.append('familiarMajorAndSpecialty', this.editor.familiarMajorAndSpecialty);
+            if(this.editor.fullTimeDegree != '') data.append('fullTimeDegree', this.editor.fullTimeDegree);
+            if(this.editor.fullTimeGraduatedUniversityAndMajor != '') data.append('fullTimeGraduatedUniversityAndMajor', this.editor.fullTimeGraduatedUniversityAndMajor);
+            if(this.editor.partTimeDegree != '') data.append('partTimeDegree', this.editor.partTimeDegree);
+            if(this.editor.partTimeGraduatedUniversityAndMajor != '') data.append('partTimeGraduatedUniversityAndMajor', this.editor.partTimeGraduatedUniversityAndMajor);
+            if(this.editor.currentPosition != '') data.append('currentPosition', this.editor.currentPosition);
+            if(this.editor.resume != '') data.append('resume', this.editor.resume);
+            if(this.editor.rewardsAndPunishment != '') data.append('rewardsAndPunishment', this.editor.rewardsAndPunishment);
+            if(this.editor.annualAssessmentResults != '') data.append('annualAssessmentResults', this.editor.annualAssessmentResults);
             //查询当前id对应的数据
             this.$http.post(api.userInfo.update, data).then(result => {
                 this.reloadList();
                 if (result.body.code == 200) {
                     this._notify(result.body.msg, 'success')
+                    this.clearFile()
                 } else {
                     this._notify(result.body.msg, 'error')
                 }
             });
-            this.editor = {}
+            this.editor = {};
+            this.editDialog = false;
+        },
+
+        clearFile(){
+            var file = document.getElementById('avatarInput');
+            file.value = ''; //虽然file的value值不能设为有内容的字符，但是可以设置为空字符
+            //file.outerHTML = file.outerHTML;
         },
 
         handleFileChange(e){
@@ -359,7 +401,7 @@ var app = new Vue({
                 reader.readAsDataURL(file)
                 reader.onload = function(e){
                     // 这里的this 指向reader
-                    that.image = this.result
+                    that.editor.avatar = this.result
                 }
             }
         },

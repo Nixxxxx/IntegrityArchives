@@ -37,8 +37,8 @@ public class UserInfo implements Serializable {
     @Column(name = "name")
     private String name;      //教工姓名
 
-    @Column(name = "avater")
-    private String avater;
+    @Column(name = "avatar")
+    private String avatar;
 
     @Column(name = "gender")
     private String gender;                              //性别

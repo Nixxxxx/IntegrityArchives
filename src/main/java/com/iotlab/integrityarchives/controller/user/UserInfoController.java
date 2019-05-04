@@ -36,7 +36,7 @@ public class UserInfoController extends BaseController {
     public ResponseCode update(@RequestBody UserInfo userInfo, @RequestParam("image") MultipartFile file) {
         try {
             userInfo.setLastEditTime(new Date());
-            userInfo.setAvater(ImageUtil.imagePath(file));
+            userInfo.setAvatar(ImageUtil.imagePath(file));
             userInfoService.update(userInfo);
             return ResponseCode.success();
         } catch (Exception e) {
