@@ -48,7 +48,7 @@ public class UserInfoManageController extends BaseController {
         List<UserFamily> userFamilyList = userInfo.getUserFamilyList();
         try {
             Map<String, Object> dataMap = userInfoService.exportWordFile(userInfo);
-            PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "干部基本信息表.ftl");
+            PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "干部基本信息表.ftl",userInfo.getName());
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("遇到错误了");
@@ -60,7 +60,7 @@ public class UserInfoManageController extends BaseController {
         try {
             userInfo.setLastEditTime(new Date());
             if(file != null)
-                userInfo.setAvatar(ImageUtil.imagePath(file));
+                userInfo.setAvatar(ImageUtil.imagePath(file,userInfo.getName()));
             userInfoService.update(userInfo);
             return ResponseCode.success();
         } catch (Exception e) {

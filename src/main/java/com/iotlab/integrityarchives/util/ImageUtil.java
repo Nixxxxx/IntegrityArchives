@@ -14,7 +14,7 @@ import java.io.IOException;
  **/
 public class ImageUtil {
 
-    public static String imagePath(MultipartFile file) {
+    public static String imagePath(MultipartFile file,String name) {
         if (file.isEmpty()) {
             return "false";
         }
@@ -26,7 +26,7 @@ public class ImageUtil {
         if(os.toLowerCase().startsWith("linux")){
             path="/pictures";
         }
-        File dest = new File(path + "/" + fileName);
+        File dest = new File(path + "/" + name+fileName);
         if (!dest.getParentFile().exists()) { //判断文件父目录是否存在
             dest.getParentFile().mkdir();
         }

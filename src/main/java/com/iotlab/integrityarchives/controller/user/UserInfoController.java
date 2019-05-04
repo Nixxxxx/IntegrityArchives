@@ -36,7 +36,7 @@ public class UserInfoController extends BaseController {
     public ResponseCode update(@RequestBody UserInfo userInfo, @RequestParam("image") MultipartFile file) {
         try {
             userInfo.setLastEditTime(new Date());
-            userInfo.setAvatar(ImageUtil.imagePath(file));
+            userInfo.setAvatar(ImageUtil.imagePath(file,userInfo.getName()));
             userInfoService.update(userInfo);
             return ResponseCode.success();
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class UserInfoController extends BaseController {
 
     @PostMapping(value = "/testupload")
     public void tesetUpload(@RequestParam("fileName") MultipartFile file) {
-        System.out.println(ImageUtil.imagePath(file));
+       // System.out.println(ImageUtil.imagePath(file));
     }
 
 
