@@ -7,9 +7,9 @@
     <resultMap id="UserInfoResult" type="com.iotlab.integrityarchives.entity.UserInfo">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
-        <result column="avater" property="avater"/>
+        <result column="avatar" property="avatar"/>
         <result column="name" property="name"/>
-        <!--<result column="avater" property="avater" typeHandler="org.apache.ibatis.type.BlobTypeHandler"/>-->
+        <!--<result column="avatar" property="avatar" typeHandler="org.apache.ibatis.type.BlobTypeHandler"/>-->
         <result column="gender" property="gender"/>
         <result column="date_of_birth" property="dateOfBirth"/>
         <result column="nation" property="nation"/>

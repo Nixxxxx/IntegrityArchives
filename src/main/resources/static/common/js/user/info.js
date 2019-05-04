@@ -3,7 +3,7 @@ var app = new Vue({
     data: {
         userInfo: {
             id: '',
-            avater: '',
+            avatar: '',
             name: '',                                //教工姓名
             gender: '',                              //性别
             dateOfBirth: '',                         //出生年月

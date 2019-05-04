@@ -56,11 +56,11 @@ public class UserInfoManageController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ResponseCode update(@RequestBody UserInfo userInfo,@RequestParam("image") MultipartFile file,HttpServletRequest request) {
-        System.out.println(userInfo.getName());
+    public ResponseCode update(UserInfo userInfo, @RequestParam(value = "image",required = false) MultipartFile file,HttpServletRequest request) {
         try {
             userInfo.setLastEditTime(new Date());
-            userInfo.setAvater(ImageUtil.imagePath(file));
+            if(file != null)
+                userInfo.setAvatar(ImageUtil.imagePath(file));
             userInfoService.update(userInfo);
             return ResponseCode.success();
         } catch (Exception e) {

@@ -209,26 +209,15 @@
                     <el-button size="small" style="float:right" plain type="primary" @click="editDialog = false">取 消</el-button>
                 </div>
                 <span>
-                    <el-form :inline="true" :model="editor">
-                        <!--<div>
-                            <el-upload class="avatar-uploader" @change="handleFileChange" multiple="false" action="" ref="inputer" :show-file-list="false">
-                                <img :src="image" class="avatar" height="200px">
-                                <i class="el-icon-plus avatar-uploader-icon"></i>
-                                <div class="el-upload__text">点我上传本地头像</div>
-                            </el-upload>
-                        </div>-->
-
-
-                        <div>
-                            <img :src="image" style="width: 150px; height: 250px">
-                            <div class="bg">点击上传</div>
-                            <input type="file" class="input-file" ref="avatarInput" @change="handleFileChange($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
+                    <el-form id="userInfoForm" :inline="true" :model="editor">
+                        <div class="avatar-uploader" style="float:right">
+                            <img v-if="editor.avatar" :src="editor.avatar" style="width: 150px; height: 250px">
+                            <div class="el-upload__text">点我上传本地头像</div>
+                            <input type="file" id="avatarInput" class="input-file" ref="avatarInput" @change="handleFileChange($event)" accept="image/gif,image/jpeg,image/jpg,image/png">
                         </div>
-
-
-                        <div style="float:right">
+                        <div style="float:left">
                             <el-form-item prop="name" label="姓名">
-                                <el-input style="width: 100px" :disabled="true" v-model="editor.name"></el-input>
+                                <el-input style="width: 100px" v-model="editor.name"></el-input>
                             </el-form-item>
                             <el-form-item label="性别">
                                 <el-select v-model="editor.gender" style="width: 120px" placeholder="请选择性别">
@@ -239,10 +228,6 @@
                             <el-form-item prop="dateOfBirth" label="出生年月">
                                 <el-date-picker v-model="editor.dateOfBirth" style="width: 120px" type="month" format="yyyy.MM" value-format="yyyy.MM" placeholder="选择年月"></el-date-picker>
                             </el-form-item><br/>
-
-<!--                            <el-form-item prop="dateOfBirth" label="出生年月">-->
-<!--                                <el-input style="width: 150px" v-model="editor.dateOfBirth" placeholder="请输入出生年月"></el-input>-->
-<!--                            </el-form-item><br/>-->
                             <el-form-item prop="nation" label="民族">
                                 <el-input style="width: 100px" v-model="editor.nation"></el-input>
                             </el-form-item>
@@ -255,23 +240,17 @@
                             <el-form-item prop="dateOfJoinParty" label="入党时间">
                                 <el-date-picker v-model="editor.dateOfJoinParty" style="width: 120px" type="month" format="yyyy.MM" value-format="yyyy.MM" placeholder="选择年月"></el-date-picker>
                             </el-form-item>
-<!--                            <el-form-item prop="dateOfJoinParty" label="入党时间">-->
-<!--                                <el-input style="width: 100px" v-model="editor.dateOfJoinParty"></el-input>-->
-<!--                            </el-form-item>-->
                             <el-form-item prop="dateOfJoinWork" label="参加工作时间">
                                 <el-date-picker v-model="editor.dateOfJoinWork" style="width: 120px" type="month" format="yyyy.MM" value-format="yyyy.MM" placeholder="选择年月"></el-date-picker>
                             </el-form-item>
-<!--                            <el-form-item prop="dateOfJoinWork" label="参加工作时间">-->
-<!--                                <el-input style="width: 90px" v-model="editor.dateOfJoinWork"></el-input>-->
-<!--                            </el-form-item>-->
                             <el-form-item prop="physicalCondition" label="健康状况">
                                 <el-input style="width: 100px" v-model="editor.physicalCondition"></el-input>
                             </el-form-item><br/>
                         </div>
-                        <el-form-item prop="technicalPosition" label="专业技术职务&emsp;">
+                        <el-form-item prop="technicalPosition" label="专业技术职务">
                             <el-input style="width: 200px" v-model="editor.technicalPosition"></el-input>
                         </el-form-item>
-                        <el-form-item prop="familiarMajorAndSpecialty" label="熟悉专业有何专长&emsp;&emsp;&ensp;">
+                        <el-form-item prop="familiarMajorAndSpecialty" label="熟悉专业有何专长">
                             <el-input style="width: 300px" v-model="editor.familiarMajorAndSpecialty"></el-input>
                         </el-form-item><br/>
                         <el-form-item prop="fullTimeDegree" label="全日制学历学位">
@@ -294,9 +273,6 @@
                         </el-form-item>
                         <el-form-item prop="annualAssessmentResults" label="年度考核结果">
                             <el-input type="textarea" style="width: 500px" autosize placeholder="请输入内容" v-model="editor.annualAssessmentResults"></el-input>
-                        </el-form-item>
-                        <el-form-item prop="resume" label="简历">
-                            <el-input type="textarea" style="width: 550px" autosize placeholder="请输入内容" v-model="editor.resume"></el-input>
                         </el-form-item>
                         <el-form-item prop="resume" label="简历">
                             <el-input type="textarea" style="width: 550px" autosize placeholder="请输入内容" v-model="editor.resume"></el-input>
