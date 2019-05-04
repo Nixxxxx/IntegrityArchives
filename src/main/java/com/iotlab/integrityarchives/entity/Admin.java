@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -16,11 +17,13 @@ import java.util.Date;
 public class Admin {
 
     @Id
+    @NotNull
     private Integer id;
 
-    @NotNull
+    @NotBlank(message = "管理员工号不允许为空")
     private String adminNumber;
-    @NotNull
+
+    @NotBlank(message = "管理员密码不允许为空")
     private String adminPasswd;
     private String level;
 

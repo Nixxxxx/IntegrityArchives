@@ -58,7 +58,7 @@ public class UserInfoController extends BaseController {
         List<UserFamily> userFamilyList = userInfo.getUserFamilyList();
         try {
             Map<String, Object> dataMap = userInfoService.exportWordFile(userInfo);
-            PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "干部基本信息表.ftl");
+            PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "新干部基本信息表.ftl",userInfo.getName());
         } catch (IOException e) {
             e.printStackTrace();
          System.out.println("遇到错误了");

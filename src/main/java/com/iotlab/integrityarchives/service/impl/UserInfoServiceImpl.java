@@ -3,20 +3,14 @@ package com.iotlab.integrityarchives.service.impl;
 
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.UserInfoDao;
-import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.entity.UserFamily;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.service.UserInfoService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @SuppressWarnings("all")
@@ -89,7 +83,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
     /**
      * word文件导出
      */
-    public  Map<String, Object> exportWordFile(UserInfo userInfo) {
+    public Map<String, Object> exportWordFile(UserInfo userInfo) {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         List<UserFamily> userFamilyList = userInfo.getUserFamilyList();
         dataMap.put("name", userInfo.getName());
@@ -111,6 +105,19 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
         dataMap.put("biyeyuanxiao", userInfo.getPartTimeGraduatedUniversityAndMajor());
         dataMap.put("xianren", userInfo.getCurrentPosition());
         dataMap.put("jianli", userInfo.getResume());
+        List<Map<String, Object>> listInfo = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        for (UserFamily userFamily : userFamilyList) {
+            map.put("chengwei", userFamily.getAppellation());
+            map.put("name", userFamily.getUserFamilyName());
+            map.put("age", userFamily.getAge());
+            map.put("zhengzhi", userFamily.getPoliticsStatus());
+            map.put("zhiwu", userFamily.getWorkUnitAndPosition());
+            listInfo.add(map);
+        }
+        dataMap.put("listInfo", listInfo);
+
+
         return dataMap;
     }
 

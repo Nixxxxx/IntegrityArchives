@@ -75,7 +75,7 @@ public class PrintUtil {
         sb.append("_");
         sb.append(r.nextInt(100));
 //文件唯一名称
-        String fileOnlyName = "干部信息表" + sb + ".doc";
+        String fileOnlyName = "干部信息表"  + ".doc";
         return fileOnlyName;
     }
 
@@ -83,12 +83,12 @@ public class PrintUtil {
      * 导出文件
      * @throws IOException
      */
-    public static void exportMillCertificateWord( HttpServletResponse response, Map map,String filePath,String templateName) throws IOException {
+    public static void exportMillCertificateWord( HttpServletResponse response, Map map,String filePath,String templateName,String name) throws IOException {
         File file = null;
         InputStream fin = null;
         ServletOutputStream out = null;
         try {
-            String fileName = PrintUtil.creatFileName();
+            String fileName =name+PrintUtil.creatFileName();
             file = PrintUtil.createWord(map, templateName, filePath,fileName);
             fin = new FileInputStream(file);
             response.setCharacterEncoding("utf-8");
