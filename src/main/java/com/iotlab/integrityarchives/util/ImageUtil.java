@@ -14,25 +14,29 @@ import java.io.IOException;
  **/
 public class ImageUtil {
 
-    public static String imagePath(MultipartFile file,String name) {
+    public static String imagePath(MultipartFile file,String fileName) {
         if (file.isEmpty()) {
             return "false";
         }
-        String fileName = file.getOriginalFilename();
+
         int size = (int) file.getSize();
-        System.out.println(fileName + "-->" + size);
+        System.out.println("保存的文件名为"+fileName + "-->" + size);
         String path = "D:/upload";
         String os = System.getProperty("os.name");
         if(os.toLowerCase().startsWith("linux")){
-            path="/pictures";
+            path="/usr/upload";
         }
-        File dest = new File(path + "/" + name+fileName);
+        File dest = new File(path + "/" +fileName);
         if (!dest.getParentFile().exists()) { //判断文件父目录是否存在
             dest.getParentFile().mkdir();
         }
         try {
-            file.transferTo(dest); //保存文件
-            return dest.getPath();
+            //根据系统的不同，保存到不同的路径
+            file.transferTo(dest);
+            if(os.toLowerCase().startsWith("linux")){
+                return fileName;  //zhangxin.png
+            }
+            else return dest.getPath();  //D:/upload/zhangxin.png
         } catch (IllegalStateException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -29,7 +29,7 @@ import java.util.Map;
 @RestController
 @SuppressWarnings("all")
 @RequestMapping("/manage/userInfo")
-@Api(tags="干部信息控制API",value="测试")
+@Api(tags = "干部信息控制API", value = "测试")
 public class UserInfoManageController extends BaseController {
 
     @Autowired
@@ -48,7 +48,7 @@ public class UserInfoManageController extends BaseController {
         List<UserFamily> userFamilyList = userInfo.getUserFamilyList();
         try {
             Map<String, Object> dataMap = userInfoService.exportWordFile(userInfo);
-            PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "干部基本信息表.ftl",userInfo.getName());
+            PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "干部基本信息表.ftl", userInfo.getName());
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("遇到错误了");
@@ -56,11 +56,19 @@ public class UserInfoManageController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ResponseCode update(UserInfo userInfo, @RequestParam(value = "image",required = false) MultipartFile file,HttpServletRequest request) {
+    public ResponseCode update(UserInfo userInfo, @RequestParam(value = "image", required = false) MultipartFile file, HttpServletRequest request) {
         try {
             userInfo.setLastEditTime(new Date());
-            if(file != null)
-                userInfo.setAvatar(ImageUtil.imagePath(file,userInfo.getName()));
+            String fileName = userInfo.getName() + file.getOriginalFilename();
+            String os = System.getProperty("os.name");
+            if (file != null)
+                //保证图片名唯一性：用户名+图片本来名字
+                if (os.toLowerCase().startsWith("linux")) {
+                    userInfo.setAvatar("http://www.springboot.xyz:8080/pictures/" + ImageUtil.imagePath(file, fileName));
+                } else
+                    userInfo.setAvatar(ImageUtil.imagePath(file, fileName));
+
+
             userInfoService.update(userInfo);
             return ResponseCode.success();
         } catch (Exception e) {
