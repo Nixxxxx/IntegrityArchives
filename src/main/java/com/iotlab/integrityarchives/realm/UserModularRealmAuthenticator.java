@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * ModularRealmAuthenticator类主要是用来实现项目中出现多realm的情况下，根据认证策略来对各个realm进行认证，它继承了AbstractAuthenticator抽象类，先对其解析如下
+ */
 public class UserModularRealmAuthenticator extends ModularRealmAuthenticator {
 
     @Override

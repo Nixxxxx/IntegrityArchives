@@ -99,7 +99,7 @@ public class TestWord {
             File outFile = new File("D:/" +  userInfo.getName() + "报销信息导出.doc");
 
             //以utf-8的编码读取ftl文件
-            Template template = configuration.getTemplate("干部基本信息表.ftl", "utf-8");
+            Template template = configuration.getTemplate("新干部基本信息表.ftl", "utf-8");
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "utf-8"), 10240);
             template.process(dataMap, out);
             out.close();

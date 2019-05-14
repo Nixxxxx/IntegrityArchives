@@ -58,17 +58,21 @@ public class UserInfoManageController extends BaseController {
     @PostMapping("/update")
     public ResponseCode update(UserInfo userInfo, @RequestParam(value = "image", required = false) MultipartFile file, HttpServletRequest request) {
         try {
+
+            System.out.println("从前端得到的UserInfo数据为：" + userInfo);
             userInfo.setLastEditTime(new Date());
-            String fileName = userInfo.getName() + file.getOriginalFilename();
+
             String os = System.getProperty("os.name");
-            if (file != null)
+            //如果图片不为空 则处理图片逻辑
+            if (file != null) {
+                String fileName = userInfo.getName() + file.getOriginalFilename();
                 //保证图片名唯一性：用户名+图片本来名字
                 if (os.toLowerCase().startsWith("linux")) {
                     userInfo.setAvatar("http://www.springboot.xyz:8080/pictures/" + ImageUtil.imagePath(file, fileName));
                 } else
                     userInfo.setAvatar(ImageUtil.imagePath(file, fileName));
 
-
+            }
             userInfoService.update(userInfo);
             return ResponseCode.success();
         } catch (Exception e) {
