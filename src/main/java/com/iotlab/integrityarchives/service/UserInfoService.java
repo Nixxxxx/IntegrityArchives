@@ -1,6 +1,7 @@
 package com.iotlab.integrityarchives.service;
 
 import com.iotlab.integrityarchives.common.service.BaseService;
+import com.iotlab.integrityarchives.dto.UserInfoResult;
 import com.iotlab.integrityarchives.entity.Admin;
 import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.entity.UserInfo;
@@ -19,9 +20,10 @@ public interface UserInfoService extends BaseService<UserInfo> {
      */
     //UserInfo findByUserId(Integer id);
 
-    Map<String, Object>  exportWordFile(UserInfo userInfo);
 
+     Map<String, Object>  exportUserInfoToWordFile(UserInfo userInfo);
 
+    Map<String, Object>  exportUserInfoResultToWordFile(UserInfoResult userInfo);
 
     /**
      * 通过姓名或者工号模糊查询列表
@@ -30,8 +32,9 @@ public interface UserInfoService extends BaseService<UserInfo> {
      */
     List<UserInfo> findListByWord(String word);
 
-      UserInfo findUserInfoByuserId(Integer userId);
+    UserInfo ExportUserInfo(Integer userId);
 
+    UserInfoResult ExportUserInfoResult(Integer userId);
 
 
 

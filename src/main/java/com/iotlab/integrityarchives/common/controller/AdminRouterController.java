@@ -43,8 +43,13 @@ public class AdminRouterController {
         return "admin/page/personDecla";
     }
 
+    @GetMapping(value = {"/personConsultations"})
+    public String personConsultations() {
+        return "admin/page/personConsultations";
+    }
+    
     @GetMapping(value = {"/cleanArchive"})
     public String cleanArchive() {
-        return "admin/page/cleanArchive";
+    	return "admin/page/cleanArchive";
     }
 }

@@ -29,7 +29,13 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     public User findById(Integer id) {
         return userDao.selectByPrimaryKey(id);
     }
-
+    
+    @Override
+    public User findUserById(Integer id) {
+        return userDao.findUserById(id);
+    }
+    
+    
     @Override
     @Transactional
     public int  insertUserReturnId(User user) {

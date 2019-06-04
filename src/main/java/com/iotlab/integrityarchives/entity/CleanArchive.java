@@ -3,6 +3,7 @@ package com.iotlab.integrityarchives.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,6 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tb_clean_arichive")
+@ToString
 public class CleanArchive {
 
     @Id

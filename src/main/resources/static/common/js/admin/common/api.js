@@ -22,8 +22,17 @@ const api = {
         findByPage(pageSize, pageCode) {
             return '/manage/user/findByPage?pageSize=' + pageSize + '&pageCode=' + pageCode
         },
+        findPersonConsultationsByPage(pageSize, pageCode) {
+            return '/manage/user/findPersonConsultationsByPage?pageSize=' + pageSize + '&pageCode=' + pageCode
+        },
+        downloadWord(userId,year) {
+        	return '/manage/user/downloadWord?userId=' + userId+"&year="+year
+        },
         findById(id) {
             return '/manage/user/findById?id=' + id
+        },
+        personConsultationsdelete(id) {
+            return '/manage/user/personConsultationsdelete?id='+id
         },
         save: '/manage/user/save',
         delete: '/manage/user/delete',

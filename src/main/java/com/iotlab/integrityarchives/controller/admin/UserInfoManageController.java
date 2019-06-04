@@ -5,7 +5,8 @@ import com.iotlab.integrityarchives.dto.ResponseCode;
 import com.iotlab.integrityarchives.entity.UserFamily;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.service.UserInfoService;
-import com.iotlab.integrityarchives.util.ImageUtil;
+import com.iotlab.integrityarchives.util.FilePathUtil;
+
 import com.iotlab.integrityarchives.util.PrintUtil;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -37,17 +39,20 @@ public class UserInfoManageController extends BaseController {
 
     @GetMapping(value = "/findByUserId")  //TODO   根据UserId查询的时候查不到数据的时候返回ResponseCode.error()
     public ResponseCode findByUserId(@RequestParam("userId") Integer userId) {
-        return ResponseCode.success(userInfoService.findUserInfoByuserId(userId));
+        return ResponseCode.success(userInfoService.ExportUserInfo(userId));
     }
 
     //导出word
     @GetMapping("/print")
     public void printUserInfo(@RequestParam("userId") Integer userId, HttpServletResponse response) {
-        //Map<String, Object> dataMap = new HashMap<String, Object>();
-        UserInfo userInfo = userInfoService.findUserInfoByuserId(userId);
+        //查询数据
+        UserInfo userInfo = userInfoService.ExportUserInfo(userId);
+
         List<UserFamily> userFamilyList = userInfo.getUserFamilyList();
         try {
-            Map<String, Object> dataMap = userInfoService.exportWordFile(userInfo);
+            //生成数据到word,
+            Map<String, Object> dataMap = userInfoService.exportUserInfoToWordFile(userInfo);
+            //导出word并下载
             PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "干部基本信息表.ftl", userInfo.getName());
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,10 +73,9 @@ public class UserInfoManageController extends BaseController {
                 String fileName = userInfo.getName() + file.getOriginalFilename();
                 //保证图片名唯一性：用户名+图片本来名字
                 if (os.toLowerCase().startsWith("linux")) {
-                    userInfo.setAvatar("http://www.springboot.xyz:8080/pictures/" + ImageUtil.imagePath(file, fileName));
+                    userInfo.setAvatar("http://www.springboot.xyz:8080/pictures/" + FilePathUtil.PathUtil(file,fileName));
                 } else
-                    userInfo.setAvatar(ImageUtil.imagePath(file, fileName));
-
+                    userInfo.setAvatar(FilePathUtil.PathUtil(file,fileName));
             }
             userInfoService.update(userInfo);
             return ResponseCode.success();

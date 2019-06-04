@@ -20,89 +20,93 @@
                 <el-card class="card-category">
                     <div slot="header">
                         <span>个人信息</span>
-                        <el-button size="small" style="float:right" plain type="primary" @click="downloadWord">导出word</el-button>
-                        <el-button size="small" style="float:right" plain type="primary" @click="handleChangePasswd">修改密码</el-button>
+                        <el-button size="small" style="float:right" plain type="primary" @click="downloadWord">导出word
+                        </el-button>
+                        <el-button size="small" style="float:right" plain type="primary" @click="handleChangePasswd">
+                            修改密码
+                        </el-button>
                     </div>
                     <div>
                         <table align="center" cellpadding="0" cellspacing="0" border="1">
                             <tr>
                                 <td width="80"><b>姓名</b></td>
                                 <td width="80">{{userInfo.name}}</td>
-                                <td width="80">性别</td>
+                                <td width="80"><b>性别</b></td>
                                 <td width="80">{{userInfo.gender}}</td>
-                                <td width="80">出生年月（岁）</td>
+                                <td width="80"><b>出生年月</b></td>
                                 <td width="80">{{userInfo.dateOfBirth}}</td>
-                                <td width="150" rowspan="4"><img width="150" v-if="userInfo.avatar" height="210" :src="userInfo.avatar"></td>
+                                <td width="150" rowspan="4"><img width="150" v-if="userInfo.avatar" height="210"
+                                                                 :src="userInfo.avatar"></td>
                             </tr>
                             <tr>
-                                <td>民族</td>
+                                <td><b>民族</b></td>
                                 <td>{{userInfo.nation}}</td>
-                                <td>籍贯</td>
+                                <td><b>籍贯</b></td>
                                 <td>{{userInfo.nativePlace}}</td>
-                                <td>出生地</td>
+                                <td><b>出生地</b></td>
                                 <td>{{userInfo.placeOfBirth}}</td>
                             </tr>
                             <tr>
-                                <td>入党时间</td>
+                                <td><b>入党时间</b></td>
                                 <td>{{userInfo.dateOfJoinParty}}</td>
-                                <td>参加工作<br/>时间</td>
+                                <td><b>参加工作时间</b></td>
                                 <td>{{userInfo.dateOfJoinWork}}</td>
-                                <td>健康状态</td>
+                                <td><b>健康状态</b></td>
                                 <td>{{userInfo.physicalCondition}}</td>
                             </tr>
                             <tr>
-                                <td>专业技术职务</td>
+                                <td><b>专业技术职务</b></td>
                                 <td colspan="2">{{userInfo.technicalPosition}}</td>
-                                <td>熟悉专业有何专长</td>
+                                <td><b>熟悉专业有何专长</b></td>
                                 <td colspan="2">{{userInfo.familiarMajorAndSpecialty}}</td>
                             </tr>
                             <tr>
-                                <td rowspan="3">学历<br/>学位</td>
-                                <tr>
-                                    <td>全日制<br/>教育</td>
-                                    <td colspan="2"><p>{{userInfo.fullTimeDegree}}</p></td>
-                                    <td>毕业院校<br/>系及专业</td>
-                                    <td colspan="2"><p>{{userInfo.fullTimeGraduatedUniversityAndMajor}}</p></td>
-                                </tr>
-                                <tr>
-                                    <td>在职<br/>教育</td>
-                                    <td colspan="2"><p>{{userInfo.partTimeDegree}}</p></td>
-                                    <td>毕业院校<br/>系及专业</td>
-                                    <td colspan="2"><p>{{userInfo.partTimeGraduatedUniversityAndMajor}}</p></td>
-                                </tr>
+                                <td rowspan="3"><b>学历学位</b></td>
+                            <tr>
+                                <td><b>全日制教育</b></td>
+                                <td colspan="2"><p>{{userInfo.fullTimeDegree}}</p></td>
+                                <td><b>毕业院校系及专业</b></td>
+                                <td colspan="2"><p>{{userInfo.fullTimeGraduatedUniversityAndMajor}}</p></td>
                             </tr>
                             <tr>
-                                <td colspan="2"><p>现任职务</p></td>
+                                <td><b>在职教育</b></td>
+                                <td colspan="2"><p>{{userInfo.partTimeDegree}}</p></td>
+                                <td><b>毕业院校<br/>系及专业</td>
+                                <td colspan="2"><p>{{userInfo.partTimeGraduatedUniversityAndMajor}}</p></td>
+                            </tr>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><p><b>现任职务</b></p></td>
                                 <td colspan="5"><p>{{userInfo.currentPosition}} </p></td>
                             </tr>
                             <tr>
-                                <td><p >简历</p></td>
+                                <td><p><b>简历</b></p></td>
                                 <td colspan="6">{{userInfo.resume}}</td>
                             </tr>
                             <tr>
-                                <td><p >奖惩情况</p></td>
+                                <td><p><b>奖惩情况</b></p></td>
                                 <td colspan="6"><p>{{userInfo.rewardsAndPunishment}}</p></td>
                             </tr>
                             <tr>
-                                <td><p >年度考核结果</p></td>
+                                <td><p><b>年度考核结果</b></p></td>
                                 <td colspan="6"><p>{{userInfo.annualAssessmentResults}}</p></td>
                             </tr>
                             <tr>
-                                <td rowspan="10">家庭主要成员及重要社会关系</td>
-                                <tr>
-                                    <td height="35">称谓</td>
-                                    <td>姓名</td>
-                                    <td>年龄</td>
-                                    <td>政治面貌</td>
-                                    <td colspan="2">工作单位及职务</td>
-                                </tr>
-                                <tr height="35" v-for="family in families">
-                                    <td>{{ family.appellation }}</td>
-                                    <td>{{ family.userFamilyName }}</td>
-                                    <td>{{ family.age }}</td>
-                                    <td>{{ family.politicsStatus }}</td>
-                                    <td colspan="2">{{ family.workUnitAndPosition }}</td>
-                                </tr>
+                                <td rowspan="10"><b>家庭主要成员及重要社会关系</b></td>
+                            <tr>
+                                <td height="35"><b>称谓</b></td>
+                                <td><b>姓名</b></td>
+                            <td><b>年龄</b></td>
+                            <td><b>政治面貌</b></td>
+                            <td colspan="2"><b>工作单位及职务</b></td>
+                            </tr>
+                            <tr height="35" v-for="family in families">
+                                <td>{{ family.appellation }}</td>
+                                <td>{{ family.userFamilyName }}</td>
+                                <td>{{ family.age }}</td>
+                                <td>{{ family.politicsStatus }}</td>
+                                <td colspan="2">{{ family.workUnitAndPosition }}</td>
+                            </tr>
                             </tr>
                         </table>
                     </div>
@@ -114,15 +118,17 @@
                :before-close="handleChangePasswdClose">
             <span>
                 <el-form label-width="100px" ref="pass" :model="pass">
-                    <el-form-item required prop="userPasswd" :rules="[{ required: true, message: '请输入新密码'}]" label="输入新密码">
+                    <el-form-item required prop="userPasswd" :rules="[{ required: true, message: '请输入新密码'}]"
+                                  label="输入新密码">
                         <el-input placeholder="请输入新密码,密码长度在5位及以上" v-model="pass.userPasswd" type="password"></el-input>
                     </el-form-item>
-                    <el-form-item required prop="repassword" :rules="[{ required: true, message: '确认新密码'}]" label="确认新密码">
+                    <el-form-item required prop="repassword" :rules="[{ required: true, message: '确认新密码'}]"
+                                  label="确认新密码">
                         <el-input placeholder="确认新密码" v-model="pass.repassword" type="password"></el-input>
                     </el-form-item>
                 </el-form>
             </span>
-            <span slot="footer" class="dialog-footer">
+        <span slot="footer" class="dialog-footer">
                 <el-button @click="changePasswdDialog = false">取 消</el-button>
                 <el-button type="primary" @click="changePasswd">修 改</el-button>
             </span>
@@ -131,7 +137,6 @@
 </body>
 <div th:replace="user/common/js"></div>
 <script type="text/javascript" th:src="@{/common/js/user/info.js}"></script>
-
 
 
 </html>

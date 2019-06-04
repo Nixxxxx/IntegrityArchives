@@ -3,6 +3,8 @@ package com.iotlab.integrityarchives.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Id;
@@ -14,6 +16,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Table(name = "tb_user")
 public class User {
     @Id

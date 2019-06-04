@@ -32,5 +32,10 @@ public class UserRouterController {
     public String cleanArchive() {
         return "user/page/cleanArchive";
     }
+    
+    @GetMapping(value = {"/personConsultations"})
+    public String personConsultations() {
+    	return "user/page/personConsultations";
+    }
 
 }

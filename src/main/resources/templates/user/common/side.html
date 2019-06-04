@@ -8,7 +8,7 @@
 <div @click="drawerClick" v-if="sidebarStatus == true && mobileStatus == true" class="drawer-bg"></div>
 <div class="sidebar-container el-scrollbar">
     <div class="scrollbar-wrapper el-scrollbar__wrap">
-        <div class="el-scrollbar__view" style="background-color: rgb(48, 65, 86);">
+        <div id="app" class="el-scrollbar__view" style="background-color: rgb(48, 65, 86);">
             <el-aside style="background-color: rgb(48, 65, 86);width: auto !important;" show-timeout="200">
                 <el-menu unique-opened :default-active="defaultActive" :collapse="!sidebarStatus" background-color="rgb(48, 65, 86)" text-color="#fff">
                     <a href="/user/index">
@@ -20,10 +20,20 @@
                     <a href="/user/info">
                         <el-menu-item index="2">
                             <i class="fa fa-pencil-square-o fa-fw"></i>
-                            <span slot="title">个人信息</span>
+                            <span slot="title">个人信息管理</span>
                         </el-menu-item>
                     </a>
-                    <a href="/user/personDecla">
+                    <el-submenu index="3">
+				        <template slot="title">
+				          <i class="el-icon-location"></i>
+				          <span>廉政档案</span>
+				        </template>
+				        <el-menu-item-group>
+				          <a href="/user/personDecla"><el-menu-item index="3-1">纪检有关材料填报</el-menu-item></a>
+				          <a href="/user/cleanArchive"><el-menu-item index="3-2">个人动态信息申报</el-menu-item></a>
+				        </el-menu-item-group>
+				    </el-submenu>
+                    <!-- <a href="/user/personDecla">
                         <el-menu-item index="3">
                             <i class="fa fa-pencil-square-o fa-fw"></i>
                             <span slot="title">廉政档案</span>
@@ -33,6 +43,12 @@
                         <el-menu-item index="4">
                             <i class="fa fa-pencil-square-o fa-fw"></i>
                             <span slot="title">个人动态信息申报</span>
+                        </el-menu-item>
+                    </a> -->
+                    <a href="/user/personConsultations">
+                        <el-menu-item index="4">
+                            <i class="fa fa-pencil-square-o fa-fw"></i>
+                            <span slot="title">个人述职述联</span>
                         </el-menu-item>
                     </a>
                 </el-menu>

@@ -4,21 +4,33 @@ import com.iotlab.integrityarchives.common.controller.BaseController;
 import com.iotlab.integrityarchives.dto.QueryPage;
 import com.iotlab.integrityarchives.dto.ResponseCode;
 import com.iotlab.integrityarchives.entity.CleanArchive;
+import com.iotlab.integrityarchives.entity.PersonConsultations;
 import com.iotlab.integrityarchives.entity.PersonDecla;
 import com.iotlab.integrityarchives.entity.User;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.enums.EnableStatusEnum;
 import com.iotlab.integrityarchives.service.CleanArchiveService;
+import com.iotlab.integrityarchives.service.PersonConsultationsService;
 import com.iotlab.integrityarchives.service.PersonDeclaService;
 import com.iotlab.integrityarchives.service.UserInfoService;
 import com.iotlab.integrityarchives.service.UserService;
+import com.iotlab.integrityarchives.util.FileType;
 import com.iotlab.integrityarchives.util.Md5Util;
 import io.swagger.annotations.Api;
+
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.util.IOUtils;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author created by Zhangdazhuang
@@ -41,7 +53,8 @@ public class UserManageController extends BaseController {
     private PersonDeclaService personDeclaService;
     @Autowired
     private CleanArchiveService cleanArchiveService;
-
+    @Autowired
+    private PersonConsultationsService personConsultationsService;
 
     /**
      * 根据id查询指定的用户
@@ -77,6 +90,18 @@ public class UserManageController extends BaseController {
     @PostMapping(value = "/findByPage")
     public ResponseCode findByPage(QueryPage queryPage, User user) {
         return ResponseCode.success(super.selectByPageNumSize(queryPage, () -> userService.findByPage(user)));
+    }
+    
+    /**
+     * 分页查询
+     *
+     * @param queryPage
+     * @param user
+     * @return
+     */
+    @PostMapping(value = "/findPersonConsultationsByPage")
+    public ResponseCode findPersonConsultationsByPage(QueryPage queryPage, PersonConsultations personConsultations) {
+        return ResponseCode.success(super.selectByPageNumSize(queryPage, () -> personConsultationsService.findByPage(personConsultations)));
     }
 
     /**
@@ -173,6 +198,49 @@ public class UserManageController extends BaseController {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
+    }
+    
+    @PostMapping(value = "/personConsultationsdelete")
+    public ResponseCode personConsultationsdelete(String id) {
+    	try {
+    		personConsultationsService.del(id);
+    		return ResponseCode.success();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		throw new RuntimeException(e.getMessage());
+    	}
+    }
+    
+    @GetMapping(value = "/downloadWord")
+    public void downloadWord(String userId, String year, HttpServletResponse response,HttpServletRequest request) {
+    	 PersonConsultations personConsultations = new PersonConsultations();
+         personConsultations.setUserId(Integer.parseInt(userId));
+         personConsultations.setYear(year);
+         PersonConsultations down =  personConsultationsService.findByUserIdAndYear(personConsultations);
+         
+         FileInputStream fis = null;
+         XWPFDocument document;
+         try {
+             //获取文件路径
+             String filepath = down.getPath();
+             File file = new File(filepath);
+             String filename = file.getName();
+             fis = new FileInputStream(file);
+             //设置文件名及后缀
+             response.setHeader("Content-Disposition", "attachment; filename=" +
+                     new String(filename.getBytes(), "ISO-8859-1"));
+             //response.setHeader("content-Type", "doc");
+             String fileType = FileType.getFileType(filepath);
+             if ("docx".equals(fileType) || "doc".equals(fileType)) {//Office的doc与docx输出流，使用poi-ooxml 3.17可用
+                 document = new XWPFDocument(OPCPackage.open(fis));
+                 document.write(response.getOutputStream());
+             } else {//其它文件输出，如wps等
+                 IOUtils.copy(fis, response.getOutputStream());
+                 response.flushBuffer();
+             }
+         } catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
 

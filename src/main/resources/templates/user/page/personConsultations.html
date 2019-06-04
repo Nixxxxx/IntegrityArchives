@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="user/common/head"></head>
+<title>个人述职述联</title>
+<link rel="stylesheet" th:href="@{/common/css/personConsultations.css}">
+<body>
+<!-- vue入口 -->
+<div id="app">
+    <div :class="'app-wrapper' + sidebarFlag">
+        <!-- aside -->
+        <div th:replace="user/common/side"></div>
+
+        <!-- container -->
+        <el-container class="main-container">
+            <!-- header -->
+            <div style="background-color: rgb(84, 92, 100);" th:replace="user/common/header"></div>
+            <div style="height: 20px;"></div>
+            <el-row :gutter="0">
+			  <el-col :span="4">
+			    <el-card shadow="hover" style="text-align:center;">
+			      2019<br/><br/>
+			      <el-upload
+			      	  :data="uploaddata"
+					  class="upload-demo"
+					  action="/user/personConsultations/upload"
+					  :before-upload="beforeUpload"
+					  :before-remove="beforeRemove"
+					  :limit="1">
+					  <el-button v-if="upload('2019')" @click="uploadWord('2019')"  size="mini" type="danger">上传<i class="el-icon-upload2 el-icon--right"></i></el-button>
+					</el-upload>
+				  <el-button v-if="download('2019')" @click="downloadWord('2019')" size="mini" type="primary">下载<i class="el-icon-download el-icon--right"></i></el-button>
+			    </el-card>
+			  </el-col>
+			  <el-col :span="4">
+			    <el-card shadow="hover" style="text-align:center;">
+			      2020<br/><br/>
+			      <el-upload
+			      	  :data="uploaddata"
+					  class="upload-demo"
+					  action="/user/personConsultations/upload"
+					  :before-upload="beforeUpload"
+					  :before-remove="beforeRemove"
+					  :limit="1">
+					  <el-button v-if="upload('2020')" @click="uploadWord('2020')"  size="mini" type="danger">上传<i class="el-icon-upload2 el-icon--right"></i></el-button>
+					</el-upload>
+				  <el-button v-if="download('2020')" @click="downloadWord('2020')" size="mini" type="primary">下载<i class="el-icon-download el-icon--right"></i></el-button>
+			    </el-card>
+			  </el-col>
+			  <el-col :span="4">
+			    <el-card shadow="hover" style="text-align:center;">
+			      2021<br/><br/>
+			      <el-upload
+			      	  :data="uploaddata"
+					  class="upload-demo"
+					  action="/user/personConsultations/upload"
+					  :before-upload="beforeUpload"
+					  :before-remove="beforeRemove"
+					  :limit="1">
+					  <el-button v-if="upload('2021')" @click="uploadWord(2021)" size="mini" type="danger">上传<i class="el-icon-upload2 el-icon--right"></i></el-button>
+					</el-upload>
+				  <el-button v-if="download('2021')" @click="downloadWord(2021)" size="mini" type="primary">下载<i class="el-icon-download el-icon--right"></i></el-button>
+			    </el-card>
+			  </el-col>
+			   <el-col :span="4">
+			    <el-card shadow="hover" style="text-align:center;">
+			      2022<br/><br/>
+			      <el-upload
+			      	  :data="uploaddata"
+					  class="upload-demo"
+					  action="/user/personConsultations/upload"
+					  :before-upload="beforeUpload"
+					  :before-remove="beforeRemove"
+					  :limit="1">
+					  <el-button v-if="upload('2022')" @click="uploadWord(2022)" size="mini" type="danger">上传<i class="el-icon-upload2 el-icon--right"></i></el-button>
+					</el-upload>
+				  <el-button v-if="download('2022')" @click="downloadWord(2022)" size="mini" type="primary">下载<i class="el-icon-download el-icon--right"></i></el-button>
+			    </el-card>
+			  </el-col>
+			   <el-col :span="4">
+			    <el-card shadow="hover" style="text-align:center;">
+			      2023<br/><br/>
+			      <el-upload
+			      	  :data="uploaddata"
+					  class="upload-demo"
+					  action="/user/personConsultations/upload"
+					  :before-upload="beforeUpload"
+					  :before-remove="beforeRemove"
+					  :limit="1">
+					  <el-button v-if="upload('2023')" @click="uploadWord(2023)" size="mini" type="danger">上传<i class="el-icon-upload2 el-icon--right"></i></el-button>
+					</el-upload>
+				  <el-button v-if="download('2023')" @click="downloadWord(2023)" size="mini" type="primary">下载<i class="el-icon-download el-icon--right"></i></el-button>
+			    </el-card>
+			  </el-col>
+			</el-row>
+        </el-container>
+    </div>
+</div>
+</body>
+<div th:replace="user/common/js"></div>
+<script type="text/javascript" th:src="@{/common/js/user/personConsultations.js}"></script>
+
+
+
+</html>

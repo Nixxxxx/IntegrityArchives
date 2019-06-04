@@ -5,7 +5,8 @@ import com.iotlab.integrityarchives.dto.ResponseCode;
 import com.iotlab.integrityarchives.entity.UserFamily;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.service.UserInfoService;
-import com.iotlab.integrityarchives.util.ImageUtil;
+import com.iotlab.integrityarchives.util.FilePathUtil;
+
 import com.iotlab.integrityarchives.util.PrintUtil;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,14 @@ public class UserInfoController extends BaseController {
 
     @GetMapping(value = "/findByUserId")
     public ResponseCode findByUserId(@RequestParam("userId") Integer userId) {
-        return ResponseCode.success(userInfoService.findUserInfoByuserId(userId));
+        return ResponseCode.success(userInfoService.ExportUserInfo(userId));
     }
 
     @PostMapping("/update")
     public ResponseCode update(@RequestBody UserInfo userInfo, @RequestParam("image") MultipartFile file) {
         try {
             userInfo.setLastEditTime(new Date());
-            userInfo.setAvatar(ImageUtil.imagePath(file,userInfo.getName()));
+            userInfo.setAvatar(FilePathUtil.PathUtil(file,userInfo.getName()));
             userInfoService.update(userInfo);
             return ResponseCode.success();
         } catch (Exception e) {
@@ -54,11 +55,13 @@ public class UserInfoController extends BaseController {
     @GetMapping("/print")
     public void printUserInfo(@RequestParam("userId") Integer userId, HttpServletResponse response) {
         //Map<String, Object> dataMap = new HashMap<String, Object>();
-        UserInfo userInfo = userInfoService.findUserInfoByuserId(userId);
+        UserInfo userInfo = userInfoService.ExportUserInfo(userId);
+        System.out.print("userInfo信息为："+userInfo);
         List<UserFamily> userFamilyList = userInfo.getUserFamilyList();
         try {
-            Map<String, Object> dataMap = userInfoService.exportWordFile(userInfo);
-            PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "新干部基本信息表.ftl",userInfo.getName());
+            Map<String, Object> dataMap = userInfoService.exportUserInfoToWordFile(userInfo);
+           /* PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "领导干部个人廉政档案信息表.ftl", userInfo.getName());*/
+            PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "干部信息表.ftl", userInfo.getName());
         } catch (IOException e) {
             e.printStackTrace();
          System.out.println("遇到错误了");

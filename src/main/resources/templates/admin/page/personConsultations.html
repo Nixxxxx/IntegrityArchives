@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="admin/common/head"></head>
+<title>个人述职述联管理</title>
+<link rel="stylesheet" th:href="@{/common/css/links.css}">
+
+<body>
+    <!-- vue入口 -->
+    <div id="app">
+        <div :class="'app-wrapper' + sidebarFlag">
+            <!-- aside -->
+            <div th:replace="admin/common/side"></div>
+            <!-- container -->
+            <el-container class="main-container">
+                <!-- header -->
+                <div style="background-color: rgb(84, 92, 100);" th:replace="admin/common/header"></div>
+
+                <!-- main -->
+                <el-main class="app-main">
+                    <el-card>
+                        <h2>个人述职述联管理</h2>
+                        <!-- 功能按钮 -->
+                        <el-row :gutter="20">
+                            <el-col :xs="12" :sm="12" :lg="6" :span="6" style="display: flex">
+                                <el-input placeholder="请输入姓名或工号查询" size="small" v-model="searchEntity.name"
+                                    @keyup.native="search(pageConf.pageCode, pageConf.pageSize)">
+                                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                                </el-input>
+                                <el-button @click="search(pageConf.pageCode, pageConf.pageSize)" plain size="small"
+                                    style="margin-left:12px;" icon="el-icon-search"></el-button>
+                            </el-col>
+                        </el-row>
+                        <br />
+                        <!-- 列表 -->
+                        <el-table ref="link" :data="personConsultations" border tooltip-effect="dark" style="width: 100%">
+                            <el-table-column align="center" type="index" width="80"></el-table-column>
+                            <el-table-column align="center" prop="name" sortable label="姓名" width="170" show-overflow-tooltip></el-table-column>
+                            <el-table-column align="center" prop="year" sortable label="年份" width="170" show-overflow-tooltip></el-table-column>
+                            <el-table-column align="center" prop="path" sortable label="文件路径" width="470" show-overflow-tooltip></el-table-column>
+                            <el-table-column label="操作" align="center">
+                                <template slot-scope="scope">
+                                    <el-button icon="el-icon-download" size="mini" type="primary" @click="downloadWord(scope.row.userId,scope.row.year)">下载</el-button>
+                                    <el-button icon="el-icon-delete" size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <br />
+                        <!-- 分页 -->
+                        <div class="pagination">
+                            <el-pagination background @size-change="handleSizeChange"
+                                @current-change="handleCurrentChange" :current-page="pageConf.pageCode"
+                                :page-sizes="pageConf.pageOption" :page-size="pageConf.pageSize"
+                                layout="total, sizes, prev, pager, next, jumper" :total="pageConf.totalPage">
+                            </el-pagination>
+                        </div>
+                    </el-card>
+                </el-main>
+            </el-container>
+        </div>
+    </div>
+</body>
+<div th:replace="admin/common/js"></div>
+<script type="text/javascript" th:src="@{/common/js/admin/personConsultations.js}"></script>
+
+</html>

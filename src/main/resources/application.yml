@@ -9,9 +9,11 @@ server:
 spring:
    datasource:
       driver-class-name: com.mysql.jdbc.Driver
+      #url: jdbc:mysql://47.100.240.13:3306/db_integrity?useSSL=false&characterEncoding=UTF-8
       url: jdbc:mysql://47.100.240.13:3306/db_integrity?useSSL=false&characterEncoding=UTF-8
       username: root
       password: zx19961215
+      #password: zx19961215
       #使用druid数据库连接池
 #      type: com.alibaba.druid.pool.DruidDataSource
 #      filters: stat
@@ -56,3 +58,7 @@ pagehelper:
 logging:
     level:
        com.iotlab.integrityarchives.dao: DEBUG
+
+application:
+  #文件上传路径
+  profile: F:/IntegrityArchivesUpload/

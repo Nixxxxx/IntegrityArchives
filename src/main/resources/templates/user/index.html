@@ -11,6 +11,21 @@
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.bootcss.com/admin-lte/2.4.10/css/AdminLTE.min.css">
 </head>
+<script type="text/css">
+    html {
+        height: 100%;
+    }
+    body {
+        min-height: 100%;
+        display: grid;
+        grid-template-rows: 1fr auto;
+    }
+    .footer {
+        grid-row-start: 2;
+        grid-row-end: 3;
+    }
+
+</script>
 <body>
 <div id="app">
     <div :class="'app-wrapper' + sidebarFlag">
@@ -28,14 +43,22 @@
                     </section>
                 </div>
                 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-                <footer align="center">
-                    <b>Version</b> 1.0<br/>
-                    <strong>Copyright &copy; 2019 &emsp;<a href="#">iot-lab</a></strong> &emsp;All rights reserved.
-                </footer>
+
             </el-main>
         </el-container>
     </div>
 </div>
+<div class="footer" align="center" style="font-size:20px;">
+    <div>
+        <footer>
+            <b>Version</b> 1.0<br/>
+        </footer>
+    </div>
+    <div>
+        <strong>Copyright &copy; 2019 &emsp;<a href="#">Aiot-lab</a></strong> &emsp;All
+        rights reserved.
+    </div>
+
 </body>
 <div th:replace="user/common/js"></div>
 <script type="text/javascript" th:src="@{/common/js/user/index.js}"></script>

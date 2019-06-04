@@ -75,7 +75,7 @@ public class PrintUtil {
         sb.append("_");
         sb.append(r.nextInt(100));
 //文件唯一名称
-        String fileOnlyName = "干部信息表"  + ".doc";
+        String fileOnlyName = "领导干部个人廉政档案信息表"  + ".doc";
         return fileOnlyName;
     }
 

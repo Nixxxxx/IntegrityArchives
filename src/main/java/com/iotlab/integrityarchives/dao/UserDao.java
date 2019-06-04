@@ -16,5 +16,7 @@ public interface UserDao extends MyMapper<User> {
     List<String> findAllNumber();
 
     String findNumberByuserId(Integer userId);
+    
+    public User findUserById(Integer id);
 
 }

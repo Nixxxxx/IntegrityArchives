@@ -1,5 +1,8 @@
-package com.iotlab.integrityarchives.entity;
+package com.iotlab.integrityarchives.dto;
 
+import com.iotlab.integrityarchives.entity.CleanArchive;
+import com.iotlab.integrityarchives.entity.PersonDecla;
+import com.iotlab.integrityarchives.entity.UserFamily;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,9 +27,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_user_info")
 @ToString
-public class UserInfo implements Serializable {
+public class UserInfoResult implements Serializable {
 
     @Id
     private Integer id;
@@ -94,25 +96,17 @@ public class UserInfo implements Serializable {
     @Column(name = "annual_assessment_results")
     private String annualAssessmentResults;             //年度考核结果
 
+
+
     @Transient
-    private List<UserFamily> userFamilyList;
+    private CleanArchive cleanArchive;
+
+    @Transient
+    private PersonDecla personDecla;
 
     private Date createTime;
     private Date lastEditTime;
     private Integer enableStatus;
 
-    public UserInfo(@NotNull  Integer userId,String name,Integer enableStatus ) {
-       this.userId=userId;
-       this.name=name;
-       this.enableStatus=enableStatus;
-    }
 
-    public UserInfo(Integer id, @NotNull Integer userId, String name, String gender, String dateOfBirth, String nation) {
-        this.id = id;
-        this.userId = userId;
-        this.name = name;
-        this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
-        this.nation = nation;
-    }
 }

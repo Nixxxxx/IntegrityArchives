@@ -12,13 +12,12 @@ import java.io.IOException;
  * @date 2019/4/30
  * @备注
  **/
-public class ImageUtil {
+public class FilePathUtil {
 
-    public static String imagePath(MultipartFile file,String fileName) {
+    public static String PathUtil(MultipartFile file,String fileName) {
         if (file.isEmpty()) {
             return "false";
         }
-
         int size = (int) file.getSize();
         System.out.println("保存的文件名为"+fileName + "-->" + size);
         String path = "D:/upload";

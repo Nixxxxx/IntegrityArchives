@@ -27,6 +27,10 @@
         select user_number
         from tb_user;
     </select>
+    
+    <select id="findUserById" parameterType="Integer" resultType="com.iotlab.integrityarchives.entity.User">
+        select * from tb_user where id=#{id}
+    </select>
 
 
     <select id="findNumberByuserId" parameterType="Integer" resultType="string">

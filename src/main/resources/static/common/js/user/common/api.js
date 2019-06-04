@@ -42,4 +42,12 @@ const api = {
         },
         update: '/user/cleanArchive/update',
     },
+    personConsultations: {
+        findByUserId(userId) {
+            return '/user/personConsultations/findByUserId?userId=' + userId
+        },
+        downloadWord(userId,year) {
+        	return '/user/personConsultations/downloadWord?userId=' + userId+"&year="+year
+        },
+    },
 };

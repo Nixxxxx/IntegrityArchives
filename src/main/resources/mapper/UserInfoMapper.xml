@@ -4,12 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.iotlab.integrityarchives.dao.UserInfoDao">
-    <resultMap id="UserInfoResult" type="com.iotlab.integrityarchives.entity.UserInfo">
+
+    <resultMap id="UserInfo" type="com.iotlab.integrityarchives.entity.UserInfo">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="avatar" property="avatar"/>
         <result column="name" property="name"/>
-        <!--<result column="avatar" property="avatar" typeHandler="org.apache.ibatis.type.BlobTypeHandler"/>-->
         <result column="gender" property="gender"/>
         <result column="date_of_birth" property="dateOfBirth"/>
         <result column="nation" property="nation"/>
@@ -31,8 +31,70 @@
         <result column="create_time" property="createTime"/>
         <result column="last_edit_time" property="lastEditTime"/>
         <result column="enable_status" property="enableStatus"/>
+        <!--1. 关联-association 多对一 关联(Association）关系是类与类之间的联接，它使一个类知道另一个类的属性和方法。关联可以是双向的，也可以是单向的。在Java语言中，关联关系一般使用成员变量来实现 如一个人一个部门
+           2. 集合-collection  一对多 如一个班级多个学生-->
         <collection property="userFamilyList" column="user_id" javaType="ArrayList"
                     ofType="com.iotlab.integrityarchives.entity.UserFamily" select="getUserFamilyByuserId"/>
+    </resultMap>
+
+
+
+    <resultMap id="UserInfoResult" type="com.iotlab.integrityarchives.dto.UserInfoResult">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="avatar" property="avatar"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="date_of_birth" property="dateOfBirth"/>
+        <result column="nation" property="nation"/>
+        <result column="native_place" property="nativePlace"/>
+        <result column="place_of_birth" property="placeOfBirth"/>
+        <result column="date_of_join_party" property="dateOfJoinParty"/>
+        <result column="date_of_join_work" property="dateOfJoinWork"/>
+        <result column="physical_condition" property="physicalCondition"/>
+        <result column="technical_position" property="technicalPosition"/>
+        <result column="familiar_major_and_specialty" property="familiarMajorAndSpecialty"/>
+        <result column="full_time_degree" property="fullTimeDegree"/>
+        <result column="full_time_graduated_university_and_major" property="fullTimeGraduatedUniversityAndMajor"/>
+        <result column="part_time_degree" property="partTimeDegree"/>
+        <result column="part_time_graduated_university_and_major" property="partTimeGraduatedUniversityAndMajor"/>
+        <result column="current_position" property="currentPosition"/>
+        <result column="resume" property="resume"/>
+        <result column="rewards_and_punishment" property="rewardsAndPunishment"/>
+        <result column="annual_assessment_results" property="annualAssessmentResults"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+        <result column="enable_status" property="enableStatus"/>
+        <association property="cleanArchive" javaType="com.iotlab.integrityarchives.entity.CleanArchive">
+            <result column="user_id" property="userId"/>
+            <result column="name" property="userName"/>
+            <result column="shoushou" property="shoushou"/>
+            <result column="geren" property="geren"/>
+            <result column="peiou" property="peiou"/>
+            <result column="zaiqi" property="zaiqi"/>
+            <result column="shifou" property="shifou"/>
+            <result column="niandu" property="niandu"/>
+            <result column="yinsi" property="yinsi"/>
+            <result column="create_time" property="createTime"/>
+            <result column="last_edit_time" property="lastEditTime"/>
+            <result column="enable_status" property="enableStatus"/>
+        </association>
+        <association property="personDecla" javaType="com.iotlab.integrityarchives.entity.PersonDecla">
+            <result column="user_id" property="userId"/>
+            <result column="name" property="userName"/>
+            <result column="renmian" property="renmian"/>
+            <result column="renshi" property="renshi"/>
+            <result column="yinbu" property="yinbu"/>
+            <result column="xunshi" property="xunshi"/>
+            <result column="kaizhan" property="kaizhan"/>
+            <result column="dangfeng" property="dangfeng"/>
+            <result column="qita" property="qita"/>
+            <result column="create_time" property="createTime"/>
+            <result column="last_edit_time" property="lastEditTime"/>
+            <result column="enable_status" property="enableStatus"/>
+        </association>
+        <!--1. 关联-association 多对一 关联(Association）关系是类与类之间的联接，它使一个类知道另一个类的属性和方法。关联可以是双向的，也可以是单向的。在Java语言中，关联关系一般使用成员变量来实现 如一个人一个部门
+           2. 集合-collection  一对多 如一个班级多个学生-->
     </resultMap>
 
     <resultMap id="UserFamilyResult" type="com.iotlab.integrityarchives.entity.UserFamily">
@@ -47,7 +109,7 @@
         <result column="last_edit_time" property="lastEditTime"/>
     </resultMap>
 
-    <select id="findListByWord" parameterType="string" resultMap="UserInfoResult">
+    <select id="findListByWord" parameterType="string" resultMap="UserInfo">
         SELECT *
         from tb_user_info
         where name LIKE CONCAT('%', #{word}, '%')
@@ -63,17 +125,19 @@
     </select>
 
 
-    <!--<select id="findByUserId" parameterType="Integer" resultMap="UserInfoResult">
-        SELECT *
-        from tb_user_info
-        where user_id = #{userId}
-    </select>-->
 
-
-    <select id="findUserInfoByuserId" parameterType="integer" resultMap="UserInfoResult">
+    <select id="findUserInfoByuserId" parameterType="integer" resultMap="UserInfo">
         select *
         from tb_user_info tui
         where tui.user_id = #{userId}
+    </select>
+
+
+    <select id="PrintUserInfo" parameterType="integer" resultMap="UserInfoResult">
+        select *
+        from tb_clean_arichive tca,tb_person_decla tpd,tb_user_info tui
+        where tui.user_id = #{userId} and
+            tca.user_id=tpd.user_id and tca.user_id=tui.user_id
     </select>
 
 

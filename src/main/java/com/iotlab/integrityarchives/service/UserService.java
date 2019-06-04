@@ -65,5 +65,7 @@ public interface UserService extends BaseService<User> {
 
     String findoldNumberById(Integer id);
 
+	User findUserById(Integer id);
+
 
 }

@@ -3,6 +3,9 @@ package com.iotlab.integrityarchives.service.impl;
 
 import com.iotlab.integrityarchives.common.service.impl.BaseServiceImpl;
 import com.iotlab.integrityarchives.dao.UserInfoDao;
+import com.iotlab.integrityarchives.dto.UserInfoResult;
+import com.iotlab.integrityarchives.entity.CleanArchive;
+import com.iotlab.integrityarchives.entity.PersonDecla;
 import com.iotlab.integrityarchives.entity.UserFamily;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.service.UserInfoService;
@@ -63,27 +66,27 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
     }
 
 
-   /* @Override
-    public UserInfo findByUserId(Integer userId) {
-        return userInfoDao.findByUserId(userId);
-    }*/
-
-
     @Override
     public List<UserInfo> findListByWord(String word) {
         return userInfoDao.findListByWord(word);
     }
 
     @Override
-    public UserInfo findUserInfoByuserId(Integer userId) {
+    public UserInfo ExportUserInfo(Integer userId) {
         return userInfoDao.findUserInfoByuserId(userId);
+    }
+
+    @Override
+    public UserInfoResult ExportUserInfoResult(Integer userId) {
+        return userInfoDao.PrintUserInfo(userId);
     }
 
 
     /**
      * word文件导出
      */
-    public Map<String, Object> exportWordFile(UserInfo userInfo) {
+    public Map<String, Object> exportUserInfoToWordFile(UserInfo userInfo) {
+
         Map<String, Object> dataMap = new HashMap<String, Object>();
         List<UserFamily> userFamilyList = userInfo.getUserFamilyList();
         dataMap.put("name", userInfo.getName());
@@ -105,6 +108,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
         dataMap.put("biyeyuanxiao", userInfo.getPartTimeGraduatedUniversityAndMajor());
         dataMap.put("xianren", userInfo.getCurrentPosition());
         dataMap.put("jianli", userInfo.getResume());
+
         List<Map<String, Object>> listInfo = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
         for (UserFamily userFamily : userFamilyList) {
@@ -118,6 +122,41 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
         dataMap.put("listInfo", listInfo);
 
 
+        return dataMap;
+    }
+
+    /**
+     * word文件导出
+     */
+    public Map<String, Object> exportUserInfoResultToWordFile(UserInfoResult userInfoResult) {
+        CleanArchive cleanArchive = userInfoResult.getCleanArchive();
+        PersonDecla personDecla = userInfoResult.getPersonDecla();
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("name", userInfoResult.getName());
+        dataMap.put("gender", userInfoResult.getGender());
+        dataMap.put("dateOfBirth", userInfoResult.getDateOfBirth());
+        dataMap.put("nation", userInfoResult.getNation());
+        dataMap.put("nativePlace", userInfoResult.getNativePlace());
+        dataMap.put("chushengdi", userInfoResult.getPlaceOfBirth());
+        dataMap.put("rudangdate", userInfoResult.getDateOfJoinParty());
+        dataMap.put("canjiadate", userInfoResult.getDateOfJoinWork());
+        dataMap.put("jiankang", userInfoResult.getPhysicalCondition());
+        dataMap.put("quanrizhi", userInfoResult.getFullTimeDegree());
+        dataMap.put("zhuanye", userInfoResult.getTechnicalPosition());
+        dataMap.put("xianren", userInfoResult.getCurrentPosition());
+        dataMap.put("renmian", personDecla.getRenmian());
+        dataMap.put("renshi", personDecla.getRenshi());
+        dataMap.put("yinbu", personDecla.getYinbu());
+        dataMap.put("xunshi", personDecla.getXunshi());
+        dataMap.put("kaizhan", personDecla.getKaizhan());
+        dataMap.put("dangfeng", personDecla.getDangfeng());
+        dataMap.put("shoushou", cleanArchive.getShoushou());
+        dataMap.put("geren", cleanArchive.getGeren());
+        dataMap.put("peiou", cleanArchive.getPeiou());
+        dataMap.put("zaiqi", cleanArchive.getShifou());
+        dataMap.put("shifou", cleanArchive.getShifou());
+        dataMap.put("niandu", cleanArchive.getNiandu());
+        dataMap.put("yinsi", cleanArchive.getNiandu());
         return dataMap;
     }
 
