@@ -2,6 +2,7 @@ package com.iotlab.integrityarchives.controller.user;
 
 import com.iotlab.integrityarchives.common.controller.BaseController;
 import com.iotlab.integrityarchives.dto.ResponseCode;
+import com.iotlab.integrityarchives.dto.UserInfoResult;
 import com.iotlab.integrityarchives.entity.UserFamily;
 import com.iotlab.integrityarchives.entity.UserInfo;
 import com.iotlab.integrityarchives.service.UserInfoService;
@@ -61,12 +62,29 @@ public class UserInfoController extends BaseController {
         try {
             Map<String, Object> dataMap = userInfoService.exportUserInfoToWordFile(userInfo);
            /* PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "领导干部个人廉政档案信息表.ftl", userInfo.getName());*/
-            PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "干部信息表.ftl", userInfo.getName());
+            PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "干部信息表.ftl", userInfo.getName(),1);
         } catch (IOException e) {
             e.printStackTrace();
          System.out.println("遇到错误了");
         }
 
     }
+
+
+    @GetMapping("/printResult")
+    public void printUserInfoResult(@RequestParam("userId") Integer userId, HttpServletResponse response) {
+        //Map<String, Object> dataMap = new HashMap<String, Object>();
+        UserInfoResult userInfoResult = userInfoService.ExportUserInfoResult(userId);
+        try {
+            Map<String, Object> dataMap = userInfoService.exportUserInfoResultToWordFile(userInfoResult);
+            PrintUtil.exportMillCertificateWord(response, dataMap, "d:/", "领导干部个人廉政档案信息表.ftl", userInfoResult.getName(),2);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("遇到错误了");
+        }
+
+    }
+
+
 
 }

@@ -77,6 +77,9 @@ var app = new Vue({
         downloadWord() {
             window.open(api.userInfo.downloadWord(this.userId),"_blank");
         },
+        downloadWordResult() {
+            window.open(api.userInfo.downloadWordResult(this.userId),"_blank");
+        },
         //获取当前用户信息
         getUserInfo(userId) {
             this.$http.get(api.userInfo.findByUserId(userId)).then(result => {

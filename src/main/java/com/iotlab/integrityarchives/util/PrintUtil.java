@@ -75,7 +75,23 @@ public class PrintUtil {
         sb.append("_");
         sb.append(r.nextInt(100));
 //文件唯一名称
-        String fileOnlyName = "领导干部个人廉政档案信息表"  + ".doc";
+        String fileOnlyName = "领导干部个人信息表"  + ".doc";
+        return fileOnlyName;
+    }
+    /**
+     * 生成文件名字
+     * @return
+     */
+    public static String creatFileNameResult() {
+/** 文件名称，唯一字符串 */
+        Random r = new Random();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd");
+        StringBuffer sb = new StringBuffer();
+        sb.append(sdf1.format(new Date()));
+        sb.append("_");
+        sb.append(r.nextInt(100));
+//文件唯一名称
+        String fileOnlyName = "领导干部廉政档案信息表"  + ".doc";
         return fileOnlyName;
     }
 
@@ -83,12 +99,12 @@ public class PrintUtil {
      * 导出文件
      * @throws IOException
      */
-    public static void exportMillCertificateWord( HttpServletResponse response, Map map,String filePath,String templateName,String name) throws IOException {
+    public static void exportMillCertificateWord( HttpServletResponse response, Map map,String filePath,String templateName,String name,int flag) throws IOException {
         File file = null;
         InputStream fin = null;
         ServletOutputStream out = null;
         try {
-            String fileName =name+PrintUtil.creatFileName();
+            String fileName=flag==1?name+PrintUtil.creatFileName():name+PrintUtil.creatFileNameResult();
             file = PrintUtil.createWord(map, templateName, filePath,fileName);
             fin = new FileInputStream(file);
             response.setCharacterEncoding("utf-8");

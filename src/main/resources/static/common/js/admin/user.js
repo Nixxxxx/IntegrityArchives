@@ -322,7 +322,10 @@ var app = new Vue({
         downloadWord() {
             window.open(api.userInfo.downloadWord(this.currentUserId),"_blank");
         },
-
+        //导出wordResult
+        downloadWordResult() {
+            window.open(api.userInfo.downloadWordResult(this.currentUserId),"_blank");
+        },
         //触发编辑用户信息按钮
         handleEdit(userId) {
             this.editDialog = true;

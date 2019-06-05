@@ -22,6 +22,9 @@ const api = {
         downloadWord(userId) {
             return '/user/userInfo/print?userId=' + userId
         },
+        downloadWordResult(userId) {
+            return '/user/userInfo/printResult?userId=' + userId
+        },
         update: '/user/userInfo/update',
     },
     userFamily: {
